@@ -1,0 +1,118 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Window
+    x:Class="CloudDrop.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CloudDrop"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Loaded="Grid_Loaded">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="AppTitleBar" Background="Transparent">
+
+            <Image Source="Icons/"
+                   HorizontalAlignment="Left" 
+                   Width="16" Height="16" 
+                   Margin="8,0"/>
+
+            <TextBlock x:Name="AppTitleTextBlock" Text="CloudDrop"
+                   TextWrapping="NoWrap"
+                   Style="{StaticResource CaptionTextBlockStyle}" 
+                   VerticalAlignment="Center"
+                   Margin="28,0,0,0"/>
+        </Grid>
+
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="LeftColum" Width="240"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="NavigationBorder" Background="#29757575" Grid.Column="0">
+                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Vertical">
+                    <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,25,0,0" CornerRadius="8">
+                        <Button x:Name="UploadButton" Style="{StaticResource AccentButtonStyle}" Width="210" CornerRadius="1" Click="UploadButton_Click">
+                            <Grid Width="210" VerticalAlignment="Center">
+                                <ImageIcon Source="ms-appx:///ImageAssets/UploadImage.png" Height="15" Width="15" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Upload" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-25,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="CreateButton" Width="210" Margin="0,5,0,0" Background="#1FFFFFFF" CornerRadius="1" Click="CreateButton_Click">
+                            <Grid Width="210" VerticalAlignment="Center">
+                                <SymbolIcon Symbol="Add" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Create" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-25,0,0,0"/>
+                            </Grid>
+                            <Button.Flyout>
+                                <Flyout AreOpenCloseAnimationsEnabled="True" Placement="TopEdgeAlignedLeft">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button>
+                                            <Grid>
+                                                <StackPanel>
+                                                    <ImageIcon Source="ms-appx:///IconTypeAssets/Folder.png" Height="50" Width="50" HorizontalAlignment="Center"/>
+                                                    <TextBlock Text="Folder" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Button>
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+
+                        </Button>
+                    </StackPanel>
+                    <!--//-->
+                    <StackPanel Orientation="Vertical" Margin="0,25,0,0">
+                        <Button x:Name="LastFilesButton" Tag="LastFiles" Background="Transparent" Width="210" CornerRadius="8" Height="30" Click="NavigationButton_Click">
+                            <Grid Width="210" VerticalAlignment="Center">
+                                <ImageIcon Source="ms-appx:///ImageAssets/Last.png" Height="16" Width="16" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Last" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="FileButton" Tag="Files" Background="Transparent" Width="210" CornerRadius="8" Height="30" Margin="0,5,0,0" Click="NavigationButton_Click">
+                            <Grid Width="210" VerticalAlignment="Center">
+                                <ImageIcon Source="ms-appx:///ImageAssets/File.png" Height="16" Width="16" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Files" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="PhotoButton" Tag="Photo" Background="Transparent" Width="210" CornerRadius="8" Height="30" Margin="0,5,0,0" Click="NavigationButton_Click">
+                            <Grid Width="210" VerticalAlignment="Center">
+                                <ImageIcon Source="ms-appx:///ImageAssets/Image.png" Height="16" Width="16" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Photo" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="SharedButton" Tag="Shared" Background="Transparent" Width="210" CornerRadius="8" Height="30" Margin="0,5,0,0" Click="NavigationButton_Click">
+                            <Grid Width="210" VerticalAlignment="Center">
+                                <ImageIcon Source="ms-appx:///ImageAssets/Shared.png" Height="16" Width="16" HorizontalAlignment="Left"/>
+                                <TextBlock Text="shared access" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="ArchiveButton" Tag="Archive" Background="Transparent" Width="210" CornerRadius="8" Height="30" Margin="0,5,0,0" Click="NavigationButton_Click">
+                            <Grid Width="210" VerticalAlignment="Center">
+                                <ImageIcon Source="ms-appx:///ImageAssets/Archive.png" Height="16" Width="16" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Archive" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="TrashButton" Tag="Trash" Background="Transparent" Width="210" CornerRadius="8" Height="30" Margin="0,5,0,0" Click="NavigationButton_Click">
+                            <Grid Width="210" VerticalAlignment="Center">
+                                <ImageIcon Source="ms-appx:///ImageAssets/Trash.png" Height="16" Width="16" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Trush" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                    <!--//-->
+                </StackPanel>
+            </Border>
+            <Frame x:Name="ContentFrame" Background="Transparent" Grid.Column="1"/>
+
+        </Grid>
+    </Grid>
+</Window>

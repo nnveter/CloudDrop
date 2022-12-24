@@ -1,0 +1,75 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Page
+    x:Class="CloudDrop.View.LastFilesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CloudDrop.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="Files" IsSourceGrouped="True" 
+                              ItemsPath="Activities" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" >
+            <Button x:Name="BackButton" IsEnabled="False" Click="BackButton_Click" Margin="10,19,0,0">
+                <SymbolIcon Symbol="Back"/>
+            </Button>
+        </Grid>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="UpRow" Height="0"/>
+                <RowDefinition x:Name="UpRow2" Height="70"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Height="70" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" VerticalAlignment="Top">
+                <Button x:Name="BackButton2" IsEnabled="False" Click="BackButton_Click" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
+                    <SymbolIcon Symbol="Back"/>
+                </Button>
+                <TextBlock x:Name="Header" Text="You task" Margin="60,0,0,0" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <CommandBar Background="Transparent" DefaultLabelPosition="Right">
+                        <AppBarButton Icon="Download" Label="download" Margin="0,0,10,0"/>
+                        <AppBarButton x:Name="DeleteButton" Icon="Delete" Label="delete" Margin="0,0,10,0" Click="DeleteButton_Click"/>
+                    </CommandBar>
+                    <Button x:Name="CancelButton" ToolTipService.ToolTip="cancel selection" Click="CancelButton_Click">
+                        <ImageIcon Source="ms-appx:///ImageAssets/Close.png" Height="20" Width="20"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="2">
+                <GridView x:Name="GridV" Margin="21,0,21,0"  SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{Binding Source={StaticResource Files}}" MaxHeight="500">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="10" Background="Transparent" Tapped="Border_Tapped" DoubleTapped="Border_DoubleTapped" IsDoubleTapEnabled="True">
+                                <Grid>
+                                    <StackPanel>
+                                        <ImageIcon Source="{Binding Icon}" Height="80" Width="80"/>
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding name}"/>
+                                            <!--<TextBlock Text="{Binding Type}" Visibility="{Binding TypeVisability}"/>-->
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
+                <TextBlock x:Name="txt" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CloudDrop (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CloudDrop (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
