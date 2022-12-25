@@ -18,9 +18,25 @@
 
     <Grid>
         <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" >
-            <Button x:Name="BackButton" IsEnabled="False" Click="BackButton_Click" Margin="10,19,0,0">
-                <SymbolIcon Symbol="Back"/>
-            </Button>
+            <StackPanel Margin="10,19,0,0">
+                <Button x:Name="BackButton" IsEnabled="False" Click="BackButton_Click">
+                    <SymbolIcon Symbol="Back"/>
+                </Button>
+                <BreadcrumbBar x:Name="BreadcrumbBar" ItemClicked="BreadcrumbBar_ItemClicked" ItemsSource="{x:Bind BreadcrumbBarItem}" Margin="0,-3,0,0">
+                    <BreadcrumbBar.ItemTemplate>
+                        <DataTemplate>
+                            <BreadcrumbBarItem Content="{Binding}" AutomationProperties.Name="{Binding Name}">
+                                <BreadcrumbBarItem.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </BreadcrumbBarItem.ContentTemplate>
+                            </BreadcrumbBarItem>
+                        </DataTemplate>
+                    </BreadcrumbBar.ItemTemplate>
+
+                </BreadcrumbBar>
+            </StackPanel>
         </Grid>
 
         <Grid>
@@ -31,13 +47,29 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Height="70" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" VerticalAlignment="Top">
-                <Button x:Name="BackButton2" IsEnabled="False" Click="BackButton_Click" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
-                    <SymbolIcon Symbol="Back"/>
-                </Button>
+                <StackPanel Margin="10,19,0,0">
+                    <Button x:Name="BackButton2" IsEnabled="False" Click="BackButton_Click">
+                        <SymbolIcon Symbol="Back"/>
+                    </Button>
+                    <BreadcrumbBar x:Name="BreadcrumbBar1" ItemClicked="BreadcrumbBar_ItemClicked" ItemsSource="{x:Bind BreadcrumbBarItem}" Margin="0,-3,0,0">
+                        <BreadcrumbBar.ItemTemplate>
+                            <DataTemplate>
+                                <BreadcrumbBarItem Content="{Binding}" AutomationProperties.Name="{Binding Name}">
+                                    <BreadcrumbBarItem.ContentTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </BreadcrumbBarItem.ContentTemplate>
+                                </BreadcrumbBarItem>
+                            </DataTemplate>
+                        </BreadcrumbBar.ItemTemplate>
+
+                    </BreadcrumbBar>
+                </StackPanel>
                 <TextBlock x:Name="Header" Text="You task" Margin="60,0,0,0" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
                     <CommandBar Background="Transparent" DefaultLabelPosition="Right">
-                        <AppBarButton Icon="Download" Label="download" Margin="0,0,10,0"/>
+                        <AppBarButton x:Name="DownloadButton" Icon="Download" Label="download" Margin="0,0,10,0" Click="DownloadButton_Click"/>
                         <AppBarButton x:Name="DeleteButton" Icon="Delete" Label="delete" Margin="0,0,10,0" Click="DeleteButton_Click"/>
                     </CommandBar>
                     <Button x:Name="CancelButton" ToolTipService.ToolTip="cancel selection" Click="CancelButton_Click">

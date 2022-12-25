@@ -40,10 +40,16 @@ namespace CloudDrop.View
         private List<int> _selectioneIndex = new List<int>();
         private List<Border> _selectioneBorder = new List<Border>();
         private bool _tap = false;
+        public ObservableCollection<Folder> BreadcrumbBarItem;
         public LastFilesPage()
         {
             this.InitializeComponent();
-
+            BreadcrumbBarItem = new ObservableCollection<Folder>{ new Folder { Name = "Home"}, new Folder { Name = "Folder1" }, 
+                                                                  new Folder { Name = "Folder2" }, new Folder { Name = "Folder3" },
+                                                                  new Folder { Name = "Folder4" }, new Folder { Name = "Folder5" },
+                                                                  new Folder { Name = "Folder6" }, new Folder { Name = "Folder7" },
+            };
+            BackButtonIsEnable(true);
             Pro();
         }
 
@@ -91,23 +97,47 @@ namespace CloudDrop.View
 
         private void Border_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            
+            ClearSelection();
+            _tap = false;
+            //TODO
+        }
+
+        private void DownloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            //TODO
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             ClearSelection();
+            if (CheckButtonEnable())
+            {
+                BreadcrumbBarItem.RemoveAt(BreadcrumbBarItem.Count - 1);
+                CheckButtonEnable();
+            }
+            //TODO
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             ClearSelection();
             _tap = false;
+        }
+
+        private void BreadcrumbBar_ItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
+        {
+            var items = BreadcrumbBarItem;
+            for (int i = items.Count - 1; i >= args.Index + 1; i--)
+            {
+                items.RemoveAt(i);
+            }
+            CheckButtonEnable();
+            //TODO
         }
 
         private void AddSelectionElement(Border border) 
@@ -176,11 +206,41 @@ namespace CloudDrop.View
                 _selectioneIndex.Clear();
             }
         }
+
+        private void BackButtonIsEnable(bool isEnable) {
+            if (isEnable) { 
+                BackButton.IsEnabled = true;
+                BackButton2.IsEnabled = true;
+            }
+            else
+            {
+                BackButton.IsEnabled = false;
+                BackButton2.IsEnabled = false;
+            }
+        }
+        private bool CheckButtonEnable()
+        {
+            if (BreadcrumbBarItem.Count > 1)
+            {
+                BackButtonIsEnable(true);
+                return true;
+            }
+            else
+            {
+                BackButtonIsEnable(false);
+                return false;
+            }
+        }
     }
-    
+
     public class FileAr
     {
         public List<Content> Activities { get; set; } = new List<Content>();
 
     }
+    public class Folder
+    {
+        public string Name { get; set; }
+    }
+
 }

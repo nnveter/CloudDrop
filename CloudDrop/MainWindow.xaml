@@ -111,7 +111,13 @@
                     <!--//-->
                 </StackPanel>
             </Border>
-            <Frame x:Name="ContentFrame" Background="Transparent" Grid.Column="1"/>
+            <Frame x:Name="ContentFrame" Background="Transparent" Grid.Column="1">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition  />
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
 
         </Grid>
     </Grid>

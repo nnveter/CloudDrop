@@ -16,6 +16,7 @@ using Windows.UI;
 using WinRT;
 using static System.Net.Mime.MediaTypeNames;
 using System.Linq;
+using Microsoft.UI.Xaml.Media.Animation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -108,13 +109,13 @@ namespace CloudDrop
                 case "Registration":
                 case "Login":
                     LeftColum1.Width = new GridLength(0);
-                    ContentFrame1.Navigate(pageTypes[tagPage]);
+                    ContentFrame1.Navigate(pageTypes[tagPage], null, new DrillInNavigationTransitionInfo());
                     OpenPage = tagPage;
                     break;
 
                 default:
                     LeftColum1.Width = new GridLength(240);
-                    ContentFrame1.Navigate(pageTypes[tagPage]);
+                    ContentFrame1.Navigate(pageTypes[tagPage], null, new DrillInNavigationTransitionInfo());
                     OpenPage = tagPage;
                     SetActiveButton(tagPage);
                     break;
