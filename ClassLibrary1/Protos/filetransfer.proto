@@ -1,0 +1,34 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "CloudDrop";
+
+import "google/protobuf/wrappers.proto";
+
+package filetransfer;
+
+service FileTransferService {
+    rpc StartReceivingFile (StartRequest) returns (StartReceivingResponse);
+    rpc ReceiveFileChunk (stream Chunk) returns (Response);
+}
+
+message StartRequest {
+    string name = 1;
+    string type = 2;
+    int32 storage_id = 3;
+    google.protobuf.Int32Value parent_id = 4;
+}
+
+message Chunk {
+    bytes data = 1;
+    string file_path = 2;
+    int32 content_id = 3;
+}
+
+message Response {
+    string message = 1;
+}
+
+message StartReceivingResponse {
+    string file_path = 1;
+    int32 content_id = 2;
+}

@@ -2,28 +2,19 @@
 // Licensed under the MIT License.
 
 using CloudDrop.Models;
-using CloudDrop.SplashScreen;
+using Grpc.Core;
+using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.VisualBasic;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.Json;
-using System.Xml.Linq;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI;
-using static System.Net.WebRequestMethods;
+using static CloudDrop.ContentsService;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -39,40 +30,64 @@ namespace CloudDrop.View
 
         private List<int> _selectioneIndex = new List<int>();
         private List<Border> _selectioneBorder = new List<Border>();
+        public static List<string> AllNameFiles = new List<string>();
         private bool _tap = false;
         public ObservableCollection<Folder> BreadcrumbBarItem;
+        public static ObservableCollection<Folder> BreadcrumbBarItem1;
+
+        GridLength ConstUpRow = new GridLength(83);
         public LastFilesPage()
         {
             this.InitializeComponent();
-            BreadcrumbBarItem = new ObservableCollection<Folder>{ new Folder { Name = "Home"}, new Folder { Name = "Folder1" }, 
-                                                                  new Folder { Name = "Folder2" }, new Folder { Name = "Folder3" },
-                                                                  new Folder { Name = "Folder4" }, new Folder { Name = "Folder5" },
-                                                                  new Folder { Name = "Folder6" }, new Folder { Name = "Folder7" },
-            };
-            BackButtonIsEnable(true);
-            Pro();
+            ////
+            BreadcrumbBarItem = new ObservableCollection<Folder>{ new Folder { Name = "Home", Id = 1},};
+            ////
+            BreadcrumbBarItem1 = BreadcrumbBarItem;
+            if (BreadcrumbBarItem.Count > 1) {
+                BackButtonIsEnable(true);
+            }
+            LoadFilestoGridView();
         }
 
-        private void Pro()
+        private async void LoadFilestoGridView()
         {
+            //TODO
             var projects = new List<FileAr>();
             var newProject = new FileAr();
 
-            //var localValue = localSettings.Values["JwtToken"] as string;
+            var token = localSettings.Values["JwtToken"] as string;
 
-            List<Content> contents = new List<Content>();
-
-            Content content = new Content() { contentType = ContentType.File, id = 1, name = "Style.css" };
-            contents.Add(content);
-
-            foreach (var item in contents)
+            var headers = new Metadata();
+            headers.Add("authorization", $"Bearer {token}");
+            using (var channel = GrpcChannel.ForAddress(Constants.URL))
             {
-                newProject.Activities.Add(item);
+                var client = new ContentsServiceClient(channel);
+                var request = new GetChildrenContentsRequest
+                {
+                     ContentId = BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id
+                };
+                var response = await client.GetChildrenContentsAsync(request, headers);
+                var myContentList = response.Children.Select(x => new Content
+                {
+                    id = x.Id,
+                    storageId = x.Storage.Id,
+                    contentType = (ContentType)x.ContentType,
+                    path = x.Path,
+                    name = x.Name
+                    // è ò.ä.
+                }).ToList();
+                
+
+                foreach (var item in myContentList)
+                {
+                    AllNameFiles.Add(item.name);
+                    newProject.Activities.Add(item);
+                }
+
+                projects.Add(newProject);
+
+                Files.Source = projects;
             }
-
-            projects.Add(newProject);
-
-            Files.Source = projects;
         }
 
         private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
@@ -97,8 +112,17 @@ namespace CloudDrop.View
 
         private void Border_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            ClearSelection();
+            Border border = sender as Border;
+            Content Data = (Content)border.DataContext;
+            RemoveSelectionElement(border);
             _tap = false;
+            if (Data.contentType == ContentType.Folder) {
+                BreadcrumbBarItem.Add(new Folder() { Id = Data.id, Name = Data.name });
+                ClearSelection();
+                ClearFiles();
+                CheckButtonEnable();
+                LoadFilestoGridView();
+            }
             //TODO
         }
 
@@ -118,7 +142,9 @@ namespace CloudDrop.View
             if (CheckButtonEnable())
             {
                 BreadcrumbBarItem.RemoveAt(BreadcrumbBarItem.Count - 1);
+                txt.Text = BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id.ToString();
                 CheckButtonEnable();
+                LoadFilestoGridView();
             }
             //TODO
         }
@@ -136,8 +162,16 @@ namespace CloudDrop.View
             {
                 items.RemoveAt(i);
             }
+            txt.Text = BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id.ToString();
             CheckButtonEnable();
+            LoadFilestoGridView();
             //TODO
+        }
+
+        private void ClearFiles() {
+            var Projects = (List<FileAr>)Files.Source;
+            Projects.Clear();
+            Files.Source = Projects;
         }
 
         private void AddSelectionElement(Border border) 
@@ -151,7 +185,7 @@ namespace CloudDrop.View
                 _selectioneBorder.Add(border);
 
                 border.Background = new SolidColorBrush(Color.FromArgb(23, 255, 255, 255));
-                UpRow.Height = new GridLength(70);
+                UpRow.Height = ConstUpRow;
                 UpRow2.Height = new GridLength(0);
 
                 if (_selectioneIndex.Count > 1)
@@ -177,7 +211,7 @@ namespace CloudDrop.View
                 if (_selectioneBorder.Count == 0 || _selectioneIndex.Count == 0) 
                 {
                     UpRow.Height = new GridLength(0);
-                    UpRow2.Height = new GridLength(70);
+                    UpRow2.Height = ConstUpRow;
                     return;
                 }
 
@@ -200,7 +234,7 @@ namespace CloudDrop.View
                 {
                     item.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                     UpRow.Height = new GridLength(0);
-                    UpRow2.Height = new GridLength(70);
+                    UpRow2.Height = ConstUpRow;
                 }
                 _selectioneBorder.Clear();
                 _selectioneIndex.Clear();
@@ -241,6 +275,7 @@ namespace CloudDrop.View
     public class Folder
     {
         public string Name { get; set; }
+        public int Id { get; set; }
     }
 
 }

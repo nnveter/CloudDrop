@@ -1,3 +1,32 @@
 ﻿syntax = "proto3";
 
+option csharp_namespace = "CloudDrop";
+
 package users;
+
+import "google/protobuf/wrappers.proto";
+
+service UsersService {
+    rpc GetUserById (UserByIdRequest) returns (UserProfileMessage);
+    rpc GetProfile (UsersEmptyMessage) returns (UserProfileMessage);
+}
+
+message UsersEmptyMessage {}
+
+message UserByIdRequest {
+    int32 id = 1;
+}
+
+message UserProfileMessage {
+    int32 id = 1;
+    string email = 2;
+    string name = 3;
+    UserProfileStorageMessage storage = 4;
+}
+
+
+message UserProfileStorageMessage {
+    int32 id = 1;
+    int64 storage_used = 2;
+    google.protobuf.Int64Value storage_quote = 3;
+}

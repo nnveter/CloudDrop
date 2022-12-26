@@ -8,15 +8,17 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Windows.Storage.Pickers;
 using Windows.Storage;
 using Windows.UI;
 using WinRT;
-using static System.Net.Mime.MediaTypeNames;
 using System.Linq;
 using Microsoft.UI.Xaml.Media.Animation;
+using CloudDrop.View.Dialogs;
+using System.Collections.ObjectModel;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -40,6 +42,8 @@ namespace CloudDrop
 
         public static string OpenPage;
 
+        ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+        public ObservableCollection<ViewFileItem> FileItems = new ObservableCollection<ViewFileItem>();
         public MainWindow()
         {
             this.InitializeComponent();
@@ -60,10 +64,39 @@ namespace CloudDrop
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
-        { }
+        { 
+            //TODO
+        }
+
+        private async void CreateFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            CreateFolderDialog dialog = new CreateFolderDialog();
+            dialog.XamlRoot = button.XamlRoot;
+            var result = await dialog.ShowAsync();
+
+            if (dialog.FolderStatus != FolderCreateStatus.OK && dialog.FolderStatus != FolderCreateStatus.Cancel)
+            {
+                ContentDialog ErrorDialog = new ContentDialog
+                {
+                    Title = "Create folder error",
+                    Content = dialog.FolderName,
+                    CloseButtonText = "Ok"
+                };
+                ErrorDialog.XamlRoot = button.XamlRoot;
+                var res = await ErrorDialog.ShowAsync();
+                return;
+            }
+            if (dialog.FolderStatus == FolderCreateStatus.OK)
+            {
+                //TODO
+            }
+        }
 
         private async void UploadButton_Click(object sender, RoutedEventArgs e)
         {
+            String Token = localSettings.Values["JwtToken"] as string;
+
             var filePicker = new FileOpenPicker();
 
             //Get the Window's HWND
@@ -75,6 +108,73 @@ namespace CloudDrop
 
             var folder = await filePicker.PickMultipleFilesAsync();
             List<StorageFile> arrayFile = folder.ToList();
+
+            int FilesCount = arrayFile.Count;
+            int thisIterable = 0;
+            
+            if (arrayFile.Count > 0)
+            {
+                var fts = new FileTransfer(serverUrl: Constants.URL);
+                fts.MultiPercentOfUpload += data =>
+                {
+                    SetLoadingValue(data, FileItems);
+                };
+
+                UploadBorder.Visibility = Visibility.Visible;
+                fts.UploadFinished += message => {
+                    thisIterable++;
+                    if (FilesCount == thisIterable)
+                    {
+                        UploadBorder.Visibility = Visibility.Collapsed;
+                        FileItems.Clear();
+                    }
+                };
+
+                foreach (var file in arrayFile)
+                {
+                    FileItems.Add(new ViewFileItem() { Name = String.Join('.', file.Name.Split('.').SkipLast(1)), Value = 0 });
+                    fts.Upload(
+                        token: Token,
+                        fileName: String.Join('.', file.Name.Split('.').SkipLast(1)),
+                        fileType: file.FileType,
+                        storageId: 1,
+                        uploadingFilePath: file.Path,
+                        parentId: LastFilesPage.BreadcrumbBarItem1[LastFilesPage.BreadcrumbBarItem1.Count - 1].Id);
+                }
+                //TODO
+            }
+        }
+
+        private void SetLoadingValue(KeyValuePair<string, double> keyValuePair, ObservableCollection<ViewFileItem> viewFileItems)
+        {
+            ViewFileItem item = viewFileItems.FirstOrDefault(i => i.Name == keyValuePair.Key);
+            int index = viewFileItems.IndexOf(item);
+            string newValue = keyValuePair.Value.ToString(); // Новое значение, которое нужно установить
+
+            // Получаем элемент списка по индексу
+            var listItem = LoadListView.ContainerFromIndex(index) as ListViewItem;
+            // Получаем элемент TextBlock, который содержит значение
+            if (listItem != null)
+            {
+                TextBlock textBlock = null;
+                //listItem.ApplyTemplate();
+                //DataTemplate dataTemplate = listItem.FindName("DataTemplate") as DataTemplate;
+                //FrameworkElement element = (FrameworkElement)dataTemplate.LoadContent();
+                //Border border = (Border)element.FindName("Border");
+                //Grid grid = border.FindName("Grid") as Grid;
+                //TextBlock textBlock = grid.FindName("Value") as TextBlock;
+                //if (textBlock != null)
+                //{
+                //    // Обновляем значение элемента
+                //    textBlock.Text = newValue;
+                //    border.Visibility = Visibility.Collapsed;
+                //}
+                if (textBlock == null)
+                {
+                    item.Value = (int)keyValuePair.Value;
+                    viewFileItems[index] = item;
+                }
+            }
         }
 
         private void NavigationButton_Click(object sender, RoutedEventArgs e)
@@ -137,9 +237,9 @@ namespace CloudDrop
             Button activeButton;
             switch (tagPage)
             {
-                case "Home": activeButton = LastFilesButton1; break;
+                case "LastFiles": activeButton = LastFilesButton1; break;
                 case "Files": activeButton = FileButton1; break;
-                case "Photos": activeButton = PhotoButton1; break;
+                case "Photo": activeButton = PhotoButton1; break;
                 case "Shared": activeButton = SharedButton1; break;
                 case "Archive": activeButton = ArchiveButton1; break;
                 case "Trash": activeButton = TrashButton1; break;
@@ -148,7 +248,10 @@ namespace CloudDrop
             activeButton.Background = new SolidColorBrush(Color.FromArgb(20, 255, 255, 255));
         }
 
-
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            SplashScreenPage.MainVoid();
+        }
 
 
 
@@ -236,11 +339,12 @@ namespace CloudDrop
                 case ElementTheme.Default: m_configurationSource.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Default; break;
             }
         }
+    }
+    public class ViewFileItem
+    {
+        public string Name { get; set; }
+        public int Value { get; set; }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            SplashScreenPage.MainVoid();
-        }
     }
 
     class WindowsSystemDispatcherQueueHelper

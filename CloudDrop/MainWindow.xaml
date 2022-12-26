@@ -55,7 +55,7 @@
                             <Button.Flyout>
                                 <Flyout AreOpenCloseAnimationsEnabled="True" Placement="TopEdgeAlignedLeft">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button>
+                                        <Button x:Name="CreateFolderButton" Click="CreateFolderButton_Click">
                                             <Grid>
                                                 <StackPanel>
                                                     <ImageIcon Source="ms-appx:///IconTypeAssets/Folder.png" Height="50" Width="50" HorizontalAlignment="Center"/>
@@ -118,7 +118,22 @@
                     </TransitionCollection>
                 </Frame.ContentTransitions>
             </Frame>
-
+            <Border x:Name="UploadBorder" Visibility="Collapsed" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" MaxHeight="300" Width="300" Background="#3F4A44" CornerRadius="10" Margin="0,0,15,15">
+                <Grid>
+                    <ListView x:Name="LoadListView" ItemsSource="{x:Bind FileItems}" IsItemClickEnabled="False">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:Name="DataTemplate">
+                                <Border x:Name="Border" Padding="10" Background="Transparent" IsDoubleTapEnabled="True">
+                                    <Grid x:Name="Grid">
+                                        <TextBlock MaxWidth="230" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-10,0,0,0"/>
+                                        <TextBlock x:Name="Value" Text="{Binding Value}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#FFB4B5"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Border>
         </Grid>
     </Grid>
 </Window>

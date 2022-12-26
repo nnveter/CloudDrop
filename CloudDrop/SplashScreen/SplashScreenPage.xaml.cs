@@ -17,6 +17,9 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.VisualBasic;
 using Windows.Storage;
+using Grpc.Core;
+using Grpc.Net.Client;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -34,12 +37,12 @@ namespace CloudDrop.SplashScreen
             MainVoid();
         }
 
-        public static void MainVoid()
+        public async static void MainVoid()
         {
             ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             String Token = localSettings.Values["JwtToken"] as string;
 
-            if (IsCheckedAuthorization(Token))
+            if (await IsCheckedAuthorization(Token))
             {
                 MainWindow.NavigateToPage("LastFiles");
             }
@@ -49,9 +52,24 @@ namespace CloudDrop.SplashScreen
             }
         }
 
-        public static bool IsCheckedAuthorization(String JwtTocken) {
+        public async static Task<bool> IsCheckedAuthorization(String JwtTocken)
+        {
             //TODO
-            return true;
+            var headers = new Metadata();
+            headers.Add("authorization", $"Bearer {JwtTocken}");
+            using (var channel = GrpcChannel.ForAddress(Constants.URL))
+            {
+                var client = new UsersService.UsersServiceClient(channel);
+                try
+                {
+                    await client.GetProfileAsync(new UsersEmptyMessage(), headers);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
         }
     }
 }

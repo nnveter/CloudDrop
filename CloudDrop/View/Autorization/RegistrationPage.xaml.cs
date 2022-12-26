@@ -3,25 +3,10 @@
 
 
 
-using CloudDrop;
-using CloudDrop.Models;
-using CloudDrop.SplashScreen;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -44,7 +29,7 @@ namespace CloudDrop.Views.Autorization
         {
             SignUpRequest user = new SignUpRequest() { Email = Email.Text, Name = Name.Text, Password = Password.Password };
 
-            using var channel = GrpcChannel.ForAddress($"http://localhost:5100");
+            using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
             var client = new AuthService.AuthServiceClient(channel);
 
             try

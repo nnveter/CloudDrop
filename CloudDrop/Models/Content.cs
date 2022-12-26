@@ -1,16 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CloudDrop.Models;
 
 public class Content
 {
     public int id { get; set; }
-    public ContentType contentType { get; set; }
-    public string name { get; set; }
-    
     public int? storageId { get; set; }
-
-    public string path { get; set; } = "";
+    
+    public ContentType contentType { get; set; }
+    public string? path { get; set; }
+    public string? name { get; set; }
+    
+    public virtual Content? parent { get; set; }
+    public int? parentId { get; set; }
 
     public string Icon
     {
@@ -32,6 +35,6 @@ public class Content
 
 public enum ContentType
 {
-    File = 0,
+    File,
     Folder
 }

@@ -22,7 +22,7 @@
                 <Button x:Name="BackButton" IsEnabled="False" Click="BackButton_Click">
                     <SymbolIcon Symbol="Back"/>
                 </Button>
-                <BreadcrumbBar x:Name="BreadcrumbBar" ItemClicked="BreadcrumbBar_ItemClicked" ItemsSource="{x:Bind BreadcrumbBarItem}" Margin="0,-3,0,0">
+                <BreadcrumbBar x:Name="BreadcrumbBar" ItemClicked="BreadcrumbBar_ItemClicked" ItemsSource="{x:Bind BreadcrumbBarItem}" Margin="10,5,0,0">
                     <BreadcrumbBar.ItemTemplate>
                         <DataTemplate>
                             <BreadcrumbBarItem Content="{Binding}" AutomationProperties.Name="{Binding Name}">
@@ -42,16 +42,16 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="UpRow" Height="0"/>
-                <RowDefinition x:Name="UpRow2" Height="70"/>
+                <RowDefinition x:Name="UpRow2" Height="83"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Height="70" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" VerticalAlignment="Top">
+            <Grid Grid.Row="0" Height="83" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" VerticalAlignment="Top">
                 <StackPanel Margin="10,19,0,0">
                     <Button x:Name="BackButton2" IsEnabled="False" Click="BackButton_Click">
                         <SymbolIcon Symbol="Back"/>
                     </Button>
-                    <BreadcrumbBar x:Name="BreadcrumbBar1" ItemClicked="BreadcrumbBar_ItemClicked" ItemsSource="{x:Bind BreadcrumbBarItem}" Margin="0,-3,0,0">
+                    <BreadcrumbBar x:Name="BreadcrumbBar1" ItemClicked="BreadcrumbBar_ItemClicked" ItemsSource="{x:Bind BreadcrumbBarItem}" Margin="10,5,0,0">
                         <BreadcrumbBar.ItemTemplate>
                             <DataTemplate>
                                 <BreadcrumbBarItem Content="{Binding}" AutomationProperties.Name="{Binding Name}">
@@ -86,7 +86,7 @@
                                     <StackPanel>
                                         <ImageIcon Source="{Binding Icon}" Height="80" Width="80"/>
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                            <TextBlock Text="{Binding name}"/>
+                                            <TextBlock Text="{Binding name}" HorizontalAlignment="Left" MaxWidth="90"/>
                                             <!--<TextBlock Text="{Binding Type}" Visibility="{Binding TypeVisability}"/>-->
                                         </StackPanel>
                                     </StackPanel>
