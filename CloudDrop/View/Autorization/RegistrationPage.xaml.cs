@@ -50,6 +50,4 @@ namespace CloudDrop.Views.Autorization
             MainWindow.NavigateToPage("Login");
         }
     }
-
-
 }

@@ -100,7 +100,6 @@ public class Content
             var request = new RemoveContentId { ContentId = id };
 
             var result = client.RemoveContent(request, headers);
-
         }
         catch (RpcException)
         {
@@ -110,7 +109,6 @@ public class Content
         channel.ShutdownAsync().Wait();
         return true;
     }
-
 }
 
 public enum ContentType
