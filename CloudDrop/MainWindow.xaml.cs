@@ -22,6 +22,7 @@ using System.Collections.ObjectModel;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Windows.Storage.Provider;
+using CloudDrop.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -43,6 +44,9 @@ namespace CloudDrop
         public static Button TrashButton1;
         public static ColumnDefinition LeftColum1;
 
+        public static TextBlock StorageFreeSpace1;
+        public static ProgressBar StorageUsedValue1;
+
         public static string OpenPage;
 
         ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
@@ -62,15 +66,19 @@ namespace CloudDrop
             TrashButton1 = TrashButton;
             LeftColum1 = LeftColum;
 
+            StorageFreeSpace1 = StorageFreeSpace;
+            StorageUsedValue1 = StorageUsedValue;
+
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
             TrySetMicaBackdrop();
             NavigateToPage("SplashScreen");
         }
 
-        private async void SetStorageUsed() {
+        public static async void SetStorageUsed() {
             if (SplashScreenPage.user != null)
             {
+                ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
                 String Token = localSettings.Values["JwtToken"] as string;
                 var headers = new Metadata();
                 headers.Add("authorization", $"Bearer {Token}");
@@ -81,11 +89,12 @@ namespace CloudDrop
                     {
                         UserProfileMessage res = await client.GetProfileAsync(new UsersEmptyMessage(), headers);
                         SplashScreenPage.user = res;
-                        StorageFreeSpace.Text = Math.Round(((double)SplashScreenPage.user.Storage.StorageQuote - SplashScreenPage.user.Storage.StorageUsed) / 1048576, 2).ToString();
-                        StorageUsedValue.Value = (int)Math.Round((double)SplashScreenPage.user.Storage.StorageUsed / SplashScreenPage.user.Storage.StorageQuote * 100, 0);
+                        StorageFreeSpace1.Text = Math.Round(((double)SplashScreenPage.user.Storage.StorageQuote - SplashScreenPage.user.Storage.StorageUsed) / 1048576, 2).ToString();
+                        StorageUsedValue1.Value = (int)Math.Round((double)SplashScreenPage.user.Storage.StorageUsed / SplashScreenPage.user.Storage.StorageQuote * 100, 0);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
+                        //TODO
                     }
                 }
             }
@@ -98,6 +107,7 @@ namespace CloudDrop
 
         private async void CreateFolderButton_Click(object sender, RoutedEventArgs e)
         {
+            //TODO: сделать создание других элементов
             Button button = sender as Button;
             CreateFolderDialog dialog = new CreateFolderDialog();
             dialog.XamlRoot = button.XamlRoot;
@@ -117,7 +127,8 @@ namespace CloudDrop
             }
             if (dialog.FolderStatus == FolderCreateStatus.OK)
             {
-                //TODO
+                String Token = localSettings.Values["JwtToken"] as string;
+                new Content().Create(ContentType.Folder, dialog.FolderName, Token, BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id);
             }
         }
 
@@ -193,6 +204,7 @@ namespace CloudDrop
 
         private void SetLoadingValue(KeyValuePair<string, double> keyValuePair, ObservableCollection<ViewFileItem> viewFileItems)
         {
+            //TODO: сделать плавную смену процента загрузки
             ViewFileItem item = viewFileItems.FirstOrDefault(i => i.Name == keyValuePair.Key);
             int index = viewFileItems.IndexOf(item);
             string newValue = keyValuePair.Value.ToString(); // Ќовое значение, которое нужно установить

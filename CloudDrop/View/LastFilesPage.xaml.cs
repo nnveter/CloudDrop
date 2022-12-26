@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Channels;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
@@ -134,12 +135,28 @@ namespace CloudDrop.View
 
         public async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            var token = localSettings.Values["JwtToken"] as string;
+            foreach (Border item in _selectioneBorder) {
+                Content content = item.DataContext as Content;
+                if (content.contentType != ContentType.Folder)
+                {
+                    await new Downloader().Download(content.id, token, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", content.name));
+                }
+            }
+            //TODO: сделать диалог выбора места скачаивания
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            var token = localSettings.Values["JwtToken"] as string;
+            foreach (Border item in _selectioneBorder)
+            {
+                Content content = (Content)item.DataContext;
+                var res = content.Detete(token);
+            }
+            ClearSelection();
+            LoadFilestoGridView();
+            MainWindow.SetStorageUsed();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -151,7 +168,6 @@ namespace CloudDrop.View
                 CheckButtonEnable();
                 LoadFilestoGridView();
             }
-            //TODO
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -170,7 +186,6 @@ namespace CloudDrop.View
             txt.Text = MainWindow.BreadcrumbBarItem[MainWindow.BreadcrumbBarItem.Count - 1].Id.ToString();
             CheckButtonEnable();
             LoadFilestoGridView();
-            //TODO
         }
 
         private void ClearFiles() {

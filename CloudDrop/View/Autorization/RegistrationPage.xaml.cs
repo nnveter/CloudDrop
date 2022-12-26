@@ -34,12 +34,12 @@ namespace CloudDrop.Views.Autorization
 
             try
             {
-                var reply = await client.SignUpAsync(user);
-                localSettings.Values["JwtToken"] = reply.Token;
+                localSettings.Values["JwtToken"] = await client.SignUpAsync(user);
                 MainWindow.NavigateToPage("SplashScreen");
             }
             catch (RpcException rpcException)
             {
+                //TODO: Сделать перевод ошибок
                 infoBar.Message = rpcException.Status.Detail;
                 infoBar.IsOpen = true;
             }
