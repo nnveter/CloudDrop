@@ -123,6 +123,7 @@ namespace CloudDrop
 
         private async void UploadButton_Click(object sender, RoutedEventArgs e)
         {
+            Button button = (Button)sender;
             String Token = localSettings.Values["JwtToken"] as string;
 
             var filePicker = new FileOpenPicker();
@@ -159,6 +160,21 @@ namespace CloudDrop
                         SetStorageUsed();
                     }
                 };
+                fts.UploadError += ex =>
+                {
+                    ContentDialog ErrorDialog = new ContentDialog
+                    {
+                        Title = "Upload file error",
+                        Content = ex.Status.Detail,
+                        CloseButtonText = "Ok"
+                    };
+                    ErrorDialog.XamlRoot = button.XamlRoot;
+                    ErrorDialog.ShowAsync();
+                    UploadBorder.Visibility = Visibility.Collapsed;
+                    FileItems.Clear();
+                    LastFilesPage.LoadFilestoGridView();
+                    SetStorageUsed();
+                };
 
                 foreach (var file in arrayFile)
                 {
@@ -166,7 +182,7 @@ namespace CloudDrop
                     fts.Upload(
                         token: Token,
                         fileName: String.Join('.', file.Name.Split('.').SkipLast(1)),
-                        fileType: file.FileType,
+                        fileType: file.FileType.TrimStart('.'),
                         storageId: SplashScreenPage.user.Storage.Id,
                         uploadingFilePath: file.Path,
                         parentId: BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id);

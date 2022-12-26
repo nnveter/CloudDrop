@@ -14,6 +14,7 @@ namespace CloudDrop
 {
     public class FileTransfer
     {
+        public delegate void UploadErrorHandler(RpcException ex);
         public delegate void FileTransferEventHandler(string message);
         public delegate void PercentHandler(double percent);
 
@@ -22,6 +23,7 @@ namespace CloudDrop
 
         public event FileTransferEventHandler? UploadStarted;
         public event FileTransferEventHandler? UploadFinished;
+        public event UploadErrorHandler? UploadError;
         public event PercentHandler? ChangedPercentOfUpload;
 
         private int _sizeOfChunk = 1024 * 1024;
@@ -90,7 +92,7 @@ namespace CloudDrop
                         UploadFinished?.Invoke($"Upload finished. Chunks: {chunkCount}");
                     }catch(RpcException ex)
                     {
-
+                        UploadError?.Invoke(ex);
                     }
                 }
             }
