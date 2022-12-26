@@ -6,6 +6,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using System.Collections.Generic;
@@ -31,30 +32,31 @@ namespace CloudDrop.View
         private List<int> _selectioneIndex = new List<int>();
         private List<Border> _selectioneBorder = new List<Border>();
         public static List<string> AllNameFiles = new List<string>();
-        private bool _tap = false;
         public ObservableCollection<Folder> BreadcrumbBarItem;
-        public static ObservableCollection<Folder> BreadcrumbBarItem1;
+        public static CollectionViewSource Files1;
+        private bool _tap = false;
 
         GridLength ConstUpRow = new GridLength(83);
         public LastFilesPage()
         {
             this.InitializeComponent();
-            ////
-            BreadcrumbBarItem = new ObservableCollection<Folder>{ new Folder { Name = "Home", Id = 1},};
-            ////
-            BreadcrumbBarItem1 = BreadcrumbBarItem;
-            if (BreadcrumbBarItem.Count > 1) {
+
+            Files1 = Files;
+            BreadcrumbBarItem = MainWindow.BreadcrumbBarItem;
+
+            if (MainWindow.BreadcrumbBarItem.Count > 1) {
                 BackButtonIsEnable(true);
             }
             LoadFilestoGridView();
         }
 
-        private async void LoadFilestoGridView()
+        public static async void LoadFilestoGridView()
         {
             //TODO
             var projects = new List<FileAr>();
             var newProject = new FileAr();
 
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             var token = localSettings.Values["JwtToken"] as string;
 
             var headers = new Metadata();
@@ -64,7 +66,7 @@ namespace CloudDrop.View
                 var client = new ContentsServiceClient(channel);
                 var request = new GetChildrenContentsRequest
                 {
-                     ContentId = BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id
+                     ContentId = MainWindow.BreadcrumbBarItem[MainWindow.BreadcrumbBarItem.Count - 1].Id
                 };
                 var response = await client.GetChildrenContentsAsync(request, headers);
                 var myContentList = response.Children.Select(x => new Content
@@ -86,7 +88,7 @@ namespace CloudDrop.View
 
                 projects.Add(newProject);
 
-                Files.Source = projects;
+                Files1.Source = projects;
             }
         }
 
@@ -117,7 +119,7 @@ namespace CloudDrop.View
             RemoveSelectionElement(border);
             _tap = false;
             if (Data.contentType == ContentType.Folder) {
-                BreadcrumbBarItem.Add(new Folder() { Id = Data.id, Name = Data.name });
+                MainWindow.BreadcrumbBarItem.Add(new Folder() { Id = Data.id, Name = Data.name });
                 ClearSelection();
                 ClearFiles();
                 CheckButtonEnable();
@@ -141,8 +143,7 @@ namespace CloudDrop.View
             ClearSelection();
             if (CheckButtonEnable())
             {
-                BreadcrumbBarItem.RemoveAt(BreadcrumbBarItem.Count - 1);
-                txt.Text = BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id.ToString();
+                MainWindow.BreadcrumbBarItem.RemoveAt(MainWindow.BreadcrumbBarItem.Count - 1);
                 CheckButtonEnable();
                 LoadFilestoGridView();
             }
@@ -157,12 +158,12 @@ namespace CloudDrop.View
 
         private void BreadcrumbBar_ItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
         {
-            var items = BreadcrumbBarItem;
+            var items = MainWindow.BreadcrumbBarItem;
             for (int i = items.Count - 1; i >= args.Index + 1; i--)
             {
                 items.RemoveAt(i);
             }
-            txt.Text = BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id.ToString();
+            txt.Text = MainWindow.BreadcrumbBarItem[MainWindow.BreadcrumbBarItem.Count - 1].Id.ToString();
             CheckButtonEnable();
             LoadFilestoGridView();
             //TODO
@@ -254,7 +255,7 @@ namespace CloudDrop.View
         }
         private bool CheckButtonEnable()
         {
-            if (BreadcrumbBarItem.Count > 1)
+            if (MainWindow.BreadcrumbBarItem.Count > 1)
             {
                 BackButtonIsEnable(true);
                 return true;

@@ -19,6 +19,8 @@ using System.Linq;
 using Microsoft.UI.Xaml.Media.Animation;
 using CloudDrop.View.Dialogs;
 using System.Collections.ObjectModel;
+using Grpc.Core;
+using Grpc.Net.Client;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -44,6 +46,8 @@ namespace CloudDrop
 
         ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public ObservableCollection<ViewFileItem> FileItems = new ObservableCollection<ViewFileItem>();
+        public static ObservableCollection<Folder> BreadcrumbBarItem = new ObservableCollection<Folder> { new Folder { Name = "Home", Id = 1 }, };
+        
         public MainWindow()
         {
             this.InitializeComponent();
@@ -61,6 +65,29 @@ namespace CloudDrop
             SetTitleBar(AppTitleBar);
             TrySetMicaBackdrop();
             NavigateToPage("SplashScreen");
+        }
+
+        private async void SetStorageUsed() {
+            if (SplashScreenPage.user != null)
+            {
+                String Token = localSettings.Values["JwtToken"] as string;
+                var headers = new Metadata();
+                headers.Add("authorization", $"Bearer {Token}");
+                using (var channel = GrpcChannel.ForAddress(Constants.URL))
+                {
+                    var client = new UsersService.UsersServiceClient(channel);
+                    try
+                    {
+                        UserProfileMessage res = await client.GetProfileAsync(new UsersEmptyMessage(), headers);
+                        SplashScreenPage.user = res;
+                        StorageFreeSpace.Text = Math.Round(((double)SplashScreenPage.user.Storage.StorageQuote - SplashScreenPage.user.Storage.StorageUsed) / 1048576, 2).ToString();
+                        StorageUsedValue.Value = (int)Math.Round((double)SplashScreenPage.user.Storage.StorageUsed / SplashScreenPage.user.Storage.StorageQuote * 100, 0);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+            }
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -127,6 +154,8 @@ namespace CloudDrop
                     {
                         UploadBorder.Visibility = Visibility.Collapsed;
                         FileItems.Clear();
+                        LastFilesPage.LoadFilestoGridView();
+                        SetStorageUsed();
                     }
                 };
 
@@ -137,9 +166,9 @@ namespace CloudDrop
                         token: Token,
                         fileName: String.Join('.', file.Name.Split('.').SkipLast(1)),
                         fileType: file.FileType,
-                        storageId: 1,
+                        storageId: SplashScreenPage.user.Storage.Id,
                         uploadingFilePath: file.Path,
-                        parentId: LastFilesPage.BreadcrumbBarItem1[LastFilesPage.BreadcrumbBarItem1.Count - 1].Id);
+                        parentId: BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id);
                 }
                 //TODO
             }
@@ -248,9 +277,10 @@ namespace CloudDrop
             activeButton.Background = new SolidColorBrush(Color.FromArgb(20, 255, 255, 255));
         }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        private async void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            SplashScreenPage.MainVoid();
+            await SplashScreenPage.MainVoid();
+            SetStorageUsed();
         }
 
 

@@ -20,6 +20,7 @@ using Windows.Storage;
 using Grpc.Core;
 using Grpc.Net.Client;
 using System.Threading.Tasks;
+using CloudDrop.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -31,13 +32,14 @@ namespace CloudDrop.SplashScreen
     /// </summary>
     public sealed partial class SplashScreenPage : Page
     {
+        public static User user;
         public SplashScreenPage()
         {
             this.InitializeComponent();
             MainVoid();
         }
 
-        public async static void MainVoid()
+        public async static Task<bool> MainVoid()
         {
             ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             String Token = localSettings.Values["JwtToken"] as string;
@@ -45,10 +47,12 @@ namespace CloudDrop.SplashScreen
             if (await IsCheckedAuthorization(Token))
             {
                 MainWindow.NavigateToPage("LastFiles");
+                return true;
             }
             else
             {
                 MainWindow.NavigateToPage("Login");
+                return false;
             }
         }
 
@@ -62,7 +66,8 @@ namespace CloudDrop.SplashScreen
                 var client = new UsersService.UsersServiceClient(channel);
                 try
                 {
-                    await client.GetProfileAsync(new UsersEmptyMessage(), headers);
+                    UserProfileMessage res = await client.GetProfileAsync(new UsersEmptyMessage(), headers);
+                    user = res;
                     return true;
                 }
                 catch (Exception ex)
