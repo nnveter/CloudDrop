@@ -58,16 +58,17 @@ namespace CloudDrop.SplashScreen
 
         public async static Task<bool> IsCheckedAuthorization(String JwtTocken)
         {
-            //TODO
-            var headers = new Metadata();
-            headers.Add("authorization", $"Bearer {JwtTocken}");
+            var headers = new Metadata
+            {
+                { "authorization", $"Bearer {JwtTocken}" }
+            };
+
             using (var channel = GrpcChannel.ForAddress(Constants.URL))
             {
                 var client = new UsersService.UsersServiceClient(channel);
                 try
                 {
-                    UserProfileMessage res = await client.GetProfileAsync(new UsersEmptyMessage(), headers);
-                    user = res;
+                    user = await client.GetProfileAsync(new UsersEmptyMessage(), headers);
                     return true;
                 }
                 catch (Exception ex)

@@ -58,8 +58,8 @@ namespace CloudDrop
                     long fileSize = fileInfo.Length;
                     int chunkSize = _sizeOfChunk;
                     var chunkCount = (int)Math.Ceiling(fileSize / (double)chunkSize);
-                    byte[] buffer = new byte[chunkSize]; // буфер для хранения прочитанных данных
-                    int bytesRead; // количество прочитанных байтов
+                    byte[] buffer = new byte[chunkSize];
+                    int bytesRead;
 
                     using (FileStream stream = new FileStream(uploadingFilePath, FileMode.Open))
                     {
@@ -71,9 +71,7 @@ namespace CloudDrop
                             MultiPercentOfUpload?.Invoke(new KeyValuePair<string, double>(fileName, (double)i / chunkCount * 100));
 
                             var chunkBytes = buffer.Take(bytesRead).ToArray();
-                                //.Skip(i * chunkSize)
-                                //.Take(chunkSize)
-                                //.ToArray();
+
                             var chunk = new Chunk
                             {
                                 Data = ByteString.CopyFrom(chunkBytes),

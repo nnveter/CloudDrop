@@ -6,7 +6,7 @@ using CloudDrop;
 using Grpc.Core;
 using Grpc.Net.Client;
 
-namespace ConsoleApp23;
+namespace CloudDrop;
 
 public class Downloader
 {
@@ -24,9 +24,9 @@ public class Downloader
         var headers = new Metadata();
         headers.Add("authorization", $"Bearer {token}");
 
-        using (var call = client.SendFileChunks(new SendFileChunksRequest() {
-            ContentId = contentId }, headers))
-        {
+        using (var call = client.SendFileChunks(new SendFileChunksRequest() { ContentId = contentId }, 
+            headers)) {
+
             using (var fileStream = File.Create(path))
             {
                 var responseStream = call.ResponseStream;
