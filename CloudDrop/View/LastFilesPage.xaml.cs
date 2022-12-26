@@ -127,7 +127,7 @@ namespace CloudDrop.View
             if (Data.contentType == ContentType.Folder) {
                 MainWindow.BreadcrumbBarItem.Add(new Folder() { Id = Data.id, Name = Data.name });
                 ClearSelection();
-                ClearFiles();
+                //ClearFiles();
                 CheckButtonEnable();
                 LoadFilestoGridView();
             }
