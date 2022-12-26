@@ -9,13 +9,18 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Provider;
 using Windows.UI;
 using static CloudDrop.ContentsService;
+using static CloudDrop.MainWindow;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -50,9 +55,9 @@ namespace CloudDrop.View
             LoadFilestoGridView();
         }
 
+
         public static async void LoadFilestoGridView()
         {
-            //TODO
             var projects = new List<FileAr>();
             var newProject = new FileAr();
 
@@ -125,10 +130,9 @@ namespace CloudDrop.View
                 CheckButtonEnable();
                 LoadFilestoGridView();
             }
-            //TODO
         }
 
-        private void DownloadButton_Click(object sender, RoutedEventArgs e)
+        public async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             //TODO
         }

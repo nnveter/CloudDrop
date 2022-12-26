@@ -98,6 +98,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ClassLibrary1\ProtoClassLibrary.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
 
   <!-- 
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 

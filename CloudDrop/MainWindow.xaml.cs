@@ -21,6 +21,7 @@ using CloudDrop.View.Dialogs;
 using System.Collections.ObjectModel;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Windows.Storage.Provider;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -47,7 +48,7 @@ namespace CloudDrop
         ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public ObservableCollection<ViewFileItem> FileItems = new ObservableCollection<ViewFileItem>();
         public static ObservableCollection<Folder> BreadcrumbBarItem = new ObservableCollection<Folder> { new Folder { Name = "Home", Id = 1 }, };
-        
+
         public MainWindow()
         {
             this.InitializeComponent();
@@ -91,7 +92,7 @@ namespace CloudDrop
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             //TODO
         }
 
@@ -138,7 +139,7 @@ namespace CloudDrop
 
             int FilesCount = arrayFile.Count;
             int thisIterable = 0;
-            
+
             if (arrayFile.Count > 0)
             {
                 var fts = new FileTransfer(serverUrl: Constants.URL);
@@ -228,13 +229,13 @@ namespace CloudDrop
                     {"Photo", typeof(PhotoPage)},
                     {"Shared", typeof(SharedPage)},
                     {"Archive", typeof(ArchivePage)},
-                    {"Trash", typeof(TrashPage)}, 
+                    {"Trash", typeof(TrashPage)},
             };
 
             // Use a switch statement to navigate to the appropriate page
             switch (tagPage)
             {
-                case "SplashScreen": 
+                case "SplashScreen":
                 case "Registration":
                 case "Login":
                     LeftColum1.Width = new GridLength(0);
@@ -283,10 +284,6 @@ namespace CloudDrop
             SetStorageUsed();
         }
 
-
-
-
-        //the exit path for initializing the file opening dialog
         [ComImport]
         [Guid("3E68D4BD-7135-4D10-8018-9FB6D9F33FA1")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
