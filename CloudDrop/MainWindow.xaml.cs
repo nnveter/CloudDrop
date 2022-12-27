@@ -129,6 +129,7 @@ namespace CloudDrop
             {
                 String Token = localSettings.Values["JwtToken"] as string;
                 new Content().Create(ContentType.Folder, dialog.FolderName, Token, BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id);
+                LastFilesPage.LoadFilestoGridView();
             }
         }
 
@@ -139,7 +140,6 @@ namespace CloudDrop
 
             var filePicker = new FileOpenPicker();
 
-            //Get the Window's HWND
             var hwnd = this.As<IWindowNative>().WindowHandle;
 
             var initializeWithWindow = filePicker.As<IInitializeWithWindow>();
@@ -198,7 +198,7 @@ namespace CloudDrop
                         uploadingFilePath: file.Path,
                         parentId: BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id);
                 }
-                //TODO
+                //TODO: загрузка папок
             }
         }
 

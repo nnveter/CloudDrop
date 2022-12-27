@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -61,34 +62,41 @@ public class Content
 
         var headers = new Metadata();
         headers.Add("authorization", $"Bearer {Token}");
-        try
+        if (ContentType == ContentType.Folder)
         {
-            var request = new ContentMessage
+            try
             {
-                Name = Name,
-                ContentType = (ContentTypeEnum)ContentType,
-                Parent = new ContentMessage { Id = (int)ParentId }
-            };
+                var request = new NewFolderMessage { Name = Name, ParentId = ParentId };
 
-            var result = client.NewContent(request, headers);
+                var result = client.NewFolder(request, headers);
 
-            name = result.Name;
-            id = result.Id;
-            storageId = result.Storage.Id;
-            path = result.Path;
-            contentType = (ContentType)result.ContentType;
-            parentId = result.Parent.Id;
+                name = result.Name;
+                id = result.Id;
+                contentType = ContentType.Folder;
+            }
+            catch (RpcException ex)
+            {
+                ContentDialog ErrorDialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = ex.Status.Detail,
+                    CloseButtonText = "Ok"
+                };
+                ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+                ErrorDialog.ShowAsync();
+                return false;
+            }
         }
-        catch (RpcException)
+        else 
         { 
-            return false;
+            //TODO: create File
         }
 
         channel.ShutdownAsync().Wait();
         return true;
     }
 
-    public bool Detete(string token) {
+    public async Task<bool> Detete(string token) {
         var channel = GrpcChannel.ForAddress(Constants.URL);
         var client = new ContentsService.ContentsServiceClient(channel);
 
@@ -101,8 +109,16 @@ public class Content
 
             var result = client.RemoveContent(request, headers);
         }
-        catch (RpcException)
+        catch (RpcException ex)
         {
+            ContentDialog ErrorDialog = new ContentDialog
+            {
+                Title = "Error",
+                Content = ex.Status.Detail,
+                CloseButtonText = "Ok"
+            };
+            ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+            await ErrorDialog.ShowAsync();
             return false;
         }
 

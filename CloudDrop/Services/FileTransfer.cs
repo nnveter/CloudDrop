@@ -19,16 +19,16 @@ namespace CloudDrop
         public delegate void PercentHandler(double percent);
 
         public delegate void MultiRepcentHandler(KeyValuePair<string, double> data);
-        public event MultiRepcentHandler? MultiPercentOfUpload;
+        public event MultiRepcentHandler MultiPercentOfUpload;
 
-        public event FileTransferEventHandler? UploadStarted;
-        public event FileTransferEventHandler? UploadFinished;
-        public event UploadErrorHandler? UploadError;
-        public event PercentHandler? ChangedPercentOfUpload;
+        public event FileTransferEventHandler UploadStarted;
+        public event FileTransferEventHandler UploadFinished;
+        public event UploadErrorHandler UploadError;
+        public event PercentHandler ChangedPercentOfUpload;
 
         private int _sizeOfChunk = 1024 * 1024;
         private string _serverUrl = "http://localhost:5100";
-        public FileTransfer(int? sizeOfChunk = null, string? serverUrl = null)
+        public FileTransfer(int? sizeOfChunk = null, string serverUrl = null)
         {
             if (sizeOfChunk != null) _sizeOfChunk = (int)sizeOfChunk;
             if (serverUrl != null) _serverUrl = serverUrl;

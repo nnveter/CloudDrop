@@ -71,7 +71,7 @@ namespace CloudDrop.SplashScreen
                     user = await client.GetProfileAsync(new UsersEmptyMessage(), headers);
                     return true;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return false;
                 }

@@ -14,7 +14,17 @@
     <Page.Resources>
         <CollectionViewSource x:Name="Files" IsSourceGrouped="True" 
                               ItemsPath="Activities" />
+
+        <CommandBarFlyout Placement="Right" x:Name="CommandBarFlyout1" >
+            <CommandBarFlyout.SecondaryCommands>
+                <AppBarButton x:Name="DownloadAppBarButton" Label="Downdoad" Icon="Download" ToolTipService.ToolTip="Download" Click="DownloadAppBarButton_Click" />
+                <AppBarButton x:Name="DeleteAppBarButton" Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete" Click="DeleteAppBarButton_Click"  />
+            </CommandBarFlyout.SecondaryCommands>
+        </CommandBarFlyout>
     </Page.Resources>
+
+    
+
 
     <Grid>
         <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" >
@@ -66,8 +76,8 @@
 
                     </BreadcrumbBar>
                 </StackPanel>
-                <TextBlock x:Name="Header" Margin="70,0,0,15" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,15">
+                <TextBlock x:Name="Header" Margin="70,0,280,15" FontSize="25" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="80,0,10,15">
                     <CommandBar Background="Transparent" DefaultLabelPosition="Right">
                         <AppBarButton x:Name="DownloadButton" Icon="Download" Label="download" Margin="0,0,10,0" Click="DownloadButton_Click"/>
                         <AppBarButton x:Name="DeleteButton" Icon="Delete" Label="delete" Margin="0,0,10,0" Click="DeleteButton_Click"/>
@@ -81,12 +91,12 @@
                 <GridView x:Name="GridV" Margin="21,0,21,0"  SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{Binding Source={StaticResource Files}}" MaxHeight="500">
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Border Padding="10" Background="Transparent" Tapped="Border_Tapped" DoubleTapped="Border_DoubleTapped" IsDoubleTapEnabled="True">
+                            <Border Padding="10" RightTapped="Border_RightTapped" Background="Transparent" Tapped="Border_Tapped" DoubleTapped="Border_DoubleTapped" IsDoubleTapEnabled="True">
                                 <Grid>
                                     <StackPanel>
                                         <ImageIcon Source="{Binding Icon}" Height="80" Width="80"/>
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                            <TextBlock Text="{Binding name}" HorizontalAlignment="Left" MaxWidth="90" Margin="0,5,0,0"/>
+                                            <TextBlock Text="{Binding name}" HorizontalAlignment="Left" MaxWidth="90" Margin="0,5,0,0" TextTrimming="WordEllipsis"/>
                                             <!--<TextBlock Text="{Binding Type}" Visibility="{Binding TypeVisability}"/>-->
                                         </StackPanel>
                                     </StackPanel>
@@ -100,8 +110,8 @@
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                 </GridView>
-                <TextBlock x:Name="txt" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
             </Grid>
         </Grid>
+        <TextBlock x:Name="txt" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
     </Grid>
 </Page>
