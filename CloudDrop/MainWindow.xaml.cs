@@ -38,20 +38,17 @@ namespace CloudDrop
         public static Frame ContentFrame1;
         public static Button LastFilesButton1;
         public static Button FileButton1;
-        public static Button PhotoButton1;
-        public static Button SharedButton1;
-        public static Button ArchiveButton1;
         public static Button TrashButton1;
         public static ColumnDefinition LeftColum1;
 
         public static TextBlock StorageFreeSpace1;
         public static ProgressBar StorageUsedValue1;
 
-        public static string OpenPage;
+        public static string OpenPage = "LastFiles";
 
         ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public ObservableCollection<ViewFileItem> FileItems = new ObservableCollection<ViewFileItem>();
-        public static ObservableCollection<Folder> BreadcrumbBarItem = new ObservableCollection<Folder> { new Folder { Name = "Home", Id = 1 }, };
+        public static ObservableCollection<Folder> BreadcrumbBarItem;
 
         public MainWindow()
         {
@@ -60,9 +57,6 @@ namespace CloudDrop
             ContentFrame1 = ContentFrame;
             LastFilesButton1 = LastFilesButton;
             FileButton1 = FileButton;
-            PhotoButton1 = PhotoButton;
-            SharedButton1 = SharedButton;
-            ArchiveButton1 = ArchiveButton;
             TrashButton1 = TrashButton;
             LeftColum1 = LeftColum;
 
@@ -129,7 +123,7 @@ namespace CloudDrop
             {
                 String Token = localSettings.Values["JwtToken"] as string;
                 await new Content().Create(ContentType.Folder, dialog.FolderName, Token, BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id);
-                LastFilesPage.LoadFilestoGridView();
+                PageLoadFilestoGridView(OpenPage);
             }
         }
 
@@ -167,7 +161,7 @@ namespace CloudDrop
                     {
                         UploadBorder.Visibility = Visibility.Collapsed;
                         FileItems.Clear();
-                        LastFilesPage.LoadFilestoGridView();
+                        PageLoadFilestoGridView(OpenPage);
                         SetStorageUsed();
                     }
                 };
@@ -183,7 +177,7 @@ namespace CloudDrop
                     await ErrorDialog.ShowAsync();
                     UploadBorder.Visibility = Visibility.Collapsed;
                     FileItems.Clear();
-                    LastFilesPage.LoadFilestoGridView();
+                    PageLoadFilestoGridView(OpenPage);
                     SetStorageUsed();
                 };
 
@@ -254,9 +248,6 @@ namespace CloudDrop
                     {"Login", typeof(LoginPage)},
                     {"LastFiles", typeof(LastFilesPage)},
                     {"Files", typeof(FilesPage)},
-                    {"Photo", typeof(PhotoPage)},
-                    {"Shared", typeof(SharedPage)},
-                    {"Archive", typeof(ArchivePage)},
                     {"Trash", typeof(TrashPage)},
             };
 
@@ -286,9 +277,6 @@ namespace CloudDrop
             var defaultColor = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
             LastFilesButton1.Background = defaultColor;
             FileButton1.Background = defaultColor;
-            PhotoButton1.Background = defaultColor;
-            SharedButton1.Background = defaultColor;
-            ArchiveButton1.Background = defaultColor;
             TrashButton1.Background = defaultColor;
 
             // Set the active button's background color
@@ -297,13 +285,38 @@ namespace CloudDrop
             {
                 case "LastFiles": activeButton = LastFilesButton1; break;
                 case "Files": activeButton = FileButton1; break;
-                case "Photo": activeButton = PhotoButton1; break;
-                case "Shared": activeButton = SharedButton1; break;
-                case "Archive": activeButton = ArchiveButton1; break;
                 case "Trash": activeButton = TrashButton1; break;
                 default: return;
             }
             activeButton.Background = new SolidColorBrush(Color.FromArgb(20, 255, 255, 255));
+        }
+
+        private void PageLoadFilestoGridView(string tagPage) {
+
+            switch (tagPage)
+            {
+                case "LastFiles":
+                    LastFilesPage.LoadFilestoGridView(); break;
+                case "Trash":
+                    TrashPage.LoadFilestoGridView(); break;
+                case "Files":
+                    FilesPage.LoadFilestoGridView(); break;
+            }
+        }
+
+        public static List<string> PageGetAllNameFiles(string tagPage)
+        {
+
+            switch (tagPage)
+            {
+                case "LastFiles":
+                    return LastFilesPage.AllNameFiles;
+                case "Trash":
+                    return TrashPage.AllNameFiles;
+                case "Files":
+                    return FilesPage.AllNameFiles;
+            }
+            return new List<string>();
         }
 
         private async void Grid_Loaded(object sender, RoutedEventArgs e)

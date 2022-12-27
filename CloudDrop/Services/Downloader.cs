@@ -18,7 +18,7 @@ public class Downloader
         client = new FileTransferService.FileTransferServiceClient(channel);
     }
 
-    public async Task Download(int contentId, string token, string path)
+    public async Task<bool> Download(int contentId, string token, string path)
     {
         long? totalSize = null;
         var headers = new Metadata();
@@ -36,6 +36,7 @@ public class Downloader
                     if (chunk.TotalSize != null) totalSize = chunk.TotalSize;
                     await fileStream.WriteAsync(chunk.Data.ToArray());
                 }
+                return true;
             }
         }
     }

@@ -3,6 +3,7 @@
 
 
 
+using CloudDrop.Models;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
@@ -34,7 +35,8 @@ namespace CloudDrop.Views.Autorization
 
             try
             {
-                localSettings.Values["JwtToken"] = await client.SignUpAsync(user);
+                TokenResponse token = await client.SignUpAsync(user);
+                localSettings.Values["JwtToken"] = token.Token;
                 MainWindow.NavigateToPage("SplashScreen");
             }
             catch (RpcException rpcException)

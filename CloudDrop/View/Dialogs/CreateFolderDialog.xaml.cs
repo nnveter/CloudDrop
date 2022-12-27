@@ -51,7 +51,7 @@ namespace CloudDrop.View.Dialogs
         }
 
         private bool CheckOnExist(string name) {
-            return LastFilesPage.AllNameFiles.Contains(name);
+            return MainWindow.PageGetAllNameFiles(MainWindow.OpenPage).Contains(name);
         }
 
         private void ContentDialog_CloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

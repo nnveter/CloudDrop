@@ -21,6 +21,8 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using System.Threading.Tasks;
 using CloudDrop.Models;
+using CloudDrop.View;
+using System.Collections.ObjectModel;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -46,6 +48,7 @@ namespace CloudDrop.SplashScreen
 
             if (await IsCheckedAuthorization(Token))
             {
+                MainWindow.BreadcrumbBarItem = new ObservableCollection<Folder> { new Folder { Name = "Home", Id = await GetUserHomeFolderId(Token) }, };
                 MainWindow.NavigateToPage("LastFiles");
                 return true;
             }
@@ -54,6 +57,18 @@ namespace CloudDrop.SplashScreen
                 MainWindow.NavigateToPage("Login");
                 return false;
             }
+        }
+
+        public static async Task<int> GetUserHomeFolderId(string Token) {
+            //TODO
+            var channel = GrpcChannel.ForAddress(Constants.URL);
+            var client = new ContentsService.ContentsServiceClient(channel);
+
+            var headers = new Metadata();
+            headers.Add("authorization", $"Bearer {Token}");
+
+            var request = await client.GetSpecialContentIdAsync(new GetSpecialContentIdRequest { SpecialContentEnum = GetSpecialContentIdEnum.Home }, headers);
+            return request.ContentId;
         }
 
         public async static Task<bool> IsCheckedAuthorization(String JwtTocken)

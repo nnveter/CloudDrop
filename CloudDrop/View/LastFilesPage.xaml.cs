@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Channels;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
@@ -30,9 +31,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace CloudDrop.View
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+
     public sealed partial class LastFilesPage : Page
     {
         ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
@@ -52,9 +51,12 @@ namespace CloudDrop.View
             Files1 = Files;
             BreadcrumbBarItem = MainWindow.BreadcrumbBarItem;
 
-            if (MainWindow.BreadcrumbBarItem.Count > 1) {
+            if (MainWindow.BreadcrumbBarItem.Count > 1)
+            {
                 BackButtonIsEnable(true);
             }
+
+            AllNameFiles = new List<string>();
             LoadFilestoGridView();
         }
 
@@ -75,13 +77,14 @@ namespace CloudDrop.View
                 var client = new ContentsServiceClient(channel);
                 var request = new GetChildrenContentsRequest
                 {
-                     ContentId = MainWindow.BreadcrumbBarItem[MainWindow.BreadcrumbBarItem.Count - 1].Id
+                    ContentId = MainWindow.BreadcrumbBarItem[MainWindow.BreadcrumbBarItem.Count - 1].Id
                 };
                 try
                 {
                     response = await client.GetChildrenContentsAsync(request, headers);
                 }
-                catch (RpcException) {
+                catch (RpcException)
+                {
                     return;
                 }
                 var myContentList = response.Children.Select(x => new Content
@@ -90,11 +93,11 @@ namespace CloudDrop.View
                     storageId = x.Storage.Id,
                     contentType = (ContentType)x.ContentType,
                     path = x.Path,
-                    name = x.Name, 
+                    name = x.Name,
                     parentId = x.Parent.Id,
                     //и т.д
                 }).ToList();
-                
+
 
                 foreach (var item in myContentList)
                 {
@@ -121,8 +124,8 @@ namespace CloudDrop.View
             {
                 AddSelectionElement(border);
             }
-            else 
-            { 
+            else
+            {
                 RemoveSelectionElement(border);
             }
             _tap = true;
@@ -134,22 +137,31 @@ namespace CloudDrop.View
             Content Data = (Content)border.DataContext;
             RemoveSelectionElement(border);
             _tap = false;
-            if (Data.contentType == ContentType.Folder) {
+            if (Data.contentType == ContentType.Folder)
+            {
                 MainWindow.BreadcrumbBarItem.Add(new Folder() { Id = Data.id, Name = Data.name });
                 ClearSelection();
                 CheckButtonEnable();
                 LoadFilestoGridView();
             }
         }
+        private void Border_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            FlyoutShowOptions myOption = new FlyoutShowOptions();
+            myOption.ShowMode = false ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
+            CommandBarFlyout1.ShowAt((DependencyObject)sender, myOption);
+
+        }
 
         public async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             var token = localSettings.Values["JwtToken"] as string;
-            foreach (Border item in _selectioneBorder) {
+            foreach (Border item in _selectioneBorder)
+            {
                 Content content = item.DataContext as Content;
                 if (content.contentType != ContentType.Folder)
                 {
-                    await new Downloader().Download(content.id, token, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", content.name));
+                    await DownloadContent(content, token);
                 }
             }
             //TODO: сделать диалог выбора места скачаивания
@@ -161,8 +173,27 @@ namespace CloudDrop.View
             foreach (Border item in _selectioneBorder)
             {
                 Content content = (Content)item.DataContext;
-                var res = await content.Detete(token);
+                await DeleteContent(content, token);
             }
+            ClearSelection();
+            LoadFilestoGridView();
+            MainWindow.SetStorageUsed();
+        }
+
+        private async void DownloadAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var token = localSettings.Values["JwtToken"] as string;
+            AppBarButton button = (AppBarButton)sender;
+            Content content = (Content)button.DataContext;
+            await DownloadContent(content, token);
+        }
+
+        private async void DeleteAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var token = localSettings.Values["JwtToken"] as string;
+            AppBarButton button = (AppBarButton)sender;
+            Content content = (Content)button.DataContext;
+            await DeleteContent(content, token);
             ClearSelection();
             LoadFilestoGridView();
             MainWindow.SetStorageUsed();
@@ -197,13 +228,21 @@ namespace CloudDrop.View
             LoadFilestoGridView();
         }
 
-        private void ClearFiles() {
-            var Projects = (List<FileAr>)Files.Source;
-            Projects.Clear();
-            Files.Source = Projects;
+        private async Task<bool> DeleteContent(Content content, string Token)
+        {
+            return await content.Detete(Token);
         }
 
-        private void AddSelectionElement(Border border) 
+        private async Task<bool> DownloadContent(Content content, string Token, string? path = null)
+        {
+            if (path == null)
+            {
+                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", content.name);
+            }
+            return await new Downloader().Download(content.id, Token, path);
+        }
+
+        private void AddSelectionElement(Border border)
         {
             var Projects = (List<FileAr>)Files.Source;
             var file = (Models.Content)border.DataContext;
@@ -237,7 +276,7 @@ namespace CloudDrop.View
                 _selectioneIndex.Remove(Projects[0].Activities.IndexOf(file));
                 _selectioneBorder.Remove(border);
                 border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-                if (_selectioneBorder.Count == 0 || _selectioneIndex.Count == 0) 
+                if (_selectioneBorder.Count == 0 || _selectioneIndex.Count == 0)
                 {
                     UpRow.Height = new GridLength(0);
                     UpRow2.Height = ConstUpRow;
@@ -271,8 +310,10 @@ namespace CloudDrop.View
             }
         }
 
-        private void BackButtonIsEnable(bool isEnable) {
-            if (isEnable) { 
+        private void BackButtonIsEnable(bool isEnable)
+        {
+            if (isEnable)
+            {
                 BackButton.IsEnabled = true;
                 BackButton2.IsEnabled = true;
             }
@@ -295,36 +336,6 @@ namespace CloudDrop.View
                 return false;
             }
         }
-
-        ////TODO
-
-        private void Border_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            //TODO
-            FlyoutShowOptions myOption = new FlyoutShowOptions();
-            myOption.ShowMode = false ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
-            CommandBarFlyout1.ShowAt((DependencyObject)sender, myOption);
-
-        }
-
-
-        private void DownloadAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO
-            AppBarButton button = (AppBarButton)sender;
-            Content content = (Content)button.DataContext;
-            txt.Text = "TODO";
-        }
-
-        private void DeleteAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO
-            AppBarButton button = (AppBarButton)sender;
-            Content content = (Content)button.DataContext;
-            txt.Text = "TODO";
-        }
-
-        ////TODO
     }
 
     public class FileAr

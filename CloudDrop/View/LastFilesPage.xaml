@@ -9,7 +9,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="Transparent">
 
     <Page.Resources>
         <CollectionViewSource x:Name="Files" IsSourceGrouped="True" 
@@ -82,9 +82,9 @@
                         <AppBarButton x:Name="DownloadButton" Icon="Download" Label="download" Margin="0,0,10,0" Click="DownloadButton_Click"/>
                         <AppBarButton x:Name="DeleteButton" Icon="Delete" Label="delete" Margin="0,0,10,0" Click="DeleteButton_Click"/>
                     </CommandBar>
-                    <Button x:Name="CancelButton" ToolTipService.ToolTip="cancel selection" Click="CancelButton_Click">
-                        <ImageIcon Source="ms-appx:///ImageAssets/Close.png" Height="20" Width="20"/>
-                    </Button>
+                    <CommandBar Background="Transparent" DefaultLabelPosition="Right">
+                        <AppBarButton x:Name="CancelButton" Icon="Clear" ToolTipService.ToolTip="deselect the selection" Click="CancelButton_Click" IsEnabled="False"/>
+                    </CommandBar>
                 </StackPanel>
             </Grid>
             <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="2" VerticalAlignment="Top">

@@ -9,9 +9,67 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="Transparent">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="Files" IsSourceGrouped="True" 
+                              ItemsPath="Activities" />
+
+        <CommandBarFlyout Placement="Right" x:Name="CommandBarFlyout1" >
+            <CommandBarFlyout.SecondaryCommands>
+                <AppBarButton x:Name="DownloadAppBarButton" Label="Recover" Icon="Upload" ToolTipService.ToolTip="Recover" Click="RecoverAppBarButton_Click" />
+                <AppBarButton x:Name="DeleteAppBarButton" Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete" Click="DeleteAppBarButton_Click"  />
+            </CommandBarFlyout.SecondaryCommands>
+        </CommandBarFlyout>
+    </Page.Resources>
+
+
+
 
     <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="UpRow" Height="83"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
+            <Grid Grid.Row="0" Height="83" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" VerticalAlignment="Top">
+                <TextBlock x:Name="Header" Text="Trushcan" Margin="15,0,280,15" FontSize="25" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="80,0,10,15">
+                    <CommandBar Background="Transparent" DefaultLabelPosition="Right">
+                        <AppBarButton x:Name="RecoverButton" Icon="Upload" Label="Recover" Click="RecoverButton_Click" IsEnabled="False"/>
+                        <AppBarButton x:Name="DeleteButton" Icon="Delete" Label="Empty the trash" Click="DeleteButton_Click"/>
+                    </CommandBar>
+                    <CommandBar Background="Transparent" DefaultLabelPosition="Right">
+                        <AppBarButton x:Name="CancelButton" Icon="Clear" ToolTipService.ToolTip="deselect the selection" Click="CancelButton_Click" IsEnabled="False"/>
+                    </CommandBar>
+                </StackPanel>
+            </Grid>
+            <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="2" VerticalAlignment="Top">
+                <GridView x:Name="GridV" Margin="21,0,21,0"  SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{Binding Source={StaticResource Files}}" MaxHeight="500">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="10" RightTapped="Border_RightTapped" Background="Transparent" Tapped="Border_Tapped">
+                                <Grid>
+                                    <StackPanel>
+                                        <ImageIcon Source="{Binding Icon}" Height="80" Width="80"/>
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding name}" HorizontalAlignment="Left" MaxWidth="90" Margin="0,5,0,0" TextTrimming="WordEllipsis"/>
+                                            <!--<TextBlock Text="{Binding Type}" Visibility="{Binding TypeVisability}"/>-->
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
+            </Grid>
+        </Grid>
+        <TextBlock x:Name="txt" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
     </Grid>
 </Page>
