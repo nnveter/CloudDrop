@@ -70,6 +70,9 @@ public class Content
                 name = result.Name;
                 id = result.Id;
                 contentType = ContentType.Folder;
+                parentId = result.Parent.Id;
+                storageId = result.Storage.Id;
+                path = result.Path;
             }
             catch (RpcException ex)
             {
@@ -86,7 +89,7 @@ public class Content
         }
         else
         {
-            //TODO: create File
+            //TODO: создание файла
         }
 
         channel.ShutdownAsync().Wait();

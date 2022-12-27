@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CloudDrop
 {
@@ -30,7 +31,7 @@ namespace CloudDrop
             if (serverUrl != null) _serverUrl = serverUrl;
         }
 
-        public async void Upload(string token, string fileName, string fileType, int storageId, string uploadingFilePath, int? parentId)
+        public async Task<bool> Upload(string token, string fileName, string fileType, int storageId, string uploadingFilePath, int? parentId)
         {
             using (var channel = GrpcChannel.ForAddress(_serverUrl))
             {
@@ -92,6 +93,7 @@ namespace CloudDrop
                     }
                 }
             }
+            return true;
         }
     }
 }

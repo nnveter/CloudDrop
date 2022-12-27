@@ -87,7 +87,7 @@ namespace CloudDrop
                     }
                     catch (Exception)
                     {
-                        //TODO
+                        //TODO обработать ошибку
                     }
                 }
             }
@@ -95,7 +95,7 @@ namespace CloudDrop
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            //TODO удалить этот метод
         }
 
         private async void CreateFolderButton_Click(object sender, RoutedEventArgs e)
@@ -180,11 +180,13 @@ namespace CloudDrop
                     PageLoadFilestoGridView(OpenPage);
                     SetStorageUsed();
                 };
-
                 foreach (var file in arrayFile)
                 {
                     FileItems.Add(new ViewFileItem() { Name = String.Join('.', file.Name.Split('.').SkipLast(1)), Value = 0 });
-                    fts.Upload(
+                }
+                foreach (var file in arrayFile)
+                {
+                    await fts.Upload(
                         token: Token,
                         fileName: String.Join('.', file.Name.Split('.').SkipLast(1)),
                         fileType: file.FileType.TrimStart('.'),

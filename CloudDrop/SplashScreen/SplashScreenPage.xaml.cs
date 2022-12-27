@@ -48,7 +48,6 @@ namespace CloudDrop.SplashScreen
 
         public static async Task<int> GetUserHomeFolderId(string Token)
         {
-            //TODO
             var channel = GrpcChannel.ForAddress(Constants.URL);
             var client = new ContentsService.ContentsServiceClient(channel);
 

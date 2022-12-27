@@ -32,7 +32,7 @@ namespace CloudDrop.View
         public static CollectionViewSource Files1;
         private bool _tap = false;
 
-        string header = "Trushcan"; //TODO переместить в файл локализации
+        private string header = "Trushcan"; //TODO переместить в файл локализации
         public TrashPage()
         {
             this.InitializeComponent();
