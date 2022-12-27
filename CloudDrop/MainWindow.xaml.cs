@@ -128,7 +128,7 @@ namespace CloudDrop
             if (dialog.FolderStatus == FolderCreateStatus.OK)
             {
                 String Token = localSettings.Values["JwtToken"] as string;
-                new Content().Create(ContentType.Folder, dialog.FolderName, Token, BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id);
+                await new Content().Create(ContentType.Folder, dialog.FolderName, Token, BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id);
                 LastFilesPage.LoadFilestoGridView();
             }
         }
@@ -171,7 +171,7 @@ namespace CloudDrop
                         SetStorageUsed();
                     }
                 };
-                fts.UploadError += ex =>
+                fts.UploadError += async ex =>
                 {
                     ContentDialog ErrorDialog = new ContentDialog
                     {
@@ -180,7 +180,7 @@ namespace CloudDrop
                         CloseButtonText = "Ok"
                     };
                     ErrorDialog.XamlRoot = button.XamlRoot;
-                    ErrorDialog.ShowAsync();
+                    await ErrorDialog.ShowAsync();
                     UploadBorder.Visibility = Visibility.Collapsed;
                     FileItems.Clear();
                     LastFilesPage.LoadFilestoGridView();

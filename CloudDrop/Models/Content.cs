@@ -19,7 +19,7 @@ public class Content
     public int? storageId { get; set; }
     
     public ContentType contentType { get; set; }
-    public string? path { get; set; }
+    public string path { get; set; }
 
     private string Name { get; set; }
     public string name { 
@@ -50,12 +50,12 @@ public class Content
 
     public string type { get; set; }
     
-    public virtual Content? parent { get; set; }
+    public virtual Content parent { get; set; }
     public int? parentId { get; set; }
 
     public string Icon { get; set; }
 
-    public bool Create(ContentType ContentType, string Name, string Token, int? ParentId = null)
+    public async Task<bool> Create(ContentType ContentType, string Name, string Token, int? ParentId = null)
     {
         var channel = GrpcChannel.ForAddress(Constants.URL);
         var client = new ContentsService.ContentsServiceClient(channel);
@@ -83,7 +83,7 @@ public class Content
                     CloseButtonText = "Ok"
                 };
                 ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
-                ErrorDialog.ShowAsync();
+                await ErrorDialog.ShowAsync();
                 return false;
             }
         }
