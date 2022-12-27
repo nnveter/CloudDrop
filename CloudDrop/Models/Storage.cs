@@ -8,7 +8,7 @@ public class Storage
 
     public long StorageUsed { get; set; } = 0;
     public long StorageQuote { get; set; } = 52428800; // 50mb
-    
+
     public virtual User User { get; set; }
     public int? UserId { get; set; }
 

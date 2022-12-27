@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using CloudDrop.Models;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using static CloudDrop.ContentsService;
-using System.Linq;
-using Windows.Storage;
-using CloudDrop.Models;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
-using Windows.UI;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI;
+using static CloudDrop.ContentsService;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

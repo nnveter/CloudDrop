@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CloudDrop.Models;
+﻿namespace CloudDrop.Models;
 
 public class User
 {

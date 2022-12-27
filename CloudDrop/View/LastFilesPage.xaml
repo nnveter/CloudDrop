@@ -82,9 +82,6 @@
                         <AppBarButton x:Name="DownloadButton" Icon="Download" Label="download" Margin="0,0,10,0" Click="DownloadButton_Click"/>
                         <AppBarButton x:Name="DeleteButton" Icon="Delete" Label="delete" Margin="0,0,10,0" Click="DeleteButton_Click"/>
                     </CommandBar>
-                    <CommandBar Background="Transparent" DefaultLabelPosition="Right">
-                        <AppBarButton x:Name="CancelButton" Icon="Clear" ToolTipService.ToolTip="deselect the selection" Click="CancelButton_Click" IsEnabled="False"/>
-                    </CommandBar>
                 </StackPanel>
             </Grid>
             <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="2" VerticalAlignment="Top">

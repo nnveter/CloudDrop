@@ -2,14 +2,8 @@
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Linq;
-using System.Threading.Channels;
 using System.Threading.Tasks;
-using Windows.Media.Protection.PlayReady;
 
 namespace CloudDrop.Models;
 
@@ -17,17 +11,20 @@ public class Content
 {
     public int id { get; set; }
     public int? storageId { get; set; }
-    
+
     public ContentType contentType { get; set; }
     public string path { get; set; }
 
     private string Name { get; set; }
-    public string name { 
-        get { 
-            return Name; 
-        } 
+    public string name
+    {
+        get
+        {
+            return Name;
+        }
 
-        set {
+        set
+        {
             Name = value;
             type = value.Split('.').Last().ToString();
             if (contentType == ContentType.Folder)
@@ -45,11 +42,11 @@ public class Content
                     Icon = "ms-appx:///IconTypeAssets/Unknown.png";
                 }
             }
-        } 
+        }
     }
 
     public string type { get; set; }
-    
+
     public virtual Content parent { get; set; }
     public int? parentId { get; set; }
 
@@ -87,8 +84,8 @@ public class Content
                 return false;
             }
         }
-        else 
-        { 
+        else
+        {
             //TODO: create File
         }
 
@@ -96,7 +93,8 @@ public class Content
         return true;
     }
 
-    public async Task<bool> Detete(string token) {
+    public async Task<bool> Detete(string token)
+    {
         var channel = GrpcChannel.ForAddress(Constants.URL);
         var client = new ContentsService.ContentsServiceClient(channel);
 

@@ -1,31 +1,27 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using CloudDrop.Models;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using static CloudDrop.ContentsService;
-using System.Linq;
-using Windows.Storage;
-using CloudDrop.Models;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml;
-using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Windows.Storage;
 using Windows.UI;
-using System.Threading.Tasks;
+using static CloudDrop.ContentsService;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace CloudDrop.View
 {
-   
+
     public sealed partial class TrashPage : Page
     {
         ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
@@ -190,7 +186,7 @@ namespace CloudDrop.View
                 foreach (var item in _selectioneBorder)
                 {
                     item.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-                    Header.Text = header; 
+                    Header.Text = header;
                 }
                 _selectioneBorder.Clear();
                 _selectioneIndex.Clear();
@@ -208,11 +204,11 @@ namespace CloudDrop.View
         }
 
         public void RecoverContent(string Token, Content content)
-        { 
+        {
             //TODO
         }
 
-        public void DeleteContent(string Token, Content content) 
+        public void DeleteContent(string Token, Content content)
         {
             //TODO
         }

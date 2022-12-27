@@ -1,14 +1,10 @@
-﻿
-using CloudDrop;
-using Google.Protobuf;
+﻿using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Net.Client;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudDrop
 {
@@ -75,7 +71,7 @@ namespace CloudDrop
                             var chunk = new Chunk
                             {
                                 Data = ByteString.CopyFrom(chunkBytes),
-                                FilePath = response.FilePath, 
+                                FilePath = response.FilePath,
                                 ContentId = contentid,
                             };
                             await call.RequestStream.WriteAsync(chunk);
@@ -83,12 +79,14 @@ namespace CloudDrop
                         }
                     }
                     await call.RequestStream.CompleteAsync();
-                    try{
+                    try
+                    {
                         var response2 = await call.ResponseAsync;
                         Console.WriteLine(response2);
                         MultiPercentOfUpload?.Invoke(new KeyValuePair<string, double>(fileName, 100));
                         UploadFinished?.Invoke($"Upload finished. Chunks: {chunkCount}");
-                    }catch(RpcException ex)
+                    }
+                    catch (RpcException ex)
                     {
                         UploadError?.Invoke(ex);
                     }

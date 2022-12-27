@@ -2,9 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using System;
-using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,7 +25,7 @@ namespace CloudDrop.View.Dialogs
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             string get = FolderNameBox.Text;
-            if (!string.IsNullOrEmpty(get) && !string.IsNullOrWhiteSpace(get)) 
+            if (!string.IsNullOrEmpty(get) && !string.IsNullOrWhiteSpace(get))
             {
                 if (!CheckOnExist(get))
                 {
@@ -36,7 +33,8 @@ namespace CloudDrop.View.Dialogs
                     FolderStatus = FolderCreateStatus.OK;
                     return;
                 }
-                else {
+                else
+                {
                     FolderName = "The name of this folder is already in use";
                     FolderStatus = FolderCreateStatus.NameAlredyExists;
                     return;
@@ -50,7 +48,8 @@ namespace CloudDrop.View.Dialogs
             }
         }
 
-        private bool CheckOnExist(string name) {
+        private bool CheckOnExist(string name)
+        {
             return MainWindow.PageGetAllNameFiles(MainWindow.OpenPage).Contains(name);
         }
 
@@ -64,7 +63,8 @@ namespace CloudDrop.View.Dialogs
         private void FolderNameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-            if (string.IsNullOrEmpty(textBox.Text) && string.IsNullOrWhiteSpace(textBox.Text)) {
+            if (string.IsNullOrEmpty(textBox.Text) && string.IsNullOrWhiteSpace(textBox.Text))
+            {
                 IsPrimaryButtonEnabled = false;
                 return;
             }
@@ -82,7 +82,8 @@ namespace CloudDrop.View.Dialogs
         }
     }
 
-    public enum FolderCreateStatus { 
+    public enum FolderCreateStatus
+    {
         OK = 0,
         NullName = 1,
         NameAlredyExists = 2,

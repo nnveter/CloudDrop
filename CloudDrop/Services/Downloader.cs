@@ -1,10 +1,8 @@
-﻿using System.IO;
-using System.Linq;
-using System.Threading.Channels;
-using System.Threading.Tasks;
-using CloudDrop;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Grpc.Net.Client;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CloudDrop;
 
@@ -24,8 +22,9 @@ public class Downloader
         var headers = new Metadata();
         headers.Add("authorization", $"Bearer {token}");
 
-        using (var call = client.SendFileChunks(new SendFileChunksRequest() { ContentId = contentId }, 
-            headers)) {
+        using (var call = client.SendFileChunks(new SendFileChunksRequest() { ContentId = contentId },
+            headers))
+        {
 
             using (var fileStream = File.Create(path))
             {

@@ -1,28 +1,26 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using CloudDrop.Models;
 using CloudDrop.SplashScreen;
 using CloudDrop.View;
+using CloudDrop.View.Dialogs;
 using CloudDrop.Views.Autorization;
+using Grpc.Core;
+using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using System;
-using System.Windows;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.InteropServices;
-using Windows.Storage.Pickers;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI;
 using WinRT;
-using System.Linq;
-using Microsoft.UI.Xaml.Media.Animation;
-using CloudDrop.View.Dialogs;
-using System.Collections.ObjectModel;
-using Grpc.Core;
-using Grpc.Net.Client;
-using Windows.Storage.Provider;
-using CloudDrop.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -69,7 +67,8 @@ namespace CloudDrop
             NavigateToPage("SplashScreen");
         }
 
-        public static async void SetStorageUsed() {
+        public static async void SetStorageUsed()
+        {
             if (SplashScreenPage.user != null)
             {
                 ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
@@ -155,7 +154,8 @@ namespace CloudDrop
                 };
 
                 UploadBorder.Visibility = Visibility.Visible;
-                fts.UploadFinished += message => {
+                fts.UploadFinished += message =>
+                {
                     thisIterable++;
                     if (FilesCount == thisIterable)
                     {
@@ -291,7 +291,8 @@ namespace CloudDrop
             activeButton.Background = new SolidColorBrush(Color.FromArgb(20, 255, 255, 255));
         }
 
-        private void PageLoadFilestoGridView(string tagPage) {
+        private void PageLoadFilestoGridView(string tagPage)
+        {
 
             switch (tagPage)
             {
