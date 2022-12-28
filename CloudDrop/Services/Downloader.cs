@@ -31,6 +31,8 @@ public class Downloader
         var headers = new Metadata();
         headers.Add("authorization", $"Bearer {token}");
 
+        double progress = -1;
+
         using (var call = client.SendFileChunks(new SendFileChunksRequest() { ContentId = contentId },
             headers))
         {
@@ -43,8 +45,9 @@ public class Downloader
                     var chunk = responseStream.Current;
                     totalSize = chunk.TotalSize;
                     await fileStream.WriteAsync(chunk.Data.ToArray());
-
-                    ProgressChanged?.Invoke(new KeyValuePair<string, double>(fileName, (int)(fileStream.Length * 100 / totalSize)));
+                    if ((int)(fileStream.Length * 100 / totalSize) != progress)
+                        ProgressChanged?.Invoke(new KeyValuePair<string, double>(fileName, (int)(fileStream.Length * 100 / totalSize)));
+                    progress = (double)(fileStream.Length * 100 / totalSize);
                 }
                 DownloadCompleted?.Invoke(true);
                 return true;

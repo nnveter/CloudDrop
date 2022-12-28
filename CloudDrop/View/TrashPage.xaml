@@ -45,7 +45,7 @@
                     </CommandBar>
                 </StackPanel>
             </Grid>
-            <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="2" VerticalAlignment="Top">
+            <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="1">
                 <GridView x:Name="GridV" Margin="21,0,21,0"  SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{Binding Source={StaticResource Files}}" MaxHeight="500">
                     <GridView.ItemTemplate>
                         <DataTemplate>

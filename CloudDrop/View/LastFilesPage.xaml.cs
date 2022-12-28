@@ -73,7 +73,8 @@ namespace CloudDrop.View
                 var client = new ContentsServiceClient(channel);
                 var request = new GetChildrenContentsRequest
                 {
-                    ContentId = MainWindow.BreadcrumbBarItem[MainWindow.BreadcrumbBarItem.Count - 1].Id
+                    ContentId = MainWindow.BreadcrumbBarItem[MainWindow.BreadcrumbBarItem.Count - 1].Id, 
+                    ContentSort = ContentSort.CreatedAt
                 };
                 try
                 {
@@ -83,7 +84,7 @@ namespace CloudDrop.View
                 {
                     return;
                 }
-                var myContentList = response.Children.Select(x => new Content
+                var myContentList = response.Children.Reverse().Select(x => new Content
                 {
                     id = x.Id,
                     storageId = x.Storage.Id,

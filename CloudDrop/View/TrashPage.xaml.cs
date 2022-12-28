@@ -10,8 +10,10 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI;
 using static CloudDrop.ContentsService;
@@ -73,7 +75,7 @@ namespace CloudDrop.View
                     contentType = (ContentType)x.ContentType,
                     path = x.Path,
                     name = x.Name,
-                    parentId = x.Parent.Id,
+                    parentId = x.Parent != null ? x.Parent.Id : null,
                     //è ò.ä
                 }).ToList();
 
@@ -203,21 +205,35 @@ namespace CloudDrop.View
 
         }
 
-        public void RecoverContent(string Token, Content content)
+        public async Task RecoverContent(string Token, Content content)
         {
             //TODO
-            using (var channel = GrpcChannel.ForAddress(Constants.URL))
+            try
             {
-                var client = new ContentsServiceClient(channel);
-                var request = new RecoveryContentId
+                using (var channel = GrpcChannel.ForAddress(Constants.URL))
                 {
-                    ContentId = content.id
+                    var client = new ContentsServiceClient(channel);
+                    var request = new RecoveryContentId
+                    {
+                        ContentId = content.id
+                    };
+
+                    var headers = new Metadata();
+                    headers.Add("authorization", $"Bearer {Token}");
+
+                    var response = client.RecoveryContent(request, headers);
+                }
+            }
+            catch (RpcException ex)
+            {
+                ContentDialog ErrorDialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = ex.Status.Detail,
+                    CloseButtonText = "Ok"
                 };
-
-                var headers = new Metadata();
-                headers.Add("authorization", $"Bearer {Token}");
-
-                var response = client.RecoveryContent(request, headers);
+                ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+                await ErrorDialog.ShowAsync();
             }
         }
 
