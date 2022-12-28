@@ -36,7 +36,7 @@ namespace CloudDrop.SplashScreen
             if (await IsCheckedAuthorization(Token))
             {
                 MainWindow.BreadcrumbBarItem = new ObservableCollection<Folder> { new Folder { Name = "Home", Id = await GetUserHomeFolderId(Token) }, };
-                MainWindow.NavigateToPage("LastFiles");
+                MainWindow.NavigateToPage("Files");
                 return true;
             }
             else

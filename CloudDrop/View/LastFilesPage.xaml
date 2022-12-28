@@ -113,5 +113,6 @@
             </Grid>
         </Grid>
         <TextBlock x:Name="txt" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="TODO"/>
     </Grid>
 </Page>
