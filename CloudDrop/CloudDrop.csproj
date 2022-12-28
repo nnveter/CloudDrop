@@ -10,9 +10,12 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
+    <PackageCertificateThumbprint>211FBA2C0E1878EE78354DC3D870F498BAC3A75C</PackageCertificateThumbprint>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="SplashScreen\SplashScreenPage.xaml" />
+    <None Remove="View\Dialogs\ClearTrashDialog.xaml" />
     <None Remove="View\Dialogs\CreateFolderDialog.xaml" />
   </ItemGroup>
 
@@ -101,6 +104,9 @@
     <None Update="SplashScreen\SplashGif.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="View\Dialogs\ClearTrashDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\Dialogs\CreateFolderDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

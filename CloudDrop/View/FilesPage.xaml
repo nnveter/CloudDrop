@@ -88,28 +88,30 @@
                 </StackPanel>
             </Grid>
             <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="2">
-                <GridView x:Name="GridV" Margin="21,0,21,0"  SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{Binding Source={StaticResource Files}}" MaxHeight="500">
-                    <GridView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Padding="10" RightTapped="Border_RightTapped" Background="Transparent" Tapped="Border_Tapped" DoubleTapped="Border_DoubleTapped" IsDoubleTapEnabled="True">
-                                <Grid>
-                                    <StackPanel>
-                                        <ImageIcon Source="{Binding Icon}" Height="80" Width="80"/>
-                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                            <TextBlock Text="{Binding name}" HorizontalAlignment="Left" MaxWidth="90" Margin="0,5,0,0" TextTrimming="WordEllipsis"/>
-                                            <!--<TextBlock Text="{Binding Type}" Visibility="{Binding TypeVisability}"/>-->
+                <Grid VerticalAlignment="Top">
+                    <GridView x:Name="GridV" Margin="21,0,21,0"  SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{Binding Source={StaticResource Files}}" MaxHeight="500">
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="10" RightTapped="Border_RightTapped" Background="Transparent" Tapped="Border_Tapped" DoubleTapped="Border_DoubleTapped" IsDoubleTapEnabled="True">
+                                    <Grid>
+                                        <StackPanel>
+                                            <ImageIcon Source="{Binding Icon}" Height="80" Width="80"/>
+                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                                <TextBlock Text="{Binding name}" HorizontalAlignment="Left" MaxWidth="90" Margin="0,5,0,0" TextTrimming="WordEllipsis"/>
+                                                <!--<TextBlock Text="{Binding Type}" Visibility="{Binding TypeVisability}"/>-->
+                                            </StackPanel>
                                         </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                    <GridView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsWrapGrid Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </GridView.ItemsPanel>
-                </GridView>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                    </GridView>
+                </Grid>
             </Grid>
         </Grid>
         <TextBlock x:Name="txt" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>

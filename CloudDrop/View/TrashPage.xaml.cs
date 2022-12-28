@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CloudDrop.Models;
+using CloudDrop.View.Dialogs;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
@@ -211,7 +212,6 @@ namespace CloudDrop.View
 
         public async Task RecoverContent(string Token, Content content)
         {
-            //TODO
             try
             {
                 using (var channel = GrpcChannel.ForAddress(Constants.URL))
@@ -244,17 +244,25 @@ namespace CloudDrop.View
         public async void DeleteContent(string Token, Content? content = null)
         {
             //TODO
+
             if (content == null)
             {
-                using (var channel = GrpcChannel.ForAddress(Constants.URL))
+                ClearTrashDialog dialog = new ClearTrashDialog();
+                dialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+                dialog.Text.Text = "All data is permanently deleted, are you sure you want to empty the trash";
+                var result = await dialog.ShowAsync();
+                if (dialog.Result)
                 {
-                    var client = new ContentsServiceClient(channel);
-                    var request = new ContentsEmpty();
+                    using (var channel = GrpcChannel.ForAddress(Constants.URL))
+                    {
+                        var client = new ContentsServiceClient(channel);
+                        var request = new ContentsEmpty();
 
-                    var headers = new Metadata();
-                    headers.Add("authorization", $"Bearer {Token}");
+                        var headers = new Metadata();
+                        headers.Add("authorization", $"Bearer {Token}");
 
-                    var response = client.CleanTrashCan(request, headers);
+                        var response = client.CleanTrashCan(request, headers);
+                    }
                 }
                 
             }
@@ -265,28 +273,37 @@ namespace CloudDrop.View
         }
 
 
-        private void RecoverAppBarButton_Click(object sender, RoutedEventArgs e)
+        private async void RecoverAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             var token = localSettings.Values["JwtToken"] as string;
             AppBarButton button = (AppBarButton)sender;
             Content content = (Content)button.DataContext;
-            RecoverContent(token, content);
+            await RecoverContent(token, content);
 
             ClearSelection();
             LoadFilestoGridView();
             MainWindow.SetStorageUsed();
         }
 
-        private void DeleteAppBarButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             var token = localSettings.Values["JwtToken"] as string;
             AppBarButton button = (AppBarButton)sender;
             Content content = (Content)button.DataContext;
-            DeleteContent(token, content);
 
-            ClearSelection();
-            LoadFilestoGridView();
-            MainWindow.SetStorageUsed();
+            ClearTrashDialog dialog = new ClearTrashDialog();
+            dialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+
+            dialog.Text.Text = "This file will be permanently deleted";
+            dialog.Title = "Delete file";
+            var result = await dialog.ShowAsync();
+            if (dialog.Result)
+            {
+                DeleteContent(token, content);
+                ClearSelection();
+                LoadFilestoGridView();
+                MainWindow.SetStorageUsed();
+            }
         }
 
         private void RecoverButton_Click(object sender, RoutedEventArgs e)
@@ -303,25 +320,43 @@ namespace CloudDrop.View
             MainWindow.SetStorageUsed();
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             var token = localSettings.Values["JwtToken"] as string;
-            if (_selectioneBorder.Count > 0)
+
+            ClearTrashDialog dialog = new ClearTrashDialog();
+            dialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+            if (_selectioneBorder.Count > 1)
             {
-                foreach (Border item in _selectioneBorder)
+                dialog.Text.Text = "The selected files will be permanently deleted";
+                dialog.Title = "Delete file";
+                var result = await dialog.ShowAsync();
+                if (dialog.Result)
                 {
-                    Content content = (Content)item.DataContext;
-                    DeleteContent(token, content);
+                    foreach (Border item in _selectioneBorder)
+                    {
+                        Content content = (Content)item.DataContext;
+                        DeleteContent(token, content);
+                    }
                 }
             }
             else
             {
-                DeleteContent(token);
+                dialog.Text.Text = "This file will be permanently deleted";
+                dialog.Title = "Delete file";
+                var result = await dialog.ShowAsync();
+                if (dialog.Result)
+                {
+                    DeleteContent(token);
+                }
             }
 
-            ClearSelection();
-            LoadFilestoGridView();
-            MainWindow.SetStorageUsed();
+            if (dialog.Result)
+            {
+                ClearSelection();
+                LoadFilestoGridView();
+                MainWindow.SetStorageUsed();
+            }
         }
     }
 }
