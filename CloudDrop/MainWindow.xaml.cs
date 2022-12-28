@@ -33,6 +33,8 @@ namespace CloudDrop
         Microsoft.UI.Composition.SystemBackdrops.MicaController m_micaController;
         Microsoft.UI.Composition.SystemBackdrops.SystemBackdropConfiguration m_configurationSource;
 
+        ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
         public static Frame ContentFrame1;
         public static Button LastFilesButton1;
         public static Button FileButton1;
@@ -41,11 +43,13 @@ namespace CloudDrop
 
         public static TextBlock StorageFreeSpace1;
         public static ProgressBar StorageUsedValue1;
+        public static ListView LoadListView1;
+        public static Border UploadBorder1;
 
         public static string OpenPage = "LastFiles";
 
-        ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public ObservableCollection<ViewFileItem> FileItems = new ObservableCollection<ViewFileItem>();
+        public static ObservableCollection<ViewFileItem> FileItems1;
         public static ObservableCollection<Folder> BreadcrumbBarItem;
 
         public MainWindow()
@@ -60,6 +64,9 @@ namespace CloudDrop
 
             StorageFreeSpace1 = StorageFreeSpace;
             StorageUsedValue1 = StorageUsedValue;
+            LoadListView1 = LoadListView;
+            UploadBorder1 = UploadBorder;
+            FileItems1 = FileItems;
 
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
@@ -198,7 +205,7 @@ namespace CloudDrop
             }
         }
 
-        private void SetLoadingValue(KeyValuePair<string, double> keyValuePair, ObservableCollection<ViewFileItem> viewFileItems)
+        public static void SetLoadingValue(KeyValuePair<string, double> keyValuePair, ObservableCollection<ViewFileItem> viewFileItems)
         {
             //TODO: сделать плавную смену процента загрузки
             ViewFileItem item = viewFileItems.FirstOrDefault(i => i.Name == keyValuePair.Key);
@@ -206,7 +213,7 @@ namespace CloudDrop
             string newValue = keyValuePair.Value.ToString(); // Новое значение, которое нужно установить
 
             // Получаем элемент списка по индексу
-            var listItem = LoadListView.ContainerFromIndex(index) as ListViewItem;
+            var listItem = LoadListView1.ContainerFromIndex(index) as ListViewItem;
             // Получаем элемент TextBlock, который содержит значение
             if (listItem != null)
             {

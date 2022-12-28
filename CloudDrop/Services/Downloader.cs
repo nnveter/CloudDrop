@@ -1,5 +1,7 @@
-﻿using Grpc.Core;
+﻿
+using Grpc.Core;
 using Grpc.Net.Client;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +10,13 @@ namespace CloudDrop;
 
 public class Downloader
 {
+    public delegate void ProgressChangedEventHandler(KeyValuePair<string, double> data);
+    public delegate void DownloadCompletedEventHandler(bool IsCompleted);
+
+
+    public event ProgressChangedEventHandler ProgressChanged;
+    public event DownloadCompletedEventHandler DownloadCompleted;
+
     private readonly FileTransferService.FileTransferServiceClient client;
 
     public Downloader()
@@ -16,7 +25,7 @@ public class Downloader
         client = new FileTransferService.FileTransferServiceClient(channel);
     }
 
-    public async Task<bool> Download(int contentId, string token, string path)
+    public async Task<bool> Download(int contentId, string token, string path, string fileName)
     {
         long? totalSize = null;
         var headers = new Metadata();
@@ -32,9 +41,12 @@ public class Downloader
                 while (await responseStream.MoveNext())
                 {
                     var chunk = responseStream.Current;
-                    if (chunk.TotalSize != null) totalSize = chunk.TotalSize;
+                    totalSize = chunk.TotalSize;
                     await fileStream.WriteAsync(chunk.Data.ToArray());
+
+                    ProgressChanged?.Invoke(new KeyValuePair<string, double>(fileName, (int)(fileStream.Length * 100 / totalSize)));
                 }
+                DownloadCompleted?.Invoke(true);
                 return true;
             }
         }

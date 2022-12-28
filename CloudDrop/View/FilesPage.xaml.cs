@@ -231,7 +231,7 @@ namespace CloudDrop.View
             {
                 path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", content.name);
             }
-            return await new Downloader().Download(content.id, Token, path);
+            return await new Downloader().Download(content.id, Token, path, content.name);
         }
 
         private void AddSelectionElement(Border border)

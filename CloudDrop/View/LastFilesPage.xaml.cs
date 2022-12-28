@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CloudDrop.Models;
+using CloudDrop.SplashScreen;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
@@ -19,6 +20,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI;
 using static CloudDrop.ContentsService;
+using static System.Net.WebRequestMethods;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -150,14 +152,16 @@ namespace CloudDrop.View
         public async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             var token = localSettings.Values["JwtToken"] as string;
+            List<Content> contents = new List<Content>();
             foreach (Border item in _selectioneBorder)
             {
                 Content content = item.DataContext as Content;
                 if (content.contentType != ContentType.Folder)
                 {
-                    await DownloadContent(content, token);
+                   contents.Add(content);
                 }
             }
+            await DownloadContent(null, token,contents);
             //TODO: сделать диалог выбора места скачаивания
         }
 
@@ -227,13 +231,46 @@ namespace CloudDrop.View
             return await content.Detete(Token);
         }
 
-        private async Task<bool> DownloadContent(Content content, string Token, string? path = null)
+        private async Task<bool> DownloadContent(Content content, string Token, List<Content>? multiDownloadsContent = null ,string? path = null)
         {
-            if (path == null)
+            if (path == null && content != null)
             {
                 path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", content.name);
             }
-            return await new Downloader().Download(content.id, Token, path);
+            if (multiDownloadsContent == null)
+            {
+                return await new Downloader().Download(content.id, Token, path, content.name);
+            }
+            else 
+            {
+                Downloader downloader = new Downloader();
+                int FilesCount = multiDownloadsContent.Count;
+                int thisIterable = 0;
+                downloader.DownloadCompleted += IsCompleted =>
+                {
+                    thisIterable++;
+                    if (FilesCount == thisIterable)
+                    {
+                        MainWindow.UploadBorder1.Visibility = Visibility.Collapsed;
+                        MainWindow.FileItems1.Clear();
+                    }
+                };
+                downloader.ProgressChanged += data =>
+                {
+                    MainWindow.SetLoadingValue(data, MainWindow.FileItems1);
+                };
+                MainWindow.UploadBorder1.Visibility = Visibility.Visible;
+                foreach (var file in multiDownloadsContent)
+                {
+                    MainWindow.FileItems1.Add(new ViewFileItem() { Name = file.name, Value = 0 });
+                }
+                foreach (var file in multiDownloadsContent)
+                {
+                    path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", file.name);
+                    await downloader.Download(file.id, Token, path, file.name);
+                }
+                return true;
+            }
         }
 
         private void AddSelectionElement(Border border)
