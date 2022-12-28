@@ -28,8 +28,8 @@ namespace CloudDrop.View
     {
         ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
-        private List<int> _selectioneIndex = new List<int>();
-        private List<Border> _selectioneBorder = new List<Border>();
+        public static List<int> _selectioneIndex = new List<int>();
+        public static List<Border> _selectioneBorder = new List<Border>();
         public static List<string> AllNameFiles = new List<string>();
         public static CollectionViewSource Files1;
         private bool _tap = false;
@@ -47,6 +47,10 @@ namespace CloudDrop.View
 
         public static async void LoadFilestoGridView()
         {
+            AllNameFiles = new List<string>();
+            _selectioneIndex = new List<int>();
+            _selectioneBorder = new List<Border>();
+
             var projects = new List<FileAr>();
             var newProject = new FileAr();
 
