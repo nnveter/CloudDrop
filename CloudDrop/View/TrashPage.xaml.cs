@@ -262,6 +262,10 @@ namespace CloudDrop.View
                         headers.Add("authorization", $"Bearer {Token}");
 
                         var response = client.CleanTrashCan(request, headers);
+
+                        ClearSelection();
+                        LoadFilestoGridView();
+                        MainWindow.SetStorageUsed();
                     }
                 }
                 
@@ -342,13 +346,7 @@ namespace CloudDrop.View
             }
             else
             {
-                dialog.Text.Text = "This file will be permanently deleted";
-                dialog.Title = "Delete file";
-                var result = await dialog.ShowAsync();
-                if (dialog.Result)
-                {
-                    DeleteContent(token);
-                }
+                DeleteContent(token);
             }
 
             if (dialog.Result)
