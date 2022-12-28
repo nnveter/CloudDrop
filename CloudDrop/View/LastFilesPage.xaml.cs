@@ -255,20 +255,28 @@ namespace CloudDrop.View
                         MainWindow.FileItems1.Clear();
                     }
                 };
+
                 downloader.ProgressChanged += data =>
                 {
                     MainWindow.SetLoadingValue(data, MainWindow.FileItems1);
                 };
+
+                //TODO: добавить event при ошибке
+                //TODO: добавить dialog при ошибке
+
                 MainWindow.UploadBorder1.Visibility = Visibility.Visible;
+
                 foreach (var file in multiDownloadsContent)
                 {
                     MainWindow.FileItems1.Add(new ViewFileItem() { Name = file.name, Value = 0 });
                 }
+
                 foreach (var file in multiDownloadsContent)
                 {
                     path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", file.name);
                     await downloader.Download(file.id, Token, path, file.name);
                 }
+
                 return true;
             }
         }

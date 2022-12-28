@@ -13,6 +13,7 @@ public class Downloader
     public delegate void ProgressChangedEventHandler(KeyValuePair<string, double> data);
     public delegate void DownloadCompletedEventHandler(bool IsCompleted);
 
+    //TODO: добавить event при ошибке
 
     public event ProgressChangedEventHandler ProgressChanged;
     public event DownloadCompletedEventHandler DownloadCompleted;
