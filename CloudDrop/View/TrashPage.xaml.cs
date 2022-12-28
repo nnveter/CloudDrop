@@ -206,11 +206,42 @@ namespace CloudDrop.View
         public void RecoverContent(string Token, Content content)
         {
             //TODO
+            using (var channel = GrpcChannel.ForAddress(Constants.URL))
+            {
+                var client = new ContentsServiceClient(channel);
+                var request = new RecoveryContentId
+                {
+                    ContentId = content.id
+                };
+
+                var headers = new Metadata();
+                headers.Add("authorization", $"Bearer {Token}");
+
+                var response = client.RecoveryContent(request, headers);
+            }
         }
 
-        public void DeleteContent(string Token, Content content)
+        public async void DeleteContent(string Token, Content? content = null)
         {
             //TODO
+            if (content == null)
+            {
+                using (var channel = GrpcChannel.ForAddress(Constants.URL))
+                {
+                    var client = new ContentsServiceClient(channel);
+                    var request = new ContentsEmpty();
+
+                    var headers = new Metadata();
+                    headers.Add("authorization", $"Bearer {Token}");
+
+                    var response = client.CleanTrashCan(request, headers);
+                }
+                
+            }
+            else
+            {
+                await content.Detete(Token, true);
+            }
         }
 
 
@@ -255,10 +286,17 @@ namespace CloudDrop.View
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             var token = localSettings.Values["JwtToken"] as string;
-            foreach (Border item in _selectioneBorder)
+            if (_selectioneBorder.Count > 0)
             {
-                Content content = (Content)item.DataContext;
-                DeleteContent(token, content);
+                foreach (Border item in _selectioneBorder)
+                {
+                    Content content = (Content)item.DataContext;
+                    DeleteContent(token, content);
+                }
+            }
+            else
+            {
+                DeleteContent(token);
             }
 
             ClearSelection();

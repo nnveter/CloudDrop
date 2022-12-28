@@ -70,8 +70,6 @@ public class Content
                 name = result.Name;
                 id = result.Id;
                 contentType = ContentType.Folder;
-                parentId = result.Parent.Id;
-                storageId = result.Storage.Id;
                 path = result.Path;
             }
             catch (RpcException ex)
@@ -96,7 +94,7 @@ public class Content
         return true;
     }
 
-    public async Task<bool> Detete(string token)
+    public async Task<bool> Detete(string token, bool? IsFullDetete = false)
     {
         var channel = GrpcChannel.ForAddress(Constants.URL);
         var client = new ContentsService.ContentsServiceClient(channel);
@@ -106,7 +104,7 @@ public class Content
 
         try
         {
-            var request = new RemoveContentId { ContentId = id };
+            var request = new RemoveContentId { ContentId = id, Full = IsFullDetete };
 
             var result = client.RemoveContent(request, headers);
         }
