@@ -133,11 +133,13 @@ namespace CloudDrop.View
 
                 if (_selectioneIndex.Count > 1)
                 {
+                    DeleteButton.Label = "”далить выбранные элементы";
                     Header.Text = $"Ёлементов выбранно: {_selectioneIndex.Count}";
                     RecoverButton.IsEnabled = true;
                 }
                 else
                 {
+                    DeleteButton.Label = "”далить элемент";
                     Header.Text = file.name;
                     RecoverButton.IsEnabled = true;
                 }
@@ -155,6 +157,7 @@ namespace CloudDrop.View
                 border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                 if (_selectioneBorder.Count == 0 || _selectioneIndex.Count == 0)
                 {
+                    DeleteButton.Label = "ќчистить корзину";
                     Header.Text = header;
                     RecoverButton.IsEnabled = false;
                     return;
@@ -162,11 +165,13 @@ namespace CloudDrop.View
 
                 if (_selectioneIndex.Count > 1)
                 {
+                    DeleteButton.Label = "”далить выбранные элементы";
                     Header.Text = $"Ёлементов выбранно: {_selectioneIndex.Count}";
                     RecoverButton.IsEnabled = true;
                 }
                 else if (_selectioneIndex.Count == 1)
                 {
+                    DeleteButton.Label = "”далить элемент";
                     Content content = _selectioneBorder[0].DataContext as Content;
                     Header.Text = content.name;
                     RecoverButton.IsEnabled = true;
@@ -183,6 +188,7 @@ namespace CloudDrop.View
                     item.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                     Header.Text = header;
                 }
+                DeleteButton.Label = "ќчистить корзину";
                 _selectioneBorder.Clear();
                 _selectioneIndex.Clear();
                 RecoverButton.IsEnabled = false;
