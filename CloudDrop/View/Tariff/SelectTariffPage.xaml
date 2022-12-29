@@ -11,30 +11,38 @@
     mc:Ignorable="d"
     Background="Transparent">
 
-    <Grid Background="#3BFCBAFF">
+    <Grid Background="#4DC9DDFF">
+        <Button VerticalAlignment="Top" Click="BackButton_Click" HorizontalAlignment="Right" Margin="0,25,25,0" x:Name="BackButton" Background="Transparent" CornerRadius="8">
+            <ImageIcon Source="ms-appx:///ImageAssets/Sun.png" Height="16" Width="16" HorizontalAlignment="Left"/>
+        </Button>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Border CornerRadius="20,20,5,5" VerticalAlignment="Bottom" Margin="60,0,60,0" Background="White" Height="370" Width="250">
+            <Border CornerRadius="20,20,5,5" VerticalAlignment="Bottom" Margin="60,0,60,0" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" Height="370" Width="250">
                 <Grid>
-                    <Border VerticalAlignment="Bottom" CornerRadius="10" HorizontalAlignment="Center" Margin="0,0,0,30" Padding="20,10,20,10" Background="#FFA780">
+                    <Button VerticalAlignment="Bottom" Tag="0" Click="Button_Click" CornerRadius="10" HorizontalAlignment="Center" Margin="0,0,0,30" Padding="20,10,20,10" Background="#FFA780">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="190 Rub/m" Foreground="Black"/>
-                    </Border>
+                    </Button>
                 </Grid>
             </Border>
-            <Border BorderThickness="2" BorderBrush="#ED9958FF" CornerRadius="20,20,20,20" Background="White" Height="450" Width="250">
+            <Border BorderThickness="2" BorderBrush="#ED9958FF" CornerRadius="20,20,20,20" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" Height="450" Width="250">
                 <Grid>
-                    <Border VerticalAlignment="Bottom" CornerRadius="10" HorizontalAlignment="Center" Margin="0,0,0,30" Padding="20,10,20,10" Background="#FFA780">
+                    <Button VerticalAlignment="Bottom" Tag="2" Click="Button_Click" CornerRadius="10" HorizontalAlignment="Center" Margin="0,0,0,30" Padding="20,10,20,10" Background="#FFA780">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="490 Rub/m" Foreground="Black"/>
-                    </Border>
+                    </Button>
                 </Grid>
             </Border>
-            <Border CornerRadius="20,20,5,5" VerticalAlignment="Bottom" Margin="60,0,60,0" Background="White" Height="410" Width="250">
+            <Border CornerRadius="20,20,5,5" VerticalAlignment="Bottom" Margin="60,0,60,0" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" Height="410" Width="250">
                 <Grid>
-                    <Border VerticalAlignment="Bottom" CornerRadius="10" HorizontalAlignment="Center" Margin="0,0,0,30" Padding="20,10,20,10" Background="#FFA780">
+                    <Button VerticalAlignment="Bottom" Tag="1" Click="Button_Click" CornerRadius="10" HorizontalAlignment="Center" Margin="0,0,0,30" Padding="20,10,20,10" Background="#FFA780">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="290 Rub/m" Foreground="Black"/>
-                    </Border>
+                    </Button>
                 </Grid>
             </Border>
         </StackPanel>
-        <TextBox VerticalAlignment="Bottom" MinWidth="140" HorizontalAlignment="Center" Margin="0,0,0,10" PlaceholderText="Code"/>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10">
+            <TextBox x:Name="TextBoxCode" VerticalAlignment="Bottom" MaxWidth="300" MinWidth="140" HorizontalAlignment="Center" TextChanged="TextBox_TextChanged" PlaceholderText="Code"/>
+            <Button x:Name="AcceptButton" Visibility="Collapsed" Click="AcceptButton_Click" Margin="10,0,0,0" VerticalAlignment="Bottom" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center" >
+                <SymbolIcon Symbol="Accept"/>
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

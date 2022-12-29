@@ -30,5 +30,35 @@ namespace CloudDrop.View.Tariff
         {
             this.InitializeComponent();
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            if (txt.Text.Length > 0 && !String.IsNullOrEmpty(txt.Text) && !String.IsNullOrWhiteSpace(txt.Text))
+            {
+                AcceptButton.Visibility = Visibility.Visible;
+            }
+            else 
+            {
+                AcceptButton.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+        }
+
+        private void AcceptButton_Click(object sender, RoutedEventArgs e)
+        {
+            string code = TextBoxCode.Text;
+
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.NavigateToPage("Files");
+        }
     }
 }

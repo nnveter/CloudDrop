@@ -266,10 +266,14 @@ namespace CloudDrop
             {
                 case "SplashScreen":
                 case "Registration":
-                case "SelectTariff":
                 case "Login":
                     LeftColum1.Width = new GridLength(0);
                     ContentFrame1.Navigate(pageTypes[tagPage], null, new DrillInNavigationTransitionInfo());
+                    OpenPage = tagPage;
+                    break;
+                case "SelectTariff":
+                    LeftColum1.Width = new GridLength(0);
+                    ContentFrame1.Navigate(pageTypes[tagPage], null, new SuppressNavigationTransitionInfo());
                     OpenPage = tagPage;
                     break;
 

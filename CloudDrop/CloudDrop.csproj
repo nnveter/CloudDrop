@@ -99,6 +99,9 @@
     <None Update="ImageAssets\Shared.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="ImageAssets\Sun.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="ImageAssets\Trash.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

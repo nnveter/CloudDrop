@@ -148,10 +148,10 @@
     <value>Корзина</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>файлы</value>
+    <value>Файлы</value>
   </data>
   <data name="NavigationButtonChangeTariff.Content" xml:space="preserve">
-    <value>сменить тариф</value>
+    <value>Сменить тариф</value>
   </data>
   <data name="NavigationTextCreate.Text" xml:space="preserve">
     <value>Создать</value>
@@ -163,7 +163,7 @@
     <value>Файлы</value>
   </data>
   <data name="NavigationTextFreeSpace.Text" xml:space="preserve">
-    <value>свободно:</value>
+    <value>Свободно:</value>
   </data>
   <data name="NavigationTextLast.Text" xml:space="preserve">
     <value>Последние</value>

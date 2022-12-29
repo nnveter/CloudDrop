@@ -103,7 +103,7 @@
                                     <TextBlock FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" Text="MB" Margin="5,0,0,0"/>
                                 </StackPanel>
                             </StackPanel>
-                            <Button VerticalAlignment="Bottom"  HorizontalAlignment="Center" Height="30" Width="190" Margin="0,0,0,10" Style="{StaticResource AccentButtonStyle}" x:Uid="NavigationButtonChangeTariff"/>
+                            <Button VerticalAlignment="Bottom" Tag="SelectTariff" Click="NavigationButton_Click"  HorizontalAlignment="Center" Height="30" Width="190" Margin="0,0,0,10" Style="{StaticResource AccentButtonStyle}" x:Uid="NavigationButtonChangeTariff"/>
                         </Grid>
                     </Border>
                 </Grid>
