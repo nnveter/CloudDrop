@@ -58,11 +58,11 @@ namespace CloudDrop.SplashScreen
             return request.ContentId;
         }
 
-        public async static Task<bool> IsCheckedAuthorization(String JwtTocken)
+        public async static Task<bool> IsCheckedAuthorization(String JwtToken)
         {
             var headers = new Metadata
             {
-                { "authorization", $"Bearer {JwtTocken}" }
+                { "authorization", $"Bearer {JwtToken}" }
             };
 
             using (var channel = GrpcChannel.ForAddress(Constants.URL))

@@ -242,7 +242,7 @@ namespace CloudDrop.View
             {
                 ClearTrashDialog dialog = new ClearTrashDialog();
                 dialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
-                dialog.Text.Text = "All data is permanently deleted, are you sure you want to empty the trash";
+                dialog.Text.Text = "¬се данные будут удалены безвозвратно, вы уверены, что хотите очистить корзину";
                 var result = await dialog.ShowAsync();
                 if (dialog.Result)
                 {
@@ -335,6 +335,16 @@ namespace CloudDrop.View
                         Content content = (Content)item.DataContext;
                         DeleteContent(token, content);
                     }
+                }
+            }
+            else if (_selectioneBorder.Count == 1)
+            {
+                dialog.Text.Text = "This file will be permanently deleted";
+                dialog.Title = "Delete file";
+                var result = await dialog.ShowAsync();
+                if (dialog.Result)
+                {
+                    DeleteContent(token, (Content)_selectioneBorder[0].DataContext);
                 }
             }
             else

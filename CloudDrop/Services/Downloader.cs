@@ -50,8 +50,8 @@ public class Downloader
                     progress = (double)(fileStream.Length * 100 / totalSize);
                 }
                 DownloadCompleted?.Invoke(true);
-                return true;
             }
         }
+        return true;
     }
 }
