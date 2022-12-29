@@ -1,4 +1,5 @@
-﻿using Google.Protobuf;
+﻿using CloudDrop.Models;
+using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Net.Client;
 using System;
@@ -91,6 +92,7 @@ namespace CloudDrop
                     {
                         UploadError?.Invoke(ex);
                     }
+                    client.FinishReceivingFile(new FinishReceivingMessage() { ContentId = contentid}, headers);
                 }
             }
             return true;

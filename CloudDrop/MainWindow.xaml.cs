@@ -23,6 +23,7 @@ using Windows.Storage.Pickers;
 using Windows.UI;
 using WinRT;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Net.WebRequestMethods;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -49,6 +50,9 @@ namespace CloudDrop
         public static Border UploadBorder1;
 
         public static string OpenPage = "LastFiles";
+
+        public static List<StorageFile> DownloadQueue = new List<StorageFile>();
+        public static int DownloadIndex = 0;
 
         public ObservableCollection<ViewFileItem> FileItems = new ObservableCollection<ViewFileItem>();
         public static ObservableCollection<ViewFileItem> FileItems1;
@@ -136,6 +140,7 @@ namespace CloudDrop
 
         private async void UploadButton_Click(object sender, RoutedEventArgs e)
         {
+            //TODO: загрузка папок
             Button button = (Button)sender;
             String Token = localSettings.Values["JwtToken"] as string;
 
@@ -151,27 +156,34 @@ namespace CloudDrop
             List<StorageFile> arrayFile = folder.ToList();
 
             int FilesCount = arrayFile.Count;
-            int thisIterable = 0;
 
             if (arrayFile.Count > 0)
             {
+                foreach (var file in arrayFile)
+                {
+                    if (DownloadQueue.Find(V => V.Path == file.Path) == null)
+                    {
+                        FileItems.Add(new ViewFileItem() { Name = String.Join('.', file.Name.Split('.').SkipLast(1)), Value = 0 });
+                        AddDownloadQueue(file);
+                    }
+                }
+            }
+        }
+
+        public async void AddDownloadQueue(StorageFile file) 
+        {
+            if (DownloadQueue.Count == 0)
+            {
+                DownloadQueue.Add(file);
+                String Token = localSettings.Values["JwtToken"] as string;
+                int parentId = BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id;
+
                 var fts = new FileTransfer(serverUrl: Constants.URL);
+                UploadBorder.Visibility = Visibility.Visible;
+
                 fts.MultiPercentOfUpload += data =>
                 {
                     SetLoadingValue(data, FileItems);
-                };
-
-                UploadBorder.Visibility = Visibility.Visible;
-                fts.UploadFinished += message =>
-                {
-                    thisIterable++;
-                    if (FilesCount == thisIterable)
-                    {
-                        UploadBorder.Visibility = Visibility.Collapsed;
-                        FileItems.Clear();
-                        PageLoadFilestoGridView(OpenPage);
-                        SetStorageUsed();
-                    }
                 };
                 fts.UploadError += async ex =>
                 {
@@ -181,28 +193,31 @@ namespace CloudDrop
                         Content = ex.Status.Detail,
                         CloseButtonText = "Ok"
                     };
-                    ErrorDialog.XamlRoot = button.XamlRoot;
+                    ErrorDialog.XamlRoot = ContentFrame.XamlRoot;
                     await ErrorDialog.ShowAsync();
-                    UploadBorder.Visibility = Visibility.Collapsed;
-                    FileItems.Clear();
-                    PageLoadFilestoGridView(OpenPage);
-                    SetStorageUsed();
                 };
-                foreach (var file in arrayFile)
-                {
-                    FileItems.Add(new ViewFileItem() { Name = String.Join('.', file.Name.Split('.').SkipLast(1)), Value = 0 });
-                }
-                foreach (var file in arrayFile)
+
+                while (DownloadIndex < DownloadQueue.Count)
                 {
                     await fts.Upload(
                         token: Token,
-                        fileName: String.Join('.', file.Name.Split('.').SkipLast(1)),
-                        fileType: file.FileType.TrimStart('.'),
+                        fileName: String.Join('.', DownloadQueue[DownloadIndex].Name.Split('.').SkipLast(1)),
+                        fileType: DownloadQueue[DownloadIndex].FileType.TrimStart('.'),
                         storageId: SplashScreenPage.user.Storage.Id,
-                        uploadingFilePath: file.Path,
-                        parentId: BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id);
+                        uploadingFilePath: DownloadQueue[DownloadIndex].Path,
+                        parentId: parentId);
+                    DownloadIndex++;
                 }
-                //TODO: загрузка папок
+                DownloadQueue.Clear();
+                DownloadIndex = 0;
+                UploadBorder.Visibility = Visibility.Collapsed;
+                FileItems.Clear();
+                PageLoadFilestoGridView(OpenPage);
+                SetStorageUsed();
+            }
+            else
+            { 
+                DownloadQueue.Add(file);
             }
         }
 
@@ -218,24 +233,8 @@ namespace CloudDrop
             // Получаем элемент TextBlock, который содержит значение
             if (listItem != null)
             {
-                TextBlock textBlock = null;
-                //listItem.ApplyTemplate();
-                //DataTemplate dataTemplate = listItem.FindName("DataTemplate") as DataTemplate;
-                //FrameworkElement element = (FrameworkElement)dataTemplate.LoadContent();
-                //Border border = (Border)element.FindName("Border");
-                //Grid grid = border.FindName("Grid") as Grid;
-                //TextBlock textBlock = grid.FindName("Value") as TextBlock;
-                //if (textBlock != null)
-                //{
-                //    // Обновляем значение элемента
-                //    textBlock.Text = newValue;
-                //    border.Visibility = Visibility.Collapsed;
-                //}
-                if (textBlock == null)
-                {
-                    item.Value = (int)keyValuePair.Value;
-                    viewFileItems[index] = item;
-                }
+                item.Value = (int)keyValuePair.Value;
+                viewFileItems[index] = item;
             }
         }
 

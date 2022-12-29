@@ -39,6 +39,9 @@ namespace CloudDrop.View
         public static CollectionViewSource Files1;
         private bool _tap = false;
 
+        public static List<Content> DownloadQueue = new List<Content>();
+        public static int DownloadIndex = 0;
+
         GridLength ConstUpRow = new GridLength(83);
         public LastFilesPage()
         {
@@ -163,10 +166,10 @@ namespace CloudDrop.View
                 Content content = item.DataContext as Content;
                 if (content.contentType != ContentType.Folder)
                 {
-                   contents.Add(content);
+                    contents.Add(content);
                 }
             }
-            await DownloadContent(null, token,contents);
+            await DownloadContent(null, token, contents);
             //TODO: сделать диалог выбора места скачаивания
         }
 
@@ -230,45 +233,58 @@ namespace CloudDrop.View
             return await content.Detete(Token);
         }
 
-        private async Task<bool> DownloadContent(Content content, string Token, List<Content>? multiDownloadsContent = null ,string? path = null)
+        private async Task<bool> DownloadContent(Content content, string Token, List<Content>? multiDownloadsContent = null, string? path = null)
         {
-            if (path == null && content != null)
-            {
-                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", content.name);
-            }
             if (multiDownloadsContent == null)
             {
-                return await new Downloader().Download(content.id, Token, path, content.name);
+                AddDownloadQueue(content);
+                return true;
             }
-            else 
+            else
+            {
+                foreach (var file in multiDownloadsContent)
+                {
+                    if (DownloadQueue.IndexOf(file) == -1)
+                    {
+                        MainWindow.FileItems1.Add(new ViewFileItem() { Name = file.name, Value = 0 });
+                        AddDownloadQueue(file);
+                    }
+                }
+                return true;
+            }
+        }
+
+        public async void AddDownloadQueue(Content content)
+        {
+            if (DownloadQueue.Count == 0)
             {
                 Downloader downloader = new Downloader();
-                int FilesCount = multiDownloadsContent.Count;
-                int thisIterable = 0;
-                downloader.DownloadCompleted += IsCompleted =>
-                {
-                    thisIterable++;
-                    if (FilesCount == thisIterable)
-                    {
-                        MainWindow.UploadBorder1.Visibility = Visibility.Collapsed;
-                        MainWindow.FileItems1.Clear();
-                    }
-                };
+                DownloadQueue.Add(content);
+                String Token = localSettings.Values["JwtToken"] as string;
+                int parentId = BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id;
+
+                MainWindow.UploadBorder1.Visibility = Visibility.Visible;
+
                 downloader.ProgressChanged += data =>
                 {
                     MainWindow.SetLoadingValue(data, MainWindow.FileItems1);
                 };
-                MainWindow.UploadBorder1.Visibility = Visibility.Visible;
-                foreach (var file in multiDownloadsContent)
+
+
+                while (DownloadIndex < DownloadQueue.Count)
                 {
-                    MainWindow.FileItems1.Add(new ViewFileItem() { Name = file.name, Value = 0 });
+                    var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", DownloadQueue[DownloadIndex].name);
+                    await downloader.Download(DownloadQueue[DownloadIndex].id, Token, path, DownloadQueue[DownloadIndex].name);
+                    DownloadIndex++;
                 }
-                foreach (var file in multiDownloadsContent)
-                {
-                    path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", file.name);
-                    await downloader.Download(file.id, Token, path, file.name);
-                }
-                return true;
+                DownloadQueue.Clear();
+                DownloadIndex = 0;
+                MainWindow.UploadBorder1.Visibility = Visibility.Collapsed;
+                MainWindow.FileItems1.Clear();
+            }
+            else
+            {
+                DownloadQueue.Add(content);
             }
         }
 
@@ -366,7 +382,8 @@ namespace CloudDrop.View
                 return false;
             }
         }
-    }
+    
+}
 
     public class FileAr
     {

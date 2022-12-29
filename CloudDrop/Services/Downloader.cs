@@ -32,6 +32,7 @@ public class Downloader
         headers.Add("authorization", $"Bearer {token}");
 
         double progress = -1;
+        client.SendFileStateChange(new SendFileStateChangeRequest() { ContentId = contentId, State = SendFileStateChangeEnum.Start }, headers);
 
         using (var call = client.SendFileChunks(new SendFileChunksRequest() { ContentId = contentId },
             headers))
