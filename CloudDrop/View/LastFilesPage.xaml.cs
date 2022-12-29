@@ -213,12 +213,6 @@ namespace CloudDrop.View
             }
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            ClearSelection();
-            _tap = false;
-        }
-
         private void BreadcrumbBar_ItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
         {
             var items = MainWindow.BreadcrumbBarItem;

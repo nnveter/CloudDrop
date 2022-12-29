@@ -63,19 +63,18 @@ namespace CloudDrop.View.Dialogs
         private void FolderNameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-            if (string.IsNullOrEmpty(textBox.Text) && string.IsNullOrWhiteSpace(textBox.Text))
+            if (string.IsNullOrEmpty(textBox.Text) || string.IsNullOrWhiteSpace(textBox.Text))
             {
+                ErrorTextBlock.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 IsPrimaryButtonEnabled = false;
                 return;
             }
             if (CheckOnExist(textBox.Text))
             {
                 ErrorTextBlock.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-                ErrorTextBlock.Text = "The name of this folder is already in use";
                 IsPrimaryButtonEnabled = false;
                 return;
             }
-            ErrorTextBlock.Text = "";
             ErrorTextBlock.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
             IsPrimaryButtonEnabled = true;
             return;

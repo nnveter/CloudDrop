@@ -117,12 +117,6 @@ namespace CloudDrop.View
             _tap = true;
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            ClearSelection();
-            _tap = false;
-        }
-
         private void AddSelectionElement(Border border)
         {
             var Projects = (List<FileAr>)Files.Source;
@@ -136,19 +130,16 @@ namespace CloudDrop.View
                 border.Background = new SolidColorBrush(Color.FromArgb(23, 255, 255, 255));
                 Header.Text = header;
                 RecoverButton.IsEnabled = false;
-                CancelButton.IsEnabled = false;
 
                 if (_selectioneIndex.Count > 1)
                 {
                     Header.Text = $"Ёлементов выбранно: {_selectioneIndex.Count}";
                     RecoverButton.IsEnabled = true;
-                    CancelButton.IsEnabled = true;
                 }
                 else
                 {
                     Header.Text = file.name;
                     RecoverButton.IsEnabled = true;
-                    CancelButton.IsEnabled = true;
                 }
             }
         }
@@ -166,7 +157,6 @@ namespace CloudDrop.View
                 {
                     Header.Text = header;
                     RecoverButton.IsEnabled = false;
-                    CancelButton.IsEnabled = false;
                     return;
                 }
 
@@ -174,14 +164,12 @@ namespace CloudDrop.View
                 {
                     Header.Text = $"Ёлементов выбранно: {_selectioneIndex.Count}";
                     RecoverButton.IsEnabled = true;
-                    CancelButton.IsEnabled = true;
                 }
                 else if (_selectioneIndex.Count == 1)
                 {
                     Content content = _selectioneBorder[0].DataContext as Content;
                     Header.Text = content.name;
                     RecoverButton.IsEnabled = true;
-                    CancelButton.IsEnabled = true;
                 }
             }
         }
@@ -198,7 +186,6 @@ namespace CloudDrop.View
                 _selectioneBorder.Clear();
                 _selectioneIndex.Clear();
                 RecoverButton.IsEnabled = false;
-                CancelButton.IsEnabled = false;
             }
         }
 

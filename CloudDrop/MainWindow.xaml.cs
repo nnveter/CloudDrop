@@ -5,6 +5,7 @@ using CloudDrop.Models;
 using CloudDrop.SplashScreen;
 using CloudDrop.View;
 using CloudDrop.View.Dialogs;
+using CloudDrop.View.Tariff;
 using CloudDrop.Views.Autorization;
 using Grpc.Core;
 using Grpc.Net.Client;
@@ -68,7 +69,6 @@ namespace CloudDrop
             LoadListView1 = LoadListView;
             UploadBorder1 = UploadBorder;
             FileItems1 = FileItems;
-
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
             TrySetMicaBackdrop();
@@ -255,6 +255,7 @@ namespace CloudDrop
             var pageTypes = new Dictionary<string, Type> {
                     {"SplashScreen", typeof(SplashScreenPage)},
                     {"Registration", typeof(RegistrationPage)},
+                    {"SelectTariff", typeof(SelectTariffPage) },
                     {"Login", typeof(LoginPage)},
                     {"LastFiles", typeof(LastFilesPage)},
                     {"Files", typeof(FilesPage)},
@@ -266,6 +267,7 @@ namespace CloudDrop
             {
                 case "SplashScreen":
                 case "Registration":
+                case "SelectTariff":
                 case "Login":
                     LeftColum1.Width = new GridLength(0);
                     ContentFrame1.Navigate(pageTypes[tagPage], null, new DrillInNavigationTransitionInfo());

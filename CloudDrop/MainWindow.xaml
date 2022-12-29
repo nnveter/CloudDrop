@@ -45,13 +45,13 @@
                             <Button x:Name="UploadButton" Style="{StaticResource AccentButtonStyle}" Width="210" CornerRadius="1" Click="UploadButton_Click">
                                 <Grid Width="210" VerticalAlignment="Center">
                                     <ImageIcon Source="ms-appx:///ImageAssets/UploadImage.png" Height="15" Width="15" HorizontalAlignment="Left"/>
-                                    <TextBlock Text="Upload" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-25,0,0,0"/>
+                                    <TextBlock x:Uid="NavigationTextUpload" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-25,0,0,0"/>
                                 </Grid>
                             </Button>
                             <Button x:Name="CreateButton" Width="210" Margin="0,5,0,0" Background="#1FFFFFFF" CornerRadius="1" Click="CreateButton_Click">
                                 <Grid Width="210" VerticalAlignment="Center">
                                     <SymbolIcon Symbol="Add" HorizontalAlignment="Left"/>
-                                    <TextBlock Text="Create" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-25,0,0,0"/>
+                                    <TextBlock x:Uid="NavigationTextCreate" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-25,0,0,0"/>
                                 </Grid>
                                 <Button.Flyout>
                                     <Flyout AreOpenCloseAnimationsEnabled="True" Placement="TopEdgeAlignedLeft">
@@ -60,7 +60,7 @@
                                                 <Grid>
                                                     <StackPanel>
                                                         <ImageIcon Source="ms-appx:///IconTypeAssets/Folder.png" Height="50" Width="50" HorizontalAlignment="Center"/>
-                                                        <TextBlock Text="Folder" HorizontalAlignment="Center"/>
+                                                        <TextBlock x:Uid="NavigationTextCreateFolder" HorizontalAlignment="Center"/>
                                                     </StackPanel>
                                                 </Grid>
                                             </Button>
@@ -75,19 +75,19 @@
                             <Button x:Name="LastFilesButton" Tag="LastFiles" Background="Transparent" Width="210" CornerRadius="8" Height="30" Click="NavigationButton_Click">
                                 <Grid Width="210" VerticalAlignment="Center">
                                     <ImageIcon Source="ms-appx:///ImageAssets/Last.png" Height="16" Width="16" HorizontalAlignment="Left"/>
-                                    <TextBlock Text="Last" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                                    <TextBlock x:Uid="NavigationTextLast" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
                                 </Grid>
                             </Button>
                             <Button x:Name="FileButton" Tag="Files" Background="Transparent" Width="210" CornerRadius="8" Height="30" Margin="0,5,0,0" Click="NavigationButton_Click">
                                 <Grid Width="210" VerticalAlignment="Center">
                                     <ImageIcon Source="ms-appx:///ImageAssets/File.png" Height="16" Width="16" HorizontalAlignment="Left"/>
-                                    <TextBlock Text="Files" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                                    <TextBlock x:Uid="NavigationTextFiles" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
                                 </Grid>
                             </Button>
                             <Button x:Name="TrashButton" Tag="Trash" Background="Transparent" Width="210" CornerRadius="8" Height="30" Margin="0,5,0,0" Click="NavigationButton_Click">
                                 <Grid Width="210" VerticalAlignment="Center">
                                     <ImageIcon Source="ms-appx:///ImageAssets/Trash.png" Height="16" Width="16" HorizontalAlignment="Left"/>
-                                    <TextBlock Text="Trush" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
+                                    <TextBlock x:Uid="NavigationTextTrash" HorizontalAlignment="Left"  FontSize="13" VerticalAlignment="Center" Margin="25,0,0,0"/>
                                 </Grid>
                             </Button>
                         </StackPanel>
@@ -98,12 +98,12 @@
                             <StackPanel Margin="20,25,20,0">
                                 <ProgressBar x:Name="StorageUsedValue" />
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" Text="free space:"/>
+                                    <TextBlock FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" x:Uid="NavigationTextFreeSpace"/>
                                     <TextBlock x:Name="StorageFreeSpace" FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" Margin="5,0,0,0"/>
                                     <TextBlock FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" Text="MB" Margin="5,0,0,0"/>
                                 </StackPanel>
                             </StackPanel>
-                            <Button VerticalAlignment="Bottom"  HorizontalAlignment="Center" Height="30" Width="190" Margin="0,0,0,10" Style="{StaticResource AccentButtonStyle}" Content="choose a tariff"/>
+                            <Button VerticalAlignment="Bottom"  HorizontalAlignment="Center" Height="30" Width="190" Margin="0,0,0,10" Style="{StaticResource AccentButtonStyle}" x:Uid="NavigationButtonChangeTariff"/>
                         </Grid>
                     </Border>
                 </Grid>

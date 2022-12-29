@@ -17,6 +17,7 @@
     <None Remove="SplashScreen\SplashScreenPage.xaml" />
     <None Remove="View\Dialogs\ClearTrashDialog.xaml" />
     <None Remove="View\Dialogs\CreateFolderDialog.xaml" />
+    <None Remove="View\Tariff\SelectTariffPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -89,6 +90,9 @@
     <None Update="ImageAssets\login.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="ImageAssets\orig.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="ImageAssets\Registration.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -104,6 +108,9 @@
     <None Update="SplashScreen\SplashGif.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="View\Tariff\SelectTariffPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\Dialogs\ClearTrashDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
