@@ -15,6 +15,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="SplashScreen\SplashScreenPage.xaml" />
+    <None Remove="View\Account\AccountPage.xaml" />
     <None Remove="View\Dialogs\ClearTrashDialog.xaml" />
     <None Remove="View\Dialogs\CreateFolderDialog.xaml" />
     <None Remove="View\Tariff\SelectTariffPage.xaml" />
@@ -111,6 +112,9 @@
     <None Update="SplashScreen\SplashGif.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="View\Account\AccountPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\Tariff\SelectTariffPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

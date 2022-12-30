@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using CloudDrop.Models;
+using Grpc.Core;
+using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -12,9 +15,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Protection.PlayReady;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -52,7 +58,25 @@ namespace CloudDrop.View.Tariff
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            string code = TextBoxCode.Text;
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            var token = localSettings.Values["JwtToken"] as string;
+
+            if (int.TryParse(TextBoxCode.Text, out var code))
+            {
+                var channel = GrpcChannel.ForAddress(Constants.URL);
+                var client = new CodesService.CodesServiceClient(channel);
+                var headers = new Metadata();
+                headers.Add("authorization", $"Bearer {token}");
+                try
+                {
+                    var call = client.Activate(new ActiveCodeMessage { Code = code }, headers);
+                    
+                } 
+                catch (RpcException ex) 
+                { 
+                    txt.Text = ex.Message;
+                }
+            }
 
         }
 

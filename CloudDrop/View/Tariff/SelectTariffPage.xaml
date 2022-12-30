@@ -44,5 +44,6 @@
                 <SymbolIcon Symbol="Accept"/>
             </Button>
         </StackPanel>
+        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right" x:Name="txt"/>
     </Grid>
 </Page>

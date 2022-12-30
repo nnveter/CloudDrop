@@ -4,6 +4,7 @@
 using CloudDrop.Models;
 using CloudDrop.SplashScreen;
 using CloudDrop.View;
+using CloudDrop.View.Account;
 using CloudDrop.View.Dialogs;
 using CloudDrop.View.Tariff;
 using CloudDrop.Views.Autorization;
@@ -255,6 +256,7 @@ namespace CloudDrop
                     {"SplashScreen", typeof(SplashScreenPage)},
                     {"Registration", typeof(RegistrationPage)},
                     {"SelectTariff", typeof(SelectTariffPage) },
+                    {"Account", typeof(AccountPage) },
                     {"Login", typeof(LoginPage)},
                     {"LastFiles", typeof(LastFilesPage)},
                     {"Files", typeof(FilesPage)},
@@ -265,23 +267,22 @@ namespace CloudDrop
             switch (tagPage)
             {
                 case "SplashScreen":
+                case "SelectTariff":
+                case "Account":
                 case "Registration":
                 case "Login":
                     LeftColum1.Width = new GridLength(0);
-                    ContentFrame1.Navigate(pageTypes[tagPage], null, new DrillInNavigationTransitionInfo());
-                    OpenPage = tagPage;
-                    break;
-                case "SelectTariff":
-                    LeftColum1.Width = new GridLength(0);
                     ContentFrame1.Navigate(pageTypes[tagPage], null, new SuppressNavigationTransitionInfo());
                     OpenPage = tagPage;
-                    break;
+                    SetStorageUsed();
+                    break;   
 
                 default:
                     LeftColum1.Width = new GridLength(240);
                     ContentFrame1.Navigate(pageTypes[tagPage], null, new DrillInNavigationTransitionInfo());
                     OpenPage = tagPage;
                     SetActiveButton(tagPage);
+                    SetStorageUsed();
                     break;
             }
         }
