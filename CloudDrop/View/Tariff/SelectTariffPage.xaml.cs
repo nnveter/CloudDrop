@@ -45,11 +45,11 @@ namespace CloudDrop.View.Tariff
         {
             PlansMessage plans = SplashScreenPage.plans;
             TariffName1.Text = plans.Plans[0].Name;
-            TariffDescription1.Text = plans.Plans[0].Description + "\n11";
+            TariffDescription1.Text = plans.Plans[0].Description;
             PriceText1.Text = plans.Plans[0].Price.ToString() + " Руб/м";
 
             TariffName2.Text = plans.Plans[1].Name;
-            TariffDescription2.Text = plans.Plans[1].Description + "\n11";
+            TariffDescription2.Text = plans.Plans[1].Description;
             PriceText2.Text = plans.Plans[1].Price.ToString() + " Руб/м";
 
             TariffName3.Text = plans.Plans[2].Name;
@@ -93,6 +93,7 @@ namespace CloudDrop.View.Tariff
                     CloseButtonText = "Ok"
                 };
                 SuccessDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+                await SuccessDialog.ShowAsync();
             }
         }
     }

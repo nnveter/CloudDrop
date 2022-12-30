@@ -7,6 +7,8 @@ public class User
     public string password { get; set; }
     public string name { get; set; }
     public Storage Storage { get; set; }
+    public string country { get; set; }
+    public string city { get; set; }
 
     public static implicit operator User(UserProfileMessage v)
     {

@@ -3,10 +3,12 @@
 
 
 
+using CloudDrop.SplashScreen;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Globalization;
 using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -27,7 +29,11 @@ namespace CloudDrop.Views.Autorization
 
         private async void myButton_Click(object sender, RoutedEventArgs e)
         {
-            SignUpRequest user = new SignUpRequest() { Email = Email.Text, Name = Name.Text, Password = Password.Password };
+            CultureInfo currentCulture = CultureInfo.CurrentCulture;         //
+            RegionInfo currentRegion = new RegionInfo(currentCulture.Name);  // <- TODO
+            var country = currentRegion.DisplayName;       //      |
+                                                                             //     \_/
+            SignUpRequest user = new SignUpRequest() { Email = Email.Text, Name = Name.Text, Password = Password.Password }; //<- TODO
 
             using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
             var client = new AuthService.AuthServiceClient(channel);

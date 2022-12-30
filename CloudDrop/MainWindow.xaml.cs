@@ -43,7 +43,10 @@ namespace CloudDrop
         public static Button LastFilesButton1;
         public static Button FileButton1;
         public static Button TrashButton1;
+        public static Button AccountButton1;
         public static ColumnDefinition LeftColum1;
+
+        public static TextBlock UserName1;
 
         public static TextBlock StorageFreeSpace1;
         public static ProgressBar StorageUsedValue1;
@@ -67,13 +70,17 @@ namespace CloudDrop
             LastFilesButton1 = LastFilesButton;
             FileButton1 = FileButton;
             TrashButton1 = TrashButton;
+            AccountButton1 = AccoutButton;
             LeftColum1 = LeftColum;
+
+            UserName1 = UserName;
 
             StorageFreeSpace1 = StorageFreeSpace;
             StorageUsedValue1 = StorageUsedValue;
             LoadListView1 = LoadListView;
             UploadBorder1 = UploadBorder;
             FileItems1 = FileItems;
+
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
             TrySetMicaBackdrop();
@@ -268,7 +275,6 @@ namespace CloudDrop
             {
                 case "SplashScreen":
                 case "SelectTariff":
-                case "Account":
                 case "Registration":
                 case "Login":
                     LeftColum1.Width = new GridLength(0);
@@ -291,9 +297,11 @@ namespace CloudDrop
         {
             // Set the default background color for all buttons
             var defaultColor = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+            AccountButton1.Background = new SolidColorBrush(Color.FromArgb(30, 0, 69, 255));
             LastFilesButton1.Background = defaultColor;
             FileButton1.Background = defaultColor;
             TrashButton1.Background = defaultColor;
+            
 
             // Set the active button's background color
             Button activeButton;
@@ -302,6 +310,7 @@ namespace CloudDrop
                 case "LastFiles": activeButton = LastFilesButton1; break;
                 case "Files": activeButton = FileButton1; break;
                 case "Trash": activeButton = TrashButton1; break;
+                case "Account": activeButton = AccountButton1; break;
                 default: return;
             }
             activeButton.Background = new SolidColorBrush(Color.FromArgb(20, 255, 255, 255));

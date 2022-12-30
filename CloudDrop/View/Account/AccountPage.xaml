@@ -9,9 +9,51 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="Transparent">
 
     <Grid>
-
+        <GridView x:Name="GridV" Margin="20,90,20,0" CornerRadius="10" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Left" ItemClick="GridV_ItemClick">
+            <Border Background="#DB202121" CornerRadius="10" ToolTipService.ToolTip="user data">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical" Margin="10,5,22,5" Padding="0">
+                        <TextBlock Text="Tariff" Foreground="DarkGray"/>
+                        <TextBlock Text="{x:Bind SubscriptionPlan.Name}" Foreground="White"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,7,0,0">
+                            <TextBlock Text="Valid until:" Foreground="DarkGray"/>
+                            <TextBlock x:Name="TariffDate" Margin="5,0,0,0" Foreground="White"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </GridView>
+        <StackPanel Orientation="Vertical">
+            <Grid Height="70" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="25,0,0,0">
+                    <TextBlock x:Name="FirsName" Text="{x:Bind ViewModel.name}" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="LastName" Margin="5,0,0,0" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button x:Name="ButtonLogOut" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" ToolTipService.ToolTip="Log out" Click="ButtonLogOut_Click">
+                    <ImageIcon Source="ms-appx:///ImageAssets/LogOut.png" Height="15" Width="15"/>
+                </Button>
+            </Grid>
+            <GridView x:Name="Grid" Margin="0,20,20,0" CornerRadius="10" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Right" ItemClick="GridV_ItemClick">
+                <Border Background="#DB202121" CornerRadius="10" ToolTipService.ToolTip="user data">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical" Margin="10,5,22,5" Padding="0">
+                            <TextBlock Text="Email" Foreground="DarkGray"/>
+                            <TextBlock Text="{x:Bind ViewModel.email}" Foreground="White"/>
+                            <TextBlock Text="Password" Foreground="DarkGray" Margin="0,7,0,0"/>
+                            <TextBlock Text="**********" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="22,5,10,5" Padding="0">
+                            <TextBlock Text="Country" Foreground="DarkGray"/>
+                            <TextBlock Text="{x:Bind ViewModel.country}" Foreground="White"/>
+                            <TextBlock Text="City" Foreground="DarkGray" Margin="0,7,0,0"/>
+                            <TextBlock Text="{x:Bind ViewModel.city}" Foreground="White"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </GridView>
+        </StackPanel>
     </Grid>
 </Page>

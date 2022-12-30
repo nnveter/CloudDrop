@@ -24,6 +24,7 @@ namespace CloudDrop.SplashScreen
     {
         public static User user;
         public static PlansMessage plans;
+        public static SubscriptionMessage subscription;
         public SplashScreenPage()
         {
             this.InitializeComponent();
@@ -40,6 +41,8 @@ namespace CloudDrop.SplashScreen
                 MainWindow.BreadcrumbBarItem = new ObservableCollection<Folder> { new Folder { Name = "Home", Id = await GetUserHomeFolderId(Token) }, };
                 MainWindow.SetStorageUsed();
                 plans = await GetPlans(3);
+                subscription = await GetUserPlan(Token);
+                MainWindow.UserName1.Text = user.name;
                 MainWindow.NavigateToPage("Files");
                 return true;
             }
@@ -48,6 +51,17 @@ namespace CloudDrop.SplashScreen
                 MainWindow.NavigateToPage("Login");
                 return false;
             }
+        }
+
+        public static async Task<SubscriptionMessage> GetUserPlan(string Token) 
+        {
+            var headers = new Metadata();
+            headers.Add("authorization", $"Bearer {Token}");
+
+            var channel = GrpcChannel.ForAddress(Constants.URL);
+            var client = new SubscriptionsService.SubscriptionsServiceClient(channel);
+            return await client.GetMySubscriptionAsync(new EmptyMessage(), headers);
+            
         }
 
         public static async Task<PlansMessage> GetPlans(int count) {

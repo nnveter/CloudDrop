@@ -1,0 +1,30 @@
+<ContentDialog
+    x:Class="CloudDrop.Views.Account.OpenUserData"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Edit user data"
+    PrimaryButtonText="Save"
+    PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
+    CloseButtonText="Cancel"
+    CloseButtonClick="ContentDialog_CloseButtonClick"
+    Closed="ContentDialog_Closed"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    Style="{ThemeResource DefaultContentDialogStyle}"
+    CornerRadius="8">
+
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Email" Margin="5,7,5,0"/>
+            <TextBox x:Name="Email" PlaceholderText="Email" Margin="5,5,5,0" TextChanged="Email_TextChanged" IsEnabled="False"/>
+            <TextBlock Text="FirstName" Margin="5,20,5,0"/>
+            <TextBox x:Name="FirstName" PlaceholderText="FirstName" Margin="5,5,5,0" TextChanged="FirstName_TextChanged"/>
+            <TextBlock Text="Country" Margin="5,20,5,0"/>
+            <TextBox x:Name="Country" PlaceholderText="Country" Margin="5,5,5,0" TextChanged="Country_TextChanged"/>
+            <TextBlock Text="City" Margin="5,7,5,0"/>
+            <TextBox x:Name="City" PlaceholderText="City" Margin="5,5,5,0" TextChanged="City_TextChanged"/>
+        </StackPanel>
+    </Grid>
+</ContentDialog>
