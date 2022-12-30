@@ -93,10 +93,11 @@
                         </StackPanel>
                         <!--//-->
                     </StackPanel>
-                    <Border Height="100" Width="220" CornerRadius="15" Background="#7F7F80" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10,0,10,55">
+                    <Border Height="100" Width="220" CornerRadius="15" Background="#7F7F80" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10,0,10,50">
                         <Grid>
-                            <StackPanel Margin="20,25,20,0">
-                                <ProgressBar x:Name="StorageUsedValue" />
+                            <StackPanel Margin="20,0,20,0">
+                                <TextBlock x:Name="TariffName" HorizontalAlignment="Center" VerticalAlignment="Top" Text="1"/>
+                                <ProgressBar x:Name="StorageUsedValue" Margin="0,10,0,0" />
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBlock FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" x:Uid="NavigationTextFreeSpace"/>
                                     <TextBlock x:Name="StorageFreeSpace" FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" Margin="5,0,0,0"/>
