@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActiveCodeDialog.CloseButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ActiveCodeDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Активировать</value>
+  </data>
+  <data name="ActiveCodeDialog.Title" xml:space="preserve">
+    <value>Активация кода</value>
+  </data>
   <data name="CreateFolderDialogs.CloseButtonText" xml:space="preserve">
     <value>Отмена</value>
   </data>
@@ -176,5 +185,11 @@
   </data>
   <data name="RecoverAppBarButton.Label" xml:space="preserve">
     <value>Востановить</value>
+  </data>
+  <data name="SelectTariffActiveCodeButton.Content" xml:space="preserve">
+    <value>Ввести код</value>
+  </data>
+  <data name="TextBoxCode.PlaceholderText" xml:space="preserve">
+    <value>Введите 10-значный код</value>
   </data>
 </root>

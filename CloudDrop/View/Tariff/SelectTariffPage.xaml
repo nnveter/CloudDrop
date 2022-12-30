@@ -18,32 +18,38 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Border CornerRadius="20,20,5,5" VerticalAlignment="Bottom" Margin="60,0,60,0" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" Height="370" Width="250">
                 <Grid>
+                    <StackPanel>
+                        <TextBlock x:Name="TariffName1" HorizontalAlignment="Center" Margin="0,15,0,0" Text="Standart" FontSize="30"/>
+                        <TextBlock x:Name="TariffDescription1" HorizontalAlignment="Left" Margin="20,20,20,0" TextWrapping="WrapWholeWords"/>
+                    </StackPanel>
                     <Button VerticalAlignment="Bottom" Tag="0" Click="Button_Click" CornerRadius="10" HorizontalAlignment="Center" Margin="0,0,0,30" Padding="20,10,20,10" Background="#FFA780">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="190 Rub/m" Foreground="Black"/>
+                        <TextBlock x:Name="PriceText1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="190 Rub/m" Foreground="Black"/>
                     </Button>
                 </Grid>
             </Border>
             <Border BorderThickness="2" BorderBrush="#ED9958FF" CornerRadius="20,20,20,20" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" Height="450" Width="250">
                 <Grid>
+                    <StackPanel>
+                        <TextBlock x:Name="TariffName3" HorizontalAlignment="Center" Margin="0,15,0,0" Text="Standart" FontSize="30"/>
+                        <TextBlock x:Name="TariffDescription3" HorizontalAlignment="Left" Margin="20,20,20,0" TextWrapping="Wrap"/>
+                    </StackPanel>
                     <Button VerticalAlignment="Bottom" Tag="2" Click="Button_Click" CornerRadius="10" HorizontalAlignment="Center" Margin="0,0,0,30" Padding="20,10,20,10" Background="#FFA780">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="490 Rub/m" Foreground="Black"/>
+                        <TextBlock x:Name="PriceText3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="490 Rub/m" Foreground="Black"/>
                     </Button>
                 </Grid>
             </Border>
             <Border CornerRadius="20,20,5,5" VerticalAlignment="Bottom" Margin="60,0,60,0" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" Height="410" Width="250">
                 <Grid>
+                    <StackPanel>
+                        <TextBlock x:Name="TariffName2" HorizontalAlignment="Center" Margin="0,15,0,0" Text="Standart" FontSize="30"/>
+                        <TextBlock x:Name="TariffDescription2" HorizontalAlignment="Left" Margin="20,20,20,0" TextWrapping="Wrap"/>
+                    </StackPanel>
                     <Button VerticalAlignment="Bottom" Tag="1" Click="Button_Click" CornerRadius="10" HorizontalAlignment="Center" Margin="0,0,0,30" Padding="20,10,20,10" Background="#FFA780">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="290 Rub/m" Foreground="Black"/>
+                        <TextBlock x:Name="PriceText2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="290 Rub/m" Foreground="Black"/>
                     </Button>
                 </Grid>
             </Border>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10">
-            <TextBox x:Name="TextBoxCode" VerticalAlignment="Bottom" MaxWidth="300" MinWidth="140" HorizontalAlignment="Center" TextChanged="TextBox_TextChanged" PlaceholderText="Code"/>
-            <Button x:Name="AcceptButton" Visibility="Collapsed" Click="AcceptButton_Click" Margin="10,0,0,0" VerticalAlignment="Bottom" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center" >
-                <SymbolIcon Symbol="Accept"/>
-            </Button>
-        </StackPanel>
-        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right" x:Name="txt"/>
+        <Button x:Uid="SelectTariffActiveCodeButton" Content="Enter the code" Click="Button_Click_1" Style="{StaticResource AccentButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,10"/>
     </Grid>
 </Page>

@@ -7,6 +7,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -22,6 +23,7 @@ namespace CloudDrop.SplashScreen
     public sealed partial class SplashScreenPage : Page
     {
         public static User user;
+        public static PlansMessage plans;
         public SplashScreenPage()
         {
             this.InitializeComponent();
@@ -37,6 +39,7 @@ namespace CloudDrop.SplashScreen
             {
                 MainWindow.BreadcrumbBarItem = new ObservableCollection<Folder> { new Folder { Name = "Home", Id = await GetUserHomeFolderId(Token) }, };
                 MainWindow.SetStorageUsed();
+                plans = await GetPlans(3);
                 MainWindow.NavigateToPage("Files");
                 return true;
             }
@@ -45,6 +48,14 @@ namespace CloudDrop.SplashScreen
                 MainWindow.NavigateToPage("Login");
                 return false;
             }
+        }
+
+        public static async Task<PlansMessage> GetPlans(int count) {
+            var channel = GrpcChannel.ForAddress(Constants.URL);
+            var client = new PlansService.PlansServiceClient(channel);
+            PlansMessage request = await client.GetAllAsync(new GetAllRequest() { Max = count });
+
+            return request;
         }
 
         public static async Task<int> GetUserHomeFolderId(string Token)

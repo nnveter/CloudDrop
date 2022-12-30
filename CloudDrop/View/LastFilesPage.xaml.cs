@@ -223,7 +223,6 @@ namespace CloudDrop.View
             {
                 items.RemoveAt(i);
             }
-            txt.Text = MainWindow.BreadcrumbBarItem[MainWindow.BreadcrumbBarItem.Count - 1].Id.ToString();
             CheckButtonEnable();
             LoadFilestoGridView();
         }
