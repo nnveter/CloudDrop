@@ -104,7 +104,7 @@
                                     <TextBlock FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" Text="MB" Margin="5,0,0,0"/>
                                 </StackPanel>
                             </StackPanel>
-                            <Button VerticalAlignment="Bottom" Tag="SelectTariff" Click="NavigationButton_Click"  HorizontalAlignment="Center" Height="30" Width="190" Margin="0,0,0,10" Background="#85A89BFF"  x:Uid="NavigationButtonChangeTariff"/>
+                            <Button VerticalAlignment="Bottom" Tag="SelectTariff" Click="NavigationButton_Click"  HorizontalAlignment="Center" Height="30" Width="190" Margin="0,0,0,10" Style="{StaticResource AccentButtonStyle}" x:Uid="NavigationButtonChangeTariff"/>
                         </Grid>
                     </Border>
                     <Button x:Name="AccoutButton" VerticalAlignment="Bottom" Tag="Account" Background="#140045FF" Width="210" CornerRadius="8" Height="30" Margin="15,0,0,10" Click="NavigationButton_Click">
