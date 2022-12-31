@@ -101,7 +101,7 @@
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBlock FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" x:Uid="NavigationTextFreeSpace"/>
                                     <TextBlock x:Name="StorageFreeSpace" FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" Margin="5,0,0,0"/>
-                                    <TextBlock FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" Text="MB" Margin="5,0,0,0"/>
+                                    <TextBlock x:Name="NumberSystem" FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" Text="MB" Margin="5,0,0,0"/>
                                 </StackPanel>
                             </StackPanel>
                             <Button VerticalAlignment="Bottom" Tag="SelectTariff" Click="NavigationButton_Click"  HorizontalAlignment="Center" Height="30" Width="190" Margin="0,0,0,10" Style="{StaticResource AccentButtonStyle}" x:Uid="NavigationButtonChangeTariff"/>

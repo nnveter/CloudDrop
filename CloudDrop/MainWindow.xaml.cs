@@ -48,6 +48,7 @@ namespace CloudDrop
 
         public static TextBlock UserName1;
         public static TextBlock TariffName1;
+        public static TextBlock NumberSystem1;
 
         public static TextBlock StorageFreeSpace1;
         public static ProgressBar StorageUsedValue1;
@@ -76,6 +77,7 @@ namespace CloudDrop
 
             UserName1 = UserName;
             TariffName1 = TariffName;
+            NumberSystem1 = NumberSystem;
 
             StorageFreeSpace1 = StorageFreeSpace;
             StorageUsedValue1 = StorageUsedValue;
@@ -104,7 +106,17 @@ namespace CloudDrop
                     {
                         UserProfileMessage res = await client.GetProfileAsync(new UsersEmptyMessage(), headers);
                         SplashScreenPage.user = res;
-                        StorageFreeSpace1.Text = Math.Round(((double)SplashScreenPage.user.Storage.StorageQuote - SplashScreenPage.user.Storage.StorageUsed) / 1048576, 2).ToString();
+                        double used = Math.Round((((double)SplashScreenPage.user.Storage.StorageQuote - SplashScreenPage.user.Storage.StorageUsed) / 1024) / 1024, 2);
+                        if (used >= 1024)
+                        {
+                            StorageFreeSpace1.Text = Math.Round(used / 1024, 2).ToString();
+                            NumberSystem1.Text = "GB";
+                        }
+                        else 
+                        {
+                            StorageFreeSpace1.Text = used.ToString();
+                            NumberSystem1.Text = "MB";
+                        }
                         StorageUsedValue1.Value = (int)Math.Round((double)SplashScreenPage.user.Storage.StorageUsed / SplashScreenPage.user.Storage.StorageQuote * 100, 0);
                         SubscriptionMessage subscription = await SplashScreenPage.GetUserPlan(Token);
                         TariffName1.Text = subscription.Plan.Name;
