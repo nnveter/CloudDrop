@@ -59,5 +59,10 @@ namespace CloudDrop.View.Account
             dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dateTime;
         }
+
+        private void GridV_ItemClick_1(object sender, ItemClickEventArgs e)
+        {
+            MainWindow.NavigateToPage("SelectTariff");
+        }
     }
 }

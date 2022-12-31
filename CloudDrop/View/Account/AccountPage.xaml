@@ -12,14 +12,14 @@
     Background="Transparent">
 
     <Grid>
-        <GridView x:Name="GridV" Margin="20,90,20,0" CornerRadius="10" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Left" ItemClick="GridV_ItemClick">
-            <Border Background="#DB202121" CornerRadius="10" ToolTipService.ToolTip="user data">
+        <GridView x:Name="GridV" Margin="20,90,20,0" CornerRadius="10" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Left" ItemClick="GridV_ItemClick_1">
+            <Border Background="#2EC8CEFF" CornerRadius="10" ToolTipService.ToolTip="user data">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" Margin="10,5,22,5" Padding="0">
-                        <TextBlock Text="Tariff" Foreground="DarkGray"/>
+                        <TextBlock x:Uid="TextBlockTariff" Text="Tariff" Foreground="DarkGray"/>
                         <TextBlock Text="{x:Bind SubscriptionPlan.Name}" Foreground="White"/>
                         <StackPanel Orientation="Horizontal" Margin="0,7,0,0">
-                            <TextBlock Text="Valid until:" Foreground="DarkGray"/>
+                            <TextBlock x:Uid="TextBlockValidUntil" Text="Valid until:" Foreground="DarkGray"/>
                             <TextBlock x:Name="TariffDate" Margin="5,0,0,0" Foreground="White"/>
                         </StackPanel>
                     </StackPanel>
@@ -37,18 +37,18 @@
                 </Button>
             </Grid>
             <GridView x:Name="Grid" Margin="0,20,20,0" CornerRadius="10" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Right" ItemClick="GridV_ItemClick">
-                <Border Background="#DB202121" CornerRadius="10" ToolTipService.ToolTip="user data">
+                <Border Background="#42E6C1FF" CornerRadius="10" ToolTipService.ToolTip="user data">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical" Margin="10,5,22,5" Padding="0">
-                            <TextBlock Text="Email" Foreground="DarkGray"/>
+                            <TextBlock x:Uid="TextBlockEmail" Text="Email" Foreground="DarkGray"/>
                             <TextBlock Text="{x:Bind ViewModel.email}" Foreground="White"/>
-                            <TextBlock Text="Password" Foreground="DarkGray" Margin="0,7,0,0"/>
+                            <TextBlock x:Uid="TextBlockPassword" Text="Password" Foreground="DarkGray" Margin="0,7,0,0"/>
                             <TextBlock Text="**********" Foreground="White"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="22,5,10,5" Padding="0">
-                            <TextBlock Text="Country" Foreground="DarkGray"/>
+                            <TextBlock x:Uid="TextBlockCountry" Text="Country" Foreground="DarkGray"/>
                             <TextBlock Text="{x:Bind ViewModel.country}" Foreground="White"/>
-                            <TextBlock Text="City" Foreground="DarkGray" Margin="0,7,0,0"/>
+                            <TextBlock x:Uid="TextBlockCity" Text="City" Foreground="DarkGray" Margin="0,7,0,0"/>
                             <TextBlock Text="{x:Bind ViewModel.city}" Foreground="White"/>
                         </StackPanel>
                     </StackPanel>

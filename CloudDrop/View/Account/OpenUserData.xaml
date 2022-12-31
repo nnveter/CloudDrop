@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    x:Uid="OpenUserData"
     Title="Edit user data"
     PrimaryButtonText="Save"
     PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
@@ -17,14 +18,14 @@
 
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="Email" Margin="5,7,5,0"/>
-            <TextBox x:Name="Email" PlaceholderText="Email" Margin="5,5,5,0" TextChanged="Email_TextChanged" IsEnabled="False"/>
-            <TextBlock Text="FirstName" Margin="5,20,5,0"/>
-            <TextBox x:Name="FirstName" PlaceholderText="FirstName" Margin="5,5,5,0" TextChanged="FirstName_TextChanged"/>
-            <TextBlock Text="Country" Margin="5,20,5,0"/>
-            <TextBox x:Name="Country" PlaceholderText="Country" Margin="5,5,5,0" TextChanged="Country_TextChanged"/>
-            <TextBlock Text="City" Margin="5,7,5,0"/>
-            <TextBox x:Name="City" PlaceholderText="City" Margin="5,5,5,0" TextChanged="City_TextChanged"/>
+            <TextBlock x:Uid="TextBlockEmail" Text="Email" Margin="5,7,5,0"/>
+            <TextBox x:Uid="TextBoxEmail" x:Name="Email" PlaceholderText="Email" Margin="5,5,5,0" TextChanged="Email_TextChanged" IsEnabled="False"/>
+            <TextBlock x:Uid="TextBlockEmail" Text="FirstName" Margin="5,20,5,0"/>
+            <TextBox x:Uid="TextBoxName" x:Name="FirstName" PlaceholderText="FirstName" Margin="5,5,5,0" TextChanged="FirstName_TextChanged"/>
+            <TextBlock x:Uid="TextBlockCountry" Text="Country" Margin="5,20,5,0"/>
+            <TextBox x:Uid="TextBoxCountry" x:Name="Country" PlaceholderText="Country" Margin="5,5,5,0" TextChanged="Country_TextChanged"/>
+            <TextBlock x:Uid="TextBlockCity" Text="City" Margin="5,7,5,0"/>
+            <TextBox x:Uid="TextBoxCity" x:Name="City" PlaceholderText="City" Margin="5,5,5,0" TextChanged="City_TextChanged"/>
         </StackPanel>
     </Grid>
 </ContentDialog>

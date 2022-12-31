@@ -43,7 +43,7 @@ namespace CloudDrop.SplashScreen
                 plans = await GetPlans(3);
                 subscription = await GetUserPlan(Token);
                 MainWindow.UserName1.Text = user.name;
-                MainWindow.NavigateToPage("Files");
+                MainWindow.NavigateToPage("LastFiles");
                 return true;
             }
             else

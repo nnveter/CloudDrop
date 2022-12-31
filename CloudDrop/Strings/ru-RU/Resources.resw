@@ -126,6 +126,9 @@
   <data name="ActiveCodeDialog.Title" xml:space="preserve">
     <value>Активация кода</value>
   </data>
+  <data name="ButtonNext.Content" xml:space="preserve">
+    <value>Дальше</value>
+  </data>
   <data name="CreateFolderDialogs.CloseButtonText" xml:space="preserve">
     <value>Отмена</value>
   </data>
@@ -159,6 +162,12 @@
   <data name="Home" xml:space="preserve">
     <value>Файлы</value>
   </data>
+  <data name="HyperlinkButtonCreateAccount.Content" xml:space="preserve">
+    <value>У вас уже есть аккаунт?</value>
+  </data>
+  <data name="HyperlinkButtonLogin.Content" xml:space="preserve">
+    <value>У вас ещё нет аккаунта?</value>
+  </data>
   <data name="NavigationButtonChangeTariff.Content" xml:space="preserve">
     <value>Сменить тариф</value>
   </data>
@@ -183,13 +192,64 @@
   <data name="NavigationTextUpload.Text" xml:space="preserve">
     <value>Загрузить</value>
   </data>
+  <data name="OpenUserData.CloseButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="OpenUserData.PrimaryButtonText" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="OpenUserData.Title" xml:space="preserve">
+    <value>Изменить данные</value>
+  </data>
+  <data name="PasswordBox.PlaceholderText" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="PlaceText.Text" xml:space="preserve">
+    <value>Бесплатно</value>
+  </data>
   <data name="RecoverAppBarButton.Label" xml:space="preserve">
     <value>Востановить</value>
   </data>
   <data name="SelectTariffActiveCodeButton.Content" xml:space="preserve">
     <value>Ввести код</value>
   </data>
+  <data name="TextBlockCity.Text" xml:space="preserve">
+    <value>Город</value>
+  </data>
+  <data name="TextBlockCountry.Text" xml:space="preserve">
+    <value>Страна</value>
+  </data>
+  <data name="TextBlockCreateAccount.Text" xml:space="preserve">
+    <value>Создать новый аккаунт</value>
+  </data>
+  <data name="TextBlockEmail.Text" xml:space="preserve">
+    <value>Почта</value>
+  </data>
+  <data name="TextBlockLogin.Text" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="TextBlockPassword.Text" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="TextBlockTariff.Text" xml:space="preserve">
+    <value>Тариф</value>
+  </data>
+  <data name="TextBlockValidUntil.Text" xml:space="preserve">
+    <value>Активен до</value>
+  </data>
+  <data name="TextBoxCity.PlaceholderText" xml:space="preserve">
+    <value>Город</value>
+  </data>
   <data name="TextBoxCode.PlaceholderText" xml:space="preserve">
     <value>Введите 10-значный код</value>
+  </data>
+  <data name="TextBoxCountry.PlaceholderText" xml:space="preserve">
+    <value>Страна</value>
+  </data>
+  <data name="TextBoxEmail.PlaceholderText" xml:space="preserve">
+    <value>Почта</value>
+  </data>
+  <data name="TextBoxName.PlaceholderText" xml:space="preserve">
+    <value>Имя</value>
   </data>
 </root>

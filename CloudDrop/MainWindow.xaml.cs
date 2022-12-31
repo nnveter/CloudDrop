@@ -255,8 +255,7 @@ namespace CloudDrop
             Button button = (Button)sender;
             if (!button.Tag.Equals(OpenPage))
             {
-                OpenPage = (string)button.Tag;
-                NavigateToPage(OpenPage);
+                NavigateToPage((string)button.Tag);
             }
         }
 
@@ -277,8 +276,11 @@ namespace CloudDrop
             // Use a switch statement to navigate to the appropriate page
             switch (tagPage)
             {
-                case "SplashScreen":
                 case "SelectTariff":
+                    LeftColum1.Width = new GridLength(0);
+                    ContentFrame1.Navigate(pageTypes[tagPage], null, new SuppressNavigationTransitionInfo());
+                    break;
+                case "SplashScreen":
                 case "Registration":
                 case "Login":
                     LeftColum1.Width = new GridLength(0);

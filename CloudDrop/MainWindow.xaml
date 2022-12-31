@@ -93,7 +93,7 @@
                         </StackPanel>
                         <!--//-->
                     </StackPanel>
-                    <Border Height="100" Width="220" CornerRadius="15" Background="#7F7F80" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10,0,10,50">
+                    <Border Height="100" Width="220" CornerRadius="15" Background="#7F7F80" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10,0,10,55">
                         <Grid>
                             <StackPanel Margin="20,0,20,0">
                                 <TextBlock x:Name="TariffName" HorizontalAlignment="Center" VerticalAlignment="Top" Text="1"/>
@@ -104,7 +104,7 @@
                                     <TextBlock FontSize="14" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left" Text="MB" Margin="5,0,0,0"/>
                                 </StackPanel>
                             </StackPanel>
-                            <Button VerticalAlignment="Bottom" Tag="SelectTariff" Click="NavigationButton_Click"  HorizontalAlignment="Center" Height="30" Width="190" Margin="0,0,0,10" Style="{StaticResource AccentButtonStyle}" x:Uid="NavigationButtonChangeTariff"/>
+                            <Button VerticalAlignment="Bottom" Tag="SelectTariff" Click="NavigationButton_Click"  HorizontalAlignment="Center" Height="30" Width="190" Margin="0,0,0,10" Background="#85A89BFF"  x:Uid="NavigationButtonChangeTariff"/>
                         </Grid>
                     </Border>
                     <Button x:Name="AccoutButton" VerticalAlignment="Bottom" Tag="Account" Background="#140045FF" Width="210" CornerRadius="8" Height="30" Margin="15,0,0,10" Click="NavigationButton_Click">

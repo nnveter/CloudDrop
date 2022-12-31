@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -40,21 +41,30 @@ namespace CloudDrop.View.Tariff
             SetPlans();
         }
 
+        public async void UpdatePlans() 
+        {
+
+            SplashScreenPage.plans = await SplashScreenPage.GetPlans(3);
+            SetPlans();
+        }
 
         public void SetPlans() 
         {
             PlansMessage plans = SplashScreenPage.plans;
             TariffName1.Text = plans.Plans[0].Name;
             TariffDescription1.Text = plans.Plans[0].Description;
-            PriceText1.Text = plans.Plans[0].Price.ToString() + " Руб/м";
+            if (plans.Plans[0].Price != 0)
+                PriceText1.Text = plans.Plans[0].Price.ToString() + " Руб/м";
 
             TariffName2.Text = plans.Plans[1].Name;
             TariffDescription2.Text = plans.Plans[1].Description;
-            PriceText2.Text = plans.Plans[1].Price.ToString() + " Руб/м";
+            if (plans.Plans[1].Price != 0)
+                PriceText2.Text = plans.Plans[1].Price.ToString() + " Руб/м";
 
             TariffName3.Text = plans.Plans[2].Name;
             TariffDescription3.Text = plans.Plans[2].Description;
-            PriceText3.Text = plans.Plans[2].Price.ToString() + " Руб/м";
+            if (plans.Plans[2].Price != 0)
+                PriceText3.Text = plans.Plans[2].Price.ToString() + " Руб/м";
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -65,7 +75,9 @@ namespace CloudDrop.View.Tariff
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.NavigateToPage("Files");
+            MainWindow.LeftColum1.Width = new GridLength(240);
+            MainWindow.SetStorageUsed();
+            MainWindow.ContentFrame1.GoBack();
         }
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
