@@ -13,7 +13,7 @@
 
     <Grid>
         <GridView x:Name="GridV" Margin="20,90,20,0" CornerRadius="10" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Left" ItemClick="GridV_ItemClick_1">
-            <Border Background="#2EC8CEFF" CornerRadius="10" ToolTipService.ToolTip="user data">
+            <Border Background="#2EC8CEFF" CornerRadius="10">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" Margin="10,5,22,5" Padding="0">
                         <TextBlock x:Uid="TextBlockTariff" Text="Tariff" Foreground="DarkGray"/>
@@ -37,7 +37,7 @@
                 </Button>
             </Grid>
             <GridView x:Name="Grid" Margin="0,20,20,0" CornerRadius="10" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Right" ItemClick="GridV_ItemClick">
-                <Border Background="#42E6C1FF" CornerRadius="10" ToolTipService.ToolTip="user data">
+                <Border Background="#42E6C1FF" CornerRadius="10">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical" Margin="10,5,22,5" Padding="0">
                             <TextBlock x:Uid="TextBlockEmail" Text="Email" Foreground="DarkGray"/>

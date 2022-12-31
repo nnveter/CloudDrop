@@ -10,12 +10,21 @@ namespace CloudDrop.Models;
 public class Content
 {
     public int id { get; set; }
+    private string Name { get; set; }
     public int? storageId { get; set; }
 
     public ContentType contentType { get; set; }
     public string path { get; set; }
+    public long? size { get; set; }
 
-    private string Name { get; set; }
+    public string type { get; set; }
+
+    public virtual Content parent { get; set; }
+    public int? parentId { get; set; }
+    public string CreateAt { get; set; }
+
+    public string Icon { get; set; }
+
     public string name
     {
         get
@@ -44,13 +53,6 @@ public class Content
             }
         }
     }
-
-    public string type { get; set; }
-
-    public virtual Content parent { get; set; }
-    public int? parentId { get; set; }
-
-    public string Icon { get; set; }
 
     public async Task<bool> Create(ContentType ContentType, string Name, string Token, int? ParentId = null)
     {

@@ -16,6 +16,7 @@
   <ItemGroup>
     <None Remove="SplashScreen\SplashScreenPage.xaml" />
     <None Remove="View\Account\AccountPage.xaml" />
+    <None Remove="View\BlankWindow1.xaml" />
     <None Remove="View\Dialogs\ActiveCodeDialog.xaml" />
     <None Remove="View\Dialogs\ClearTrashDialog.xaml" />
     <None Remove="View\Dialogs\CreateFolderDialog.xaml" />
@@ -41,6 +42,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.25267-preview" />
+    <PackageReference Include="WinUIEx" Version="2.0.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -119,6 +121,9 @@
     <None Update="SplashScreen\SplashGif.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="View\BlankWindow1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\Dialogs\ActiveCodeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

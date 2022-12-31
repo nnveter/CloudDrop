@@ -19,6 +19,13 @@
             <CommandBarFlyout.SecondaryCommands>
                 <AppBarButton x:Name="DownloadAppBarButton" x:Uid="DownloadAppBarButton" Icon="Download"  Click="DownloadAppBarButton_Click" />
                 <AppBarButton x:Name="DeleteAppBarButton" x:Uid="DeleteAppBarButton" Icon="Delete"  Click="DeleteAppBarButton_Click"  />
+                <AppBarButton x:Name="FeaturesAppBarButton" x:Uid="FeaturesAppBarButton" Icon="View"  Click="FeaturesAppBarButton_Click"  />
+            </CommandBarFlyout.SecondaryCommands>
+        </CommandBarFlyout>
+        <CommandBarFlyout Placement="Right" x:Name="CommandBarFlyout2" >
+            <CommandBarFlyout.SecondaryCommands>
+                <AppBarButton x:Name="AddAppBarButton2" x:Uid="AddAppBarButton" Icon="Add"  Click="AddAppBarButton2_Click"  />
+                <AppBarButton x:Name="RefreshAppBarButton2" x:Uid="RefreshAppBarButton" Icon="Refresh"  Click="RefreshAppBarButton2_Click" />
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
     </Page.Resources>
@@ -84,7 +91,7 @@
                     </CommandBar>
                 </StackPanel>
             </Grid>
-            <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="2">
+            <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="2" RightTapped="Grid_RightTapped">
                 <GridView x:Name="GridV" Margin="21,0,21,0"  SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{Binding Source={StaticResource Files}}">
                     <GridView.ItemTemplate>
                         <DataTemplate>

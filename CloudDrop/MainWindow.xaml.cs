@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI;
@@ -137,10 +138,21 @@ namespace CloudDrop
         private async void CreateFolderButton_Click(object sender, RoutedEventArgs e)
         {
             //TODO: сделать создание других элементов
+            String Token = localSettings.Values["JwtToken"] as string;
             Button button = sender as Button;
+            var status = await CreateFolder(button.XamlRoot, Token);
+            if (status == FolderCreateStatus.OK)
+            {
+                PageLoadFilestoGridView(OpenPage);
+            }
+            
+        }
+
+        public static async Task<FolderCreateStatus> CreateFolder(XamlRoot xamlRoot, string Token) 
+        {
             CreateFolderDialog dialog = new CreateFolderDialog();
-            dialog.XamlRoot = button.XamlRoot;
-            var result = await dialog.ShowAsync();
+            dialog.XamlRoot = xamlRoot;
+            await dialog.ShowAsync();
 
             if (dialog.FolderStatus != FolderCreateStatus.OK && dialog.FolderStatus != FolderCreateStatus.Cancel)
             {
@@ -150,16 +162,16 @@ namespace CloudDrop
                     Content = dialog.FolderName,
                     CloseButtonText = "Ok"
                 };
-                ErrorDialog.XamlRoot = button.XamlRoot;
+                ErrorDialog.XamlRoot = xamlRoot;
                 var res = await ErrorDialog.ShowAsync();
-                return;
+                return dialog.FolderStatus;
             }
             if (dialog.FolderStatus == FolderCreateStatus.OK)
             {
-                String Token = localSettings.Values["JwtToken"] as string;
                 await new Content().Create(ContentType.Folder, dialog.FolderName, Token, BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id);
-                PageLoadFilestoGridView(OpenPage);
+                return FolderCreateStatus.OK;
             }
+            return FolderCreateStatus.Cancel;
         }
 
         private async void UploadButton_Click(object sender, RoutedEventArgs e)

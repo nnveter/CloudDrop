@@ -39,6 +39,7 @@ namespace CloudDrop.View.Tariff
         {
             this.InitializeComponent();
             SetPlans();
+            UpdatePlans();
         }
 
         public async void UpdatePlans() 

@@ -17,7 +17,8 @@ public class User
             id = v.Id,
             email = v.Email,
             name = v.Name,
-            Storage = new Storage() { Id = v.Storage.Id, StorageQuote = (long)v.Storage.StorageQuote, StorageUsed = v.Storage.StorageUsed }
+            Storage = new Storage() { Id = v.Storage.Id, StorageQuote = (long)v.Storage.StorageQuote, StorageUsed = v.Storage.StorageUsed },
+            
         };
     }
 }

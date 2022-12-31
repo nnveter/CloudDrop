@@ -126,6 +126,9 @@
   <data name="ActiveCodeDialog.Title" xml:space="preserve">
     <value>Active code</value>
   </data>
+  <data name="AddAppBarButton.Label" xml:space="preserve">
+    <value>Create folder</value>
+  </data>
   <data name="ButtonNext.Content" xml:space="preserve">
     <value>Next</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="DownloadAppBarButton.Label" xml:space="preserve">
     <value>Download</value>
+  </data>
+  <data name="FeaturesAppBarButton.Label" xml:space="preserve">
+    <value> Features</value>
   </data>
   <data name="HeaderTrash.Text" xml:space="preserve">
     <value>Trashcan</value>
@@ -212,6 +218,9 @@
   </data>
   <data name="RecoverAppBarButton.Label" xml:space="preserve">
     <value>Recover</value>
+  </data>
+  <data name="RefreshAppBarButton.Label" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="SelectTariffActiveCodeButton.Content" xml:space="preserve">
     <value>Enter the code</value>

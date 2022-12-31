@@ -30,6 +30,7 @@ namespace CloudDrop
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             m_window = new MainWindow();
+            m_window.Title = "ClouDrop";
             m_window.Activate();
         }
 

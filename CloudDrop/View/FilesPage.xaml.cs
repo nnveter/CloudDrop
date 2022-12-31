@@ -3,6 +3,9 @@
 
 using CloudDrop.Models;
 using CloudDrop.SplashScreen;
+using CloudDrop.View.Account;
+using CloudDrop.View.Dialogs;
+using CloudDrop.View.Features;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
@@ -38,6 +41,7 @@ namespace CloudDrop.View
         public ObservableCollection<Folder> BreadcrumbBarItem;
         public static CollectionViewSource Files1;
         private bool _tap = false;
+        private bool _tapRight = false;
 
         public static List<Content> DownloadQueue = new List<Content>();
         public static int DownloadIndex = 0;
@@ -96,6 +100,8 @@ namespace CloudDrop.View
                     path = x.Path,
                     name = x.Name,
                     parentId = x.Parent.Id,
+                    size = x.Size,
+                    CreateAt = AccountPage.UnixTimeStampToDateTime((long)x.CreatedAt).ToString(),
                     //è ò.ä
                 }).ToList();
 
@@ -116,6 +122,21 @@ namespace CloudDrop.View
         {
             ClearSelection();
             _tap = false;
+        }
+
+        private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if (!_tapRight)
+            {
+                var flyout = CommandBarFlyout2;
+                var options = new FlyoutShowOptions()
+                {
+                    Position = e.GetPosition((FrameworkElement)sender),
+                    ShowMode = FlyoutShowMode.Standard
+                };
+                flyout?.ShowAt((FrameworkElement)sender, options);
+            }
+            _tapRight = false;
         }
 
         private void Border_Tapped(object sender, TappedRoutedEventArgs e)
@@ -151,6 +172,7 @@ namespace CloudDrop.View
             FlyoutShowOptions myOption = new FlyoutShowOptions();
             myOption.ShowMode = false ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
             CommandBarFlyout1.ShowAt((DependencyObject)sender, myOption);
+            _tapRight = true;
 
         }
 
@@ -200,6 +222,23 @@ namespace CloudDrop.View
             ClearSelection();
             LoadFilestoGridView();
             MainWindow.SetStorageUsed();
+        }
+
+        private async void AddAppBarButton2_Click(object sender, RoutedEventArgs e)
+        {
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            String Token = localSettings.Values["JwtToken"] as string;
+
+            var status = await MainWindow.CreateFolder(MainWindow.ContentFrame1.XamlRoot, Token);
+            if (status == FolderCreateStatus.OK)
+            {
+                LoadFilestoGridView();
+            }
+        }
+
+        private void RefreshAppBarButton2_Click(object sender, RoutedEventArgs e)
+        {
+            LoadFilestoGridView();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -377,6 +416,14 @@ namespace CloudDrop.View
                 BackButtonIsEnable(false);
                 return false;
             }
+        }
+
+        private void FeaturesAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton button = (AppBarButton)sender;
+            Content content = (Content)button.DataContext;
+            FeaturesClass featuresClass = new FeaturesClass(content);
+            featuresClass.OpenFeatures();
         }
     }
 }
