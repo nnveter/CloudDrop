@@ -17,3 +17,15 @@ Cloud file storage service. (This repo is frontend, winui3 windows app)
 1. Follow the instructions for installing dependencies ([Installing Dependencies](https://learn.microsoft.com/ru-ru/windows/apps/windows-app-sdk/set-up-your-development-environment?tabs=cs-vs-community%2Ccpp-vs-community%2Cvs-2022-17-1-a%2Cvs-2022-17-1-b))
 2. Open the project in Visual Studio 22
 3. Launch
+
+# Preview
+![image](https://user-images.githubusercontent.com/34833258/210175913-45e01a4f-4ff5-4247-844f-998e6ab970a6.png)
+![image](https://user-images.githubusercontent.com/34833258/210175979-205743a5-7d94-467d-a6f4-d45125bf3e7c.png)
+![image](https://user-images.githubusercontent.com/34833258/210176108-4d012ae6-7118-4816-8203-b0a48bb2b3d3.png)
+![image](https://user-images.githubusercontent.com/34833258/210176129-6651baa5-24e2-4af6-b6af-43428cbe2c15.png)
+![image](https://user-images.githubusercontent.com/34833258/210176135-9b9fed14-6520-4c52-aa45-34720179204f.png)
+![image](https://user-images.githubusercontent.com/34833258/210176145-3aac60ab-dd73-4737-8928-a6dba55190fb.png)
+![image](https://user-images.githubusercontent.com/34833258/210176156-a6e4e23b-b43f-41a2-938e-bfd73fd2bc59.png)
+![image](https://user-images.githubusercontent.com/34833258/210176169-011ee949-8bd2-4c81-b2bc-5d4140635d61.png)
+![image](https://user-images.githubusercontent.com/34833258/210176241-91e7c429-2cf1-4e00-b315-98e9ad12151d.png)
+![image](https://user-images.githubusercontent.com/34833258/210176288-9950fe7a-eb40-4bfe-9df8-859d45f920be.png)
