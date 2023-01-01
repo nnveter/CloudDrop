@@ -129,8 +129,14 @@
   <data name="AddAppBarButton.Label" xml:space="preserve">
     <value>Создать папку</value>
   </data>
+  <data name="Applybutton.Content" xml:space="preserve">
+    <value>Применить</value>
+  </data>
   <data name="ButtonNext.Content" xml:space="preserve">
     <value>Дальше</value>
+  </data>
+  <data name="CancelButton.Content" xml:space="preserve">
+    <value>Отмена</value>
   </data>
   <data name="CreateFolderDialogs.CloseButtonText" xml:space="preserve">
     <value>Отмена</value>
@@ -146,6 +152,9 @@
   </data>
   <data name="CreateFolderFolderNameBox.PlaceholderText" xml:space="preserve">
     <value>Имя папки</value>
+  </data>
+  <data name="DateText.Text" xml:space="preserve">
+    <value>Дата создания:</value>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
     <value>Удалить</value>
@@ -210,6 +219,9 @@
   <data name="PasswordBox.PlaceholderText" xml:space="preserve">
     <value>Пароль</value>
   </data>
+  <data name="PathText.Text" xml:space="preserve">
+    <value>Путь:</value>
+  </data>
   <data name="PlaceText.Text" xml:space="preserve">
     <value>Бесплатно</value>
   </data>
@@ -222,6 +234,9 @@
   <data name="SelectTariffActiveCodeButton.Content" xml:space="preserve">
     <value>Ввести код</value>
   </data>
+  <data name="SizeText.Text" xml:space="preserve">
+    <value>Размер:</value>
+  </data>
   <data name="TextBlockCity.Text" xml:space="preserve">
     <value>Город</value>
   </data>
@@ -233,6 +248,12 @@
   </data>
   <data name="TextBlockEmail.Text" xml:space="preserve">
     <value>Почта</value>
+  </data>
+  <data name="TextBlockFirstName.Text" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="TextBlockLastName.Text" xml:space="preserve">
+    <value>Фамилия</value>
   </data>
   <data name="TextBlockLogin.Text" xml:space="preserve">
     <value>Вход</value>
@@ -258,7 +279,13 @@
   <data name="TextBoxEmail.PlaceholderText" xml:space="preserve">
     <value>Почта</value>
   </data>
+  <data name="TextBoxLastName.PlaceholderText" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
   <data name="TextBoxName.PlaceholderText" xml:space="preserve">
     <value>Имя</value>
+  </data>
+  <data name="TypeText.Text" xml:space="preserve">
+    <value>Тип:</value>
   </data>
 </root>

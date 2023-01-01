@@ -15,7 +15,8 @@ namespace CloudDrop.Views.Account
     /// </summary>
     public sealed partial class OpenUserData : ContentDialog
     {
-        public User user = new User() {email = SplashScreenPage.user.email, 
+        public User user = new User() {email = SplashScreenPage.user.email,  
+            lastName = SplashScreenPage.user.lastName,
             name = SplashScreenPage.user.name, 
             country = SplashScreenPage.user.country, 
             city = SplashScreenPage.user.city };
@@ -24,6 +25,7 @@ namespace CloudDrop.Views.Account
             this.InitializeComponent();
             Email.Text = SplashScreenPage.user.email;
             FirstName.Text = SplashScreenPage.user.name;
+            LastName.Text = SplashScreenPage.user.lastName;
             Country.Text = SplashScreenPage.user.country;
             City.Text = SplashScreenPage.user.city;
             IsPrimaryButtonEnabled = false;
@@ -65,6 +67,16 @@ namespace CloudDrop.Views.Account
             else { IsPrimaryButtonEnabled = true; }
         }
 
+        private void LastName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            user.lastName = LastName.Text;
+            if (EqualityUser())
+            {
+                IsPrimaryButtonEnabled = false;
+            }
+            else { IsPrimaryButtonEnabled = true; }
+        }
+
         private void Email_TextChanged(object sender, TextChangedEventArgs e)
         {
             user.email = Email.Text;
@@ -79,6 +91,7 @@ namespace CloudDrop.Views.Account
         {
             if (user.email.Equals(SplashScreenPage.user.email) &&
                 user.name.Equals(SplashScreenPage.user.name) &&
+                user.lastName.Equals(SplashScreenPage.user.lastName) &&
                 user.country.Equals(SplashScreenPage.user.country) &&
                 user.city.Equals(SplashScreenPage.user.city))
             {

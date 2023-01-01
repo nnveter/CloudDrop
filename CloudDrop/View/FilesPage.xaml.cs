@@ -226,7 +226,6 @@ namespace CloudDrop.View
 
         private async void AddAppBarButton2_Click(object sender, RoutedEventArgs e)
         {
-            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             String Token = localSettings.Values["JwtToken"] as string;
 
             var status = await MainWindow.CreateFolder(MainWindow.ContentFrame1.XamlRoot, Token);
@@ -422,7 +421,7 @@ namespace CloudDrop.View
         {
             AppBarButton button = (AppBarButton)sender;
             Content content = (Content)button.DataContext;
-            FeaturesClass featuresClass = new FeaturesClass(content);
+            FeaturesClass featuresClass = new FeaturesClass(content, AllNameFiles);
             featuresClass.OpenFeatures();
         }
     }

@@ -129,8 +129,14 @@
   <data name="AddAppBarButton.Label" xml:space="preserve">
     <value>Create folder</value>
   </data>
+  <data name="Applybutton.Content" xml:space="preserve">
+    <value>Apply</value>
+  </data>
   <data name="ButtonNext.Content" xml:space="preserve">
     <value>Next</value>
+  </data>
+  <data name="CancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="CreateFolderDialogs.CloseButtonText" xml:space="preserve">
     <value>Cancel</value>
@@ -146,6 +152,9 @@
   </data>
   <data name="CreateFolderFolderNameBox.PlaceholderText" xml:space="preserve">
     <value>Folder name</value>
+  </data>
+  <data name="DateText.Text" xml:space="preserve">
+    <value>Create at</value>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
     <value>Delete</value>
@@ -213,6 +222,9 @@
   <data name="PasswordBox.PlaceholderText" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="PathText.Text" xml:space="preserve">
+    <value>Path</value>
+  </data>
   <data name="PlaceText.Text" xml:space="preserve">
     <value>Free</value>
   </data>
@@ -225,6 +237,9 @@
   <data name="SelectTariffActiveCodeButton.Content" xml:space="preserve">
     <value>Enter the code</value>
   </data>
+  <data name="SizeText.Text" xml:space="preserve">
+    <value>Size</value>
+  </data>
   <data name="TextBlockCity.Text" xml:space="preserve">
     <value>City</value>
   </data>
@@ -236,6 +251,12 @@
   </data>
   <data name="TextBlockEmail.Text" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="TextBlockFirstName.Text" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="TextBlockLastName.Text" xml:space="preserve">
+    <value>Last name</value>
   </data>
   <data name="TextBlockLogin.Text" xml:space="preserve">
     <value>Login</value>
@@ -261,7 +282,13 @@
   <data name="TextBoxEmail.PlaceholderText" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="TextBoxLastName.PlaceholderText" xml:space="preserve">
+    <value>Last name</value>
+  </data>
   <data name="TextBoxName.PlaceholderText" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="TypeText.Text" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>

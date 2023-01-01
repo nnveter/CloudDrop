@@ -29,20 +29,25 @@ namespace CloudDrop.Views.Autorization
 
         private async void myButton_Click(object sender, RoutedEventArgs e)
         {
-            CultureInfo currentCulture = CultureInfo.CurrentCulture;         //
-            RegionInfo currentRegion = new RegionInfo(currentCulture.Name);  // <- TODO
-            var country = currentRegion.DisplayName;       //      |
-                                                                             //     \_/
-            SignUpRequest user = new SignUpRequest() { Email = Email.Text, Name = Name.Text, Password = Password.Password }; //<- TODO
+            CultureInfo currentCulture = CultureInfo.CurrentCulture;        
+            RegionInfo currentRegion = new RegionInfo(currentCulture.Name);
+            var country = currentRegion.DisplayName;  
+
+            SignUpRequest user = new SignUpRequest() { Email = Email.Text, Name = Name.Text, Password = Password.Password };
+            UserInfoMessage message = new UserInfoMessage() { Country = country };
 
             using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
             var client = new AuthService.AuthServiceClient(channel);
+            var client2 = new UsersService.UsersServiceClient(channel);
 
             try
             {
                 TokenResponse token = await client.SignUpAsync(user);
                 localSettings.Values["JwtToken"] = token.Token;
                 MainWindow.NavigateToPage("SplashScreen");
+                var headers = new Metadata();
+                headers.Add("authorization", $"Bearer {token}");
+                await client2.UpdateUserInfoAsync(message, headers);
             }
             catch (RpcException rpcException)
             {

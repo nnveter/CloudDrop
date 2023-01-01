@@ -20,10 +20,12 @@
         <StackPanel Orientation="Vertical">
             <TextBlock x:Uid="TextBlockEmail" Text="Email" Margin="5,7,5,0"/>
             <TextBox x:Uid="TextBoxEmail" x:Name="Email" PlaceholderText="Email" Margin="5,5,5,0" TextChanged="Email_TextChanged" IsEnabled="False"/>
-            <TextBlock x:Uid="TextBlockEmail" Text="FirstName" Margin="5,20,5,0"/>
+            <TextBlock x:Uid="TextBlockFirstName" Text="FirstName" Margin="5,20,5,0"/>
             <TextBox x:Uid="TextBoxName" x:Name="FirstName" PlaceholderText="FirstName" Margin="5,5,5,0" TextChanged="FirstName_TextChanged"/>
+            <TextBlock x:Uid="TextBlockLastName" Text="LastName" Margin="5,7,5,0"/>
+            <TextBox x:Uid="TextBoxLastName" x:Name="LastName" PlaceholderText="Last Name" Margin="5,5,5,0" TextChanged="LastName_TextChanged"/>
             <TextBlock x:Uid="TextBlockCountry" Text="Country" Margin="5,20,5,0"/>
-            <TextBox x:Uid="TextBoxCountry" x:Name="Country" PlaceholderText="Country" Margin="5,5,5,0" TextChanged="Country_TextChanged"/>
+            <TextBox x:Uid="TextBoxCountry" IsEnabled="False" x:Name="Country" PlaceholderText="Country" Margin="5,5,5,0" TextChanged="Country_TextChanged"/>
             <TextBlock x:Uid="TextBlockCity" Text="City" Margin="5,7,5,0"/>
             <TextBox x:Uid="TextBoxCity" x:Name="City" PlaceholderText="City" Margin="5,5,5,0" TextChanged="City_TextChanged"/>
         </StackPanel>

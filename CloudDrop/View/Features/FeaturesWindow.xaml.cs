@@ -24,6 +24,9 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using CloudDrop.SplashScreen;
 using Windows.UI.WindowManagement;
 using Windows.UI.ViewManagement;
+using Grpc.Core;
+using Grpc.Net.Client;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -38,12 +41,18 @@ namespace CloudDrop.View
         WindowsSystemDispatcherQueueHelper m_wsdqHelper; // See separate sample below for implementation
         Microsoft.UI.Composition.SystemBackdrops.MicaController m_micaController;
         Microsoft.UI.Composition.SystemBackdrops.SystemBackdropConfiguration m_configurationSource;
-        public FeaturesWindow(Content content)
+
+        public Content content1;
+        public List<string> allNameFiles;
+        public FeaturesWindow(Content content, List<string> AllNameFiles)
         {
             this.InitializeComponent();
             TrySetMicaBackdrop();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
+
+            content1 = content;
+            allNameFiles = AllNameFiles;
 
             if (content.contentType == ContentType.Folder) 
             { 
@@ -63,13 +72,43 @@ namespace CloudDrop.View
             TextBoxName.Text = content.name;
         }
 
+        private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TextBoxName.Text != content1.name 
+                && TextBoxName.Text.Count() > 0 
+                && allNameFiles.IndexOf(TextBoxName.Text) == -1 
+                && string.IsNullOrEmpty(TextBoxName.Text) 
+                && string.IsNullOrWhiteSpace(TextBoxName.Text))
+            {
+                Applybutton.IsEnabled = true;
+            }
+            else
+            {
+                Applybutton.IsEnabled = false;
+            }
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            //TODO
+            this.Hide();
+            var channel = GrpcChannel.ForAddress(Constants.URL);
+            var client = new ContentsService.ContentsServiceClient(channel);
+
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            String Token = localSettings.Values["JwtToken"] as string;
+
+            var headers = new Metadata();
+            headers.Add("authorization", $"Bearer {Token}");
+
+            await client.RenameContentAsync(new RenameContentRequest() { ContentId = content1.id, NewName = TextBoxName.Text }, headers);
+            await channel.ShutdownAsync();
+
             this.Close();
         }
 
@@ -77,13 +116,14 @@ namespace CloudDrop.View
         {
             if (content.size != null)
             {
-                int b = (int)content.size;
-                int kb = (int)Math.Round(((double)b), 2);
+                double bi = (double)content.size;
+                int b = (int)Math.Round(((double)bi), 2);
+                int kb = (int)Math.Round(((double)(b / 1024)), 2);
                 int mb = (int)Math.Round(((double)(kb / 1024)), 2);
                 int gb = (int)Math.Round(((double)(mb / 1024)), 2);
                 if (b < 1024)
                 {
-                    Size.Text = b + " byte";
+                    Size.Text = bi + " bit";
                     return;
                 }
                 if (kb < 1024)

@@ -11,7 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Height="450"
-    Width="350"
+    Width="400"
     IsResizable="False" IsMinimizable="False" IsMaximizable="False" Title="1">
 
     <Grid>
@@ -45,13 +45,13 @@
                     <StackPanel Grid.Column="0">
                         <ImageIcon x:Name="Icon" HorizontalAlignment="Left" Source="ms-appx:///IconTypeAssets/Folder.png" Height="40" Width="40"/>
 
-                        <TextBlock Margin="0,15,0,0" Text="Type:" Foreground="White"/>
-                        <TextBlock Margin="0,10,0,0" Text="Path:" Foreground="White"/>
-                        <TextBlock Margin="0,10,0,0" Text="Size:" Foreground="White"/>
-                        <TextBlock Margin="0,10,0,0" Text="CreateAt:" Foreground="White"/>
+                        <TextBlock x:Uid="TypeText" Margin="0,15,0,0" Text="Type:" Foreground="White"/>
+                        <TextBlock x:Uid="PathText" Margin="0,10,0,0" Text="Path:" Foreground="White"/>
+                        <TextBlock x:Uid="SizeText" Margin="0,10,0,0" Text="Size:" Foreground="White"/>
+                        <TextBlock x:Uid="DateText" Margin="0,10,0,0" Text="Create at:" Foreground="White"/>
                     </StackPanel>
                     <StackPanel Margin="15,0,0,0" Grid.Column="1">
-                        <TextBox x:Name="TextBoxName" Margin="0,9,0,0"/>
+                        <TextBox TextChanged="TextBoxName_TextChanged" x:Name="TextBoxName" Margin="0,9,0,0"/>
 
                         <TextBlock x:Name="Type" Margin="0,14,0,0" Foreground="White"/>
                         <TextBlock x:Name="Path" Margin="0,10,0,0"  Foreground="White"/>
@@ -61,8 +61,8 @@
                 </Grid>
             </StackPanel>
             <StackPanel Margin="0,0,15,15" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                <Button Click="Button_Click" Content="Cancel"/>
-                <Button Click="Button_Click_1" Margin="10,0,0,0" Content="Apply" Style="{StaticResource AccentButtonStyle}"/>
+                <Button x:Uid="CancelButton" Click="Button_Click" Content="Cancel"/>
+                <Button x:Uid="Applybutton" x:Name="Applybutton" Click="Button_Click_1" IsEnabled="False" Margin="10,0,0,0" Content="Apply" Style="{StaticResource AccentButtonStyle}"/>
             </StackPanel>
         </Grid>
     </Grid>

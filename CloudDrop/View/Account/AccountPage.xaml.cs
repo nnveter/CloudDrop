@@ -4,12 +4,15 @@
 using CloudDrop.Models;
 using CloudDrop.SplashScreen;
 using CloudDrop.Views.Account;
+using Grpc.Core;
+using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Diagnostics.Metrics;
 using System.Globalization;
 using Windows.Storage;
+using WinUIEx.Messaging;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -48,7 +51,19 @@ namespace CloudDrop.View.Account
             {
                 SplashScreenPage.user = user;
                 ViewModel = user;
-                // TODO
+
+                using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
+                var client = new UsersService.UsersServiceClient(channel);
+
+                UserInfoMessage message = new UserInfoMessage() { Country = user.country, City = user.city, FirstName = user.name, LastName = user.lastName };
+
+                ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                var token = localSettings.Values["JwtToken"];
+
+                var headers = new Metadata();
+                headers.Add("authorization", $"Bearer {token}");
+
+                await client.UpdateUserInfoAsync(message, headers);
             }
         }
 

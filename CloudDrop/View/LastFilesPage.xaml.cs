@@ -425,7 +425,7 @@ namespace CloudDrop.View
         {
             AppBarButton button = (AppBarButton)sender;
             Content content = (Content)button.DataContext;
-            FeaturesClass featuresClass = new FeaturesClass(content);
+            FeaturesClass featuresClass = new FeaturesClass(content, AllNameFiles);
             featuresClass.OpenFeatures();
         }
 

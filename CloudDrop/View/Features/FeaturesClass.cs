@@ -10,13 +10,15 @@ namespace CloudDrop.View.Features
     public class FeaturesClass
     {
         public Content content;
-        public FeaturesClass(Content Content) 
+        public List<string> allNameFiles;
+        public FeaturesClass(Content Content, List<string> AllNameFiles) 
         {
             content = Content;
+            allNameFiles = AllNameFiles;
         }
         public void OpenFeatures()
         {
-            FeaturesWindow m_window = new FeaturesWindow(content);
+            FeaturesWindow m_window = new FeaturesWindow(content, allNameFiles);
             m_window.Title = content.name;
             m_window.Activate();
         }

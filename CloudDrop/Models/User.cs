@@ -6,9 +6,10 @@ public class User
     public string email { get; set; }
     public string password { get; set; }
     public string name { get; set; }
+    public string? lastName { get; set; } = "";
     public Storage Storage { get; set; }
-    public string country { get; set; }
-    public string city { get; set; }
+    public string? country { get; set; } = "";
+    public string? city { get; set; } = "";
 
     public static implicit operator User(UserProfileMessage v)
     {
