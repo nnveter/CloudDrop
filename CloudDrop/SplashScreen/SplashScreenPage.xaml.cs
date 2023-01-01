@@ -31,7 +31,7 @@ namespace CloudDrop.SplashScreen
         {
             this.InitializeComponent();
             txt1 = txt;
-            MainVoid();
+            _ = MainVoid();
         }
 
         public async static Task<bool> MainVoid()
