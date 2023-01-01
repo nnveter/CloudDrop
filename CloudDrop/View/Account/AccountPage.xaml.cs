@@ -52,6 +52,9 @@ namespace CloudDrop.View.Account
                 SplashScreenPage.user = user;
                 ViewModel = user;
 
+                LastName.UpdateLayout();
+                FirsName.UpdateLayout();
+
                 using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
                 var client = new UsersService.UsersServiceClient(channel);
 
