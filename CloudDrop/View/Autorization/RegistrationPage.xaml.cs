@@ -47,7 +47,7 @@ namespace CloudDrop.Views.Autorization
                 MainWindow.NavigateToPage("SplashScreen");
                 var headers = new Metadata();
                 headers.Add("authorization", $"Bearer {token}");
-                await client2.UpdateUserInfoAsync(message, headers);
+                await client2.UpdateProfileInfoAsync(message, headers);
             }
             catch (RpcException rpcException)
             {

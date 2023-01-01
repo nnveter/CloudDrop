@@ -25,9 +25,12 @@ namespace CloudDrop.SplashScreen
         public static User user;
         public static PlansMessage plans;
         public static SubscriptionMessage subscription;
+
+        public static TextBlock txt1;
         public SplashScreenPage()
         {
             this.InitializeComponent();
+            txt1 = txt;
             MainVoid();
         }
 
@@ -42,7 +45,7 @@ namespace CloudDrop.SplashScreen
                 MainWindow.SetStorageUsed();
                 plans = await GetPlans(3);
                 subscription = await GetUserPlan(Token);
-                MainWindow.UserName1.Text = user.name;
+                MainWindow.UserName1.Text = user.name + " " + user.lastName;
                 MainWindow.NavigateToPage("LastFiles");
                 return true;
             }
@@ -99,7 +102,7 @@ namespace CloudDrop.SplashScreen
                     user = await client.GetProfileAsync(new UsersEmptyMessage(), headers);
                     return true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     return false;
                 }

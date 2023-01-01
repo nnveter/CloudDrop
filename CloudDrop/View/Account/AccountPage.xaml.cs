@@ -55,7 +55,7 @@ namespace CloudDrop.View.Account
                 using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
                 var client = new UsersService.UsersServiceClient(channel);
 
-                UserInfoMessage message = new UserInfoMessage() { Country = user.country, City = user.city, FirstName = user.name, LastName = user.lastName };
+                UserInfoMessage message = new UserInfoMessage() { Country = dialog.user.country, City = dialog.user.city, FirstName = dialog.user.name, LastName = dialog.user.lastName };
 
                 ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
                 var token = localSettings.Values["JwtToken"];
@@ -63,7 +63,7 @@ namespace CloudDrop.View.Account
                 var headers = new Metadata();
                 headers.Add("authorization", $"Bearer {token}");
 
-                await client.UpdateUserInfoAsync(message, headers);
+                await client.UpdateProfileInfoAsync(message, headers);
             }
         }
 
