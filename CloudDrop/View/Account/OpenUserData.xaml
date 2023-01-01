@@ -25,7 +25,7 @@
             <TextBlock x:Uid="TextBlockLastName" Text="LastName" Margin="5,7,5,0"/>
             <TextBox x:Uid="TextBoxLastName" x:Name="LastName" PlaceholderText="Last Name" Margin="5,5,5,0" TextChanged="LastName_TextChanged"/>
             <TextBlock x:Uid="TextBlockCountry" Text="Country" Margin="5,20,5,0"/>
-            <TextBox x:Uid="TextBoxCountry" x:Name="Country" PlaceholderText="Country" Margin="5,5,5,0" TextChanged="Country_TextChanged"/>
+            <TextBox x:Uid="TextBoxCountry" IsEnabled="False" x:Name="Country" PlaceholderText="Country" Margin="5,5,5,0" TextChanged="Country_TextChanged"/>
             <TextBlock x:Uid="TextBlockCity" Text="City" Margin="5,7,5,0"/>
             <TextBox x:Uid="TextBoxCity" x:Name="City" PlaceholderText="City" Margin="5,5,5,0" TextChanged="City_TextChanged"/>
         </StackPanel>

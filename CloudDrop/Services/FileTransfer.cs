@@ -34,67 +34,74 @@ namespace CloudDrop
 
         public async Task<bool> Upload(string token, string fileName, string fileType, int storageId, string uploadingFilePath, int? parentId)
         {
-            using (var channel = GrpcChannel.ForAddress(_serverUrl))
+            try
             {
-                var headers = new Metadata();
-                headers.Add("authorization", $"Bearer {token}");
-                var client = new FileTransferService.FileTransferServiceClient(channel);
-                var startRequest = new StartRequest
+                using (var channel = GrpcChannel.ForAddress(_serverUrl))
                 {
-                    Name = fileName,
-                    Type = fileType,
-                    StorageId = storageId,
-                    ParentId = parentId
-                };
-                var response = client.StartReceivingFile(startRequest, headers);
-                var contentid = response.ContentId;
-
-                UploadStarted?.Invoke("Upload started!");
-                using (var call = client.ReceiveFileChunk())
-                {
-                    FileInfo fileInfo = new FileInfo(uploadingFilePath);
-                    long fileSize = fileInfo.Length;
-                    int chunkSize = _sizeOfChunk;
-                    var chunkCount = (int)Math.Ceiling(fileSize / (double)chunkSize);
-                    byte[] buffer = new byte[chunkSize];
-                    int bytesRead;
-
-                    using (FileStream stream = new FileStream(uploadingFilePath, FileMode.Open))
+                    var headers = new Metadata();
+                    headers.Add("authorization", $"Bearer {token}");
+                    var client = new FileTransferService.FileTransferServiceClient(channel);
+                    var startRequest = new StartRequest
                     {
-                        int i = 0;
-                        // читаем файл по chunkSize байт за раз
-                        while ((bytesRead = stream.Read(buffer, 0, chunkSize)) > 0)
+                        Name = fileName,
+                        Type = fileType,
+                        StorageId = storageId,
+                        ParentId = parentId
+                    };
+                    var response = client.StartReceivingFile(startRequest, headers);
+                    var contentid = response.ContentId;
+
+                    UploadStarted?.Invoke("Upload started!");
+                    using (var call = client.ReceiveFileChunk())
+                    {
+                        FileInfo fileInfo = new FileInfo(uploadingFilePath);
+                        long fileSize = fileInfo.Length;
+                        int chunkSize = _sizeOfChunk;
+                        var chunkCount = (int)Math.Ceiling(fileSize / (double)chunkSize);
+                        byte[] buffer = new byte[chunkSize];
+                        int bytesRead;
+
+                        using (FileStream stream = new FileStream(uploadingFilePath, FileMode.Open))
                         {
-                            ChangedPercentOfUpload?.Invoke((double)i / chunkCount * 100);
-                            MultiPercentOfUpload?.Invoke(new KeyValuePair<string, double>(fileName, (double)i / chunkCount * 100));
-
-                            var chunkBytes = buffer.Take(bytesRead).ToArray();
-
-                            var chunk = new Chunk
+                            int i = 0;
+                            // читаем файл по chunkSize байт за раз
+                            while ((bytesRead = stream.Read(buffer, 0, chunkSize)) > 0)
                             {
-                                Data = ByteString.CopyFrom(chunkBytes),
-                                FilePath = response.FilePath,
-                                ContentId = contentid,
-                            };
-                            await call.RequestStream.WriteAsync(chunk);
-                            i++;
+                                ChangedPercentOfUpload?.Invoke((double)i / chunkCount * 100);
+                                MultiPercentOfUpload?.Invoke(new KeyValuePair<string, double>(fileName, (double)i / chunkCount * 100));
+
+                                var chunkBytes = buffer.Take(bytesRead).ToArray();
+
+                                var chunk = new Chunk
+                                {
+                                    Data = ByteString.CopyFrom(chunkBytes),
+                                    FilePath = response.FilePath,
+                                    ContentId = contentid,
+                                };
+                                await call.RequestStream.WriteAsync(chunk);
+                                i++;
+                            }
                         }
+                        await call.RequestStream.CompleteAsync();
+                        try
+                        {
+                            var response2 = await call.ResponseAsync;
+                            Console.WriteLine(response2);
+                            MultiPercentOfUpload?.Invoke(new KeyValuePair<string, double>(fileName, 100));
+                            UploadFinished?.Invoke($"Upload finished. Chunks: {chunkCount}");
+                            client.FinishReceivingFile(new FinishReceivingMessage() { ContentId = contentid }, headers);
+                        }
+                        catch (RpcException ex)
+                        {
+                            UploadError?.Invoke(ex);
+                        }
+
                     }
-                    await call.RequestStream.CompleteAsync();
-                    try
-                    {
-                        var response2 = await call.ResponseAsync;
-                        Console.WriteLine(response2);
-                        MultiPercentOfUpload?.Invoke(new KeyValuePair<string, double>(fileName, 100));
-                        UploadFinished?.Invoke($"Upload finished. Chunks: {chunkCount}");
-                        client.FinishReceivingFile(new FinishReceivingMessage() { ContentId = contentid }, headers);
-                    }
-                    catch (RpcException ex)
-                    {
-                        UploadError?.Invoke(ex);
-                    }
-                    
                 }
+            }
+            catch (RpcException ex) 
+            {
+                UploadError?.Invoke(ex);
             }
             return true;
         }

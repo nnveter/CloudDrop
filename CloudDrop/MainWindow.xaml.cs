@@ -130,11 +130,6 @@ namespace CloudDrop
             }
         }
 
-        private void CreateButton_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO удалить этот метод
-        }
-
         private async void CreateFolderButton_Click(object sender, RoutedEventArgs e)
         {
             //TODO: сделать создание других элементов

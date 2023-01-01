@@ -52,10 +52,17 @@ namespace CloudDrop.View.Account
                 SplashScreenPage.user = user;
                 ViewModel = user;
 
+                Grid.UpdateLayout();
+                GridV.UpdateLayout();
+
                 using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
                 var client = new UsersService.UsersServiceClient(channel);
 
-                UserInfoMessage message = new UserInfoMessage() { Country = dialog.user.country, City = dialog.user.city, FirstName = dialog.user.name, LastName = dialog.user.lastName };
+                UserInfoMessage message = new UserInfoMessage() { Country = dialog.user.country, City = dialog.user.city, FirstName = dialog.user.name, LastName = dialog.user.lastName, Name = dialog.user.name };
+
+                FirsName.Text = dialog.user.name;
+                LastName.Text = dialog.user.lastName;
+                MainWindow.UserName1.Text = dialog.user.name + " " + dialog.user.lastName;
 
                 ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
                 var token = localSettings.Values["JwtToken"];

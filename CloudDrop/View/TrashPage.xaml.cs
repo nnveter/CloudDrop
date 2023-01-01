@@ -234,7 +234,7 @@ namespace CloudDrop.View
             }
         }
 
-        public async void DeleteContent(string Token, Content? content = null)
+        public async void DeleteContent(string Token, Content content = null)
         {
             //TODO
 
@@ -303,13 +303,13 @@ namespace CloudDrop.View
             }
         }
 
-        private void RecoverButton_Click(object sender, RoutedEventArgs e)
+        private async void RecoverButton_Click(object sender, RoutedEventArgs e)
         {
             var token = localSettings.Values["JwtToken"] as string;
             foreach (Border item in _selectioneBorder)
             {
                 Content content = item.DataContext as Content;
-                RecoverContent(token, content);
+                await RecoverContent(token, content);
             }
 
             ClearSelection();

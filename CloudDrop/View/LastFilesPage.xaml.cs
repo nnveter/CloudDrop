@@ -271,12 +271,12 @@ namespace CloudDrop.View
             return await content.Detete(Token);
         }
 
-        private async Task<bool> DownloadContent(Content content, string Token, List<Content>? multiDownloadsContent = null, string? path = null)
+        private Task<bool> DownloadContent(Content content, string Token, List<Content> multiDownloadsContent = null)
         {
             if (multiDownloadsContent == null)
             {
                 AddDownloadQueue(content);
-                return true;
+                return Task.FromResult(true);
             }
             else
             {
@@ -288,7 +288,7 @@ namespace CloudDrop.View
                         AddDownloadQueue(file);
                     }
                 }
-                return true;
+                return Task.FromResult(true);
             }
         }
 

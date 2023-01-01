@@ -48,7 +48,7 @@
                                     <TextBlock x:Uid="NavigationTextUpload" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-25,0,0,0"/>
                                 </Grid>
                             </Button>
-                            <Button x:Name="CreateButton" Width="210" Margin="0,5,0,0" Background="#1FFFFFFF" CornerRadius="1" Click="CreateButton_Click">
+                            <Button x:Name="CreateButton" Width="210" Margin="0,5,0,0" Background="#1FFFFFFF" CornerRadius="1" >
                                 <Grid Width="210" VerticalAlignment="Center">
                                     <SymbolIcon Symbol="Add" HorizontalAlignment="Left"/>
                                     <TextBlock x:Uid="NavigationTextCreate" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-25,0,0,0"/>

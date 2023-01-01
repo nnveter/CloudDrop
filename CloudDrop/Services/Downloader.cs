@@ -1,6 +1,7 @@
 ﻿
 using Grpc.Core;
 using Grpc.Net.Client;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,26 +33,34 @@ public class Downloader
         headers.Add("authorization", $"Bearer {token}");
 
         double progress = -1;
-        client.SendFileStateChange(new SendFileStateChangeRequest() { ContentId = contentId, State = SendFileStateChangeEnum.Start }, headers);
 
-        using (var call = client.SendFileChunks(new SendFileChunksRequest() { ContentId = contentId },
-            headers))
+        try
         {
+            client.SendFileStateChange(new SendFileStateChangeRequest() { ContentId = contentId, State = SendFileStateChangeEnum.Start }, headers);
 
-            using (var fileStream = File.Create(path))
+            using (var call = client.SendFileChunks(new SendFileChunksRequest() { ContentId = contentId },
+                headers))
             {
-                var responseStream = call.ResponseStream;
-                while (await responseStream.MoveNext())
+
+                using (var fileStream = File.Create(path))
                 {
-                    var chunk = responseStream.Current;
-                    totalSize = chunk.TotalSize;
-                    await fileStream.WriteAsync(chunk.Data.ToArray());
-                    if ((int)(fileStream.Length * 100 / totalSize) != progress)
-                        ProgressChanged?.Invoke(new KeyValuePair<string, double>(fileName, (int)(fileStream.Length * 100 / totalSize)));
-                    progress = (double)(fileStream.Length * 100 / totalSize);
+                    var responseStream = call.ResponseStream;
+                    while (await responseStream.MoveNext())
+                    {
+                        var chunk = responseStream.Current;
+                        totalSize = chunk.TotalSize;
+                        await fileStream.WriteAsync(chunk.Data.ToArray());
+                        if ((int)(fileStream.Length * 100 / totalSize) != progress)
+                            ProgressChanged?.Invoke(new KeyValuePair<string, double>(fileName, (int)(fileStream.Length * 100 / totalSize)));
+                        progress = (double)(fileStream.Length * 100 / totalSize);
+                    }
+                    DownloadCompleted?.Invoke(true);
                 }
-                DownloadCompleted?.Invoke(true);
             }
+        }
+        catch
+        {
+            return false;
         }
         return true;
     }
