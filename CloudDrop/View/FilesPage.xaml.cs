@@ -313,8 +313,11 @@ namespace CloudDrop.View
                 }
                 DownloadQueue.Clear();
                 DownloadIndex = 0;
-                MainWindow.UploadBorder1.Visibility = Visibility.Collapsed;
-                MainWindow.FileItems1.Clear();
+                if (LastFilesPage.DownloadQueue.Count == 0 && FilesPage.DownloadQueue.Count == 0 && MainWindow.UploadQueue.Count == 0)
+                {
+                    MainWindow.UploadBorder1.Visibility = Visibility.Collapsed;
+                    MainWindow.FileItems1.Clear();
+                }
             }
             else
             {

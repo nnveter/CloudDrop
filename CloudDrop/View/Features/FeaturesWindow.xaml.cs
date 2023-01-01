@@ -77,8 +77,8 @@ namespace CloudDrop.View
             if (TextBoxName.Text != content1.name 
                 && TextBoxName.Text.Count() > 0 
                 && allNameFiles.IndexOf(TextBoxName.Text) == -1 
-                && string.IsNullOrEmpty(TextBoxName.Text) 
-                && string.IsNullOrWhiteSpace(TextBoxName.Text))
+                && !string.IsNullOrEmpty(TextBoxName.Text) 
+                && !string.IsNullOrWhiteSpace(TextBoxName.Text))
             {
                 Applybutton.IsEnabled = true;
             }
@@ -95,19 +95,24 @@ namespace CloudDrop.View
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            //TODO
             this.Hide();
-            var channel = GrpcChannel.ForAddress(Constants.URL);
-            var client = new ContentsService.ContentsServiceClient(channel);
+            try
+            {
+                var channel = GrpcChannel.ForAddress(Constants.URL);
+                var client = new ContentsService.ContentsServiceClient(channel);
 
-            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            String Token = localSettings.Values["JwtToken"] as string;
+                ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                String Token = localSettings.Values["JwtToken"] as string;
 
-            var headers = new Metadata();
-            headers.Add("authorization", $"Bearer {Token}");
+                var headers = new Metadata();
+                headers.Add("authorization", $"Bearer {Token}");
 
-            await client.RenameContentAsync(new RenameContentRequest() { ContentId = content1.id, NewName = TextBoxName.Text }, headers);
-            await channel.ShutdownAsync();
+                await client.RenameContentAsync(new RenameContentRequest() { ContentId = content1.id, NewName = TextBoxName.Text }, headers);
+                await channel.ShutdownAsync();
+            }
+            catch 
+            { 
+            }
 
             this.Close();
         }
@@ -117,25 +122,29 @@ namespace CloudDrop.View
             if (content.size != null)
             {
                 double bi = (double)content.size;
+
                 int b = (int)Math.Round(((double)bi), 2);
-                int kb = (int)Math.Round(((double)(b / 1024)), 2);
-                int mb = (int)Math.Round(((double)(kb / 1024)), 2);
-                int gb = (int)Math.Round(((double)(mb / 1024)), 2);
                 if (b < 1024)
                 {
-                    Size.Text = bi + " bit";
+                    Size.Text = b + " byte";
                     return;
                 }
+
+                int kb = (int)Math.Round(((double)(b / 1024)), 2);
                 if (kb < 1024)
                 {
                     Size.Text = kb + " Kb";
                     return;
                 }
+
+                int mb = (int)Math.Round(((double)(kb / 1024)), 2);
                 if (mb < 1024)
                 {
                     Size.Text = mb + " MB";
                     return;
                 }
+
+                int gb = (int)Math.Round(((double)(mb / 1024)), 2);
                 if (gb < 1024)
                 {
                     Size.Text = gb + " GB";

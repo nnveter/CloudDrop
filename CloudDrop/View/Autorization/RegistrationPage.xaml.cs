@@ -31,10 +31,10 @@ namespace CloudDrop.Views.Autorization
         {
             CultureInfo currentCulture = CultureInfo.CurrentCulture;        
             RegionInfo currentRegion = new RegionInfo(currentCulture.Name);
-            var country = currentRegion.DisplayName;  
+            var country = currentRegion.DisplayName;
 
-            SignUpRequest user = new SignUpRequest() { Email = Email.Text, Name = Name.Text, Password = Password.Password };
             UserInfoMessage message = new UserInfoMessage() { Country = country, FirstName = "", LastName = "", City = "" };
+            SignUpRequest user = new SignUpRequest() { Email = Email.Text, Name = Name.Text, Password = Password.Password };
 
             using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
             var client = new AuthService.AuthServiceClient(channel);
@@ -57,7 +57,6 @@ namespace CloudDrop.Views.Autorization
             }
             catch (RpcException rpcException)
             {
-                //TODO: Сделать перевод ошибок
                 infoBar.Message = rpcException.Status.Detail;
                 infoBar.IsOpen = true;
             }

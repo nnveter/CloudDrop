@@ -19,6 +19,7 @@ namespace CloudDrop.View.Dialogs
         public CreateFolderDialog()
         {
             this.InitializeComponent();
+
             IsPrimaryButtonEnabled = false;
         }
 

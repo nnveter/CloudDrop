@@ -38,7 +38,6 @@ namespace CloudDrop.Views.Autorization
             }
             catch (RpcException rpcException)
             {
-                //TODO: Сделать перевод ошибок
                 infoBar.Message = rpcException.Status.Detail;
                 infoBar.IsOpen = true;
             }

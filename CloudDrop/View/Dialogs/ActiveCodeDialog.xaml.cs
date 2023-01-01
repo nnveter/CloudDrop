@@ -63,8 +63,10 @@ namespace CloudDrop.View.Dialogs
             {
                 var channel = GrpcChannel.ForAddress(Constants.URL);
                 var client = new CodesService.CodesServiceClient(channel);
+
                 var headers = new Metadata();
                 headers.Add("authorization", $"Bearer {token}");
+
                 try
                 {
                     var call = client.Activate(new ActiveCodeMessage { Code = code }, headers);

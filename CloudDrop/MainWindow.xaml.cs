@@ -58,8 +58,8 @@ namespace CloudDrop
 
         public static string OpenPage = "LastFiles";
 
-        public static List<StorageFile> DownloadQueue = new List<StorageFile>();
-        public static int DownloadIndex = 0;
+        public static List<StorageFile> UploadQueue = new List<StorageFile>();
+        public static int UploadIndex = 0;
 
         public ObservableCollection<ViewFileItem> FileItems = new ObservableCollection<ViewFileItem>();
         public static ObservableCollection<ViewFileItem> FileItems1;
@@ -192,7 +192,7 @@ namespace CloudDrop
             {
                 foreach (var file in arrayFile)
                 {
-                    if (DownloadQueue.Find(V => V.Path == file.Path) == null)
+                    if (UploadQueue.Find(V => V.Path == file.Path) == null)
                     {
                         FileItems.Add(new ViewFileItem() { Name = String.Join('.', file.Name.Split('.').SkipLast(1)), Value = 0 });
                         AddDownloadQueue(file);
@@ -203,9 +203,9 @@ namespace CloudDrop
 
         public async void AddDownloadQueue(StorageFile file) 
         {
-            if (DownloadQueue.Count == 0)
+            if (UploadQueue.Count == 0)
             {
-                DownloadQueue.Add(file);
+                UploadQueue.Add(file);
                 String Token = localSettings.Values["JwtToken"] as string;
                 int parentId = BreadcrumbBarItem[BreadcrumbBarItem.Count - 1].Id;
 
@@ -228,27 +228,31 @@ namespace CloudDrop
                     await ErrorDialog.ShowAsync();
                 };
 
-                while (DownloadIndex < DownloadQueue.Count)
+                while (UploadIndex < UploadQueue.Count)
                 {
                     await fts.Upload(
                         token: Token,
-                        fileName: String.Join('.', DownloadQueue[DownloadIndex].Name.Split('.').SkipLast(1)),
-                        fileType: DownloadQueue[DownloadIndex].FileType.TrimStart('.'),
+                        fileName: String.Join('.', UploadQueue[UploadIndex].Name.Split('.').SkipLast(1)),
+                        fileType: UploadQueue[UploadIndex].FileType.TrimStart('.'),
                         storageId: SplashScreenPage.user.Storage.Id,
-                        uploadingFilePath: DownloadQueue[DownloadIndex].Path,
+                        uploadingFilePath: UploadQueue[UploadIndex].Path,
                         parentId: parentId);
-                    DownloadIndex++;
+                    UploadIndex++;
                 }
-                DownloadQueue.Clear();
-                DownloadIndex = 0;
-                UploadBorder.Visibility = Visibility.Collapsed;
-                FileItems.Clear();
                 PageLoadFilestoGridView(OpenPage);
                 SetStorageUsed();
+                UploadQueue.Clear();
+                UploadIndex = 0;
+                if (LastFilesPage.DownloadQueue.Count == 0 && FilesPage.DownloadQueue.Count == 0 && UploadQueue.Count == 0)
+                {
+                    UploadBorder.Visibility = Visibility.Collapsed;
+                    FileItems.Clear();
+                }
+                
             }
             else
-            { 
-                DownloadQueue.Add(file);
+            {
+                UploadQueue.Add(file);
             }
         }
 

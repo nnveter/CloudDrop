@@ -35,7 +35,7 @@ namespace CloudDrop.View
         public static CollectionViewSource Files1;
         private bool _tap = false;
 
-        private string header = "Trushcan"; //TODO переместить в файл локализации
+        private string header = "Корзина"; //TODO переместить в файл локализации
         public TrashPage()
         {
             this.InitializeComponent();
@@ -236,8 +236,6 @@ namespace CloudDrop.View
 
         public async void DeleteContent(string Token, Content content = null)
         {
-            //TODO
-
             if (content == null)
             {
                 ClearTrashDialog dialog = new ClearTrashDialog();
@@ -261,7 +259,6 @@ namespace CloudDrop.View
                         MainWindow.SetStorageUsed();
                     }
                 }
-                
             }
             else
             {

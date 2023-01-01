@@ -15,25 +15,24 @@ namespace CloudDrop.Views.Account
     /// </summary>
     public sealed partial class OpenUserData : ContentDialog
     {
-        public User user = new User() {email = SplashScreenPage.user.email,  
+        public User user = new User() {
+            email = SplashScreenPage.user.email,  
             lastName = SplashScreenPage.user.lastName,
             name = SplashScreenPage.user.name, 
             country = SplashScreenPage.user.country, 
-            city = SplashScreenPage.user.city };
+            city = SplashScreenPage.user.city 
+        };
         public OpenUserData()
         {
             this.InitializeComponent();
+
             Email.Text = SplashScreenPage.user.email;
             FirstName.Text = SplashScreenPage.user.name;
             LastName.Text = SplashScreenPage.user.lastName;
             Country.Text = SplashScreenPage.user.country;
             City.Text = SplashScreenPage.user.city;
+
             IsPrimaryButtonEnabled = false;
-        }
-
-
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
         }
 
         public void City_TextChanged(object sender, TextChangedEventArgs e)
@@ -106,10 +105,6 @@ namespace CloudDrop.Views.Account
         private void ContentDialog_CloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             user = null;
-        }
-
-        private void ContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
-        {
         }
     }
 }
