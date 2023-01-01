@@ -87,12 +87,13 @@ namespace CloudDrop
                         Console.WriteLine(response2);
                         MultiPercentOfUpload?.Invoke(new KeyValuePair<string, double>(fileName, 100));
                         UploadFinished?.Invoke($"Upload finished. Chunks: {chunkCount}");
+                        client.FinishReceivingFile(new FinishReceivingMessage() { ContentId = contentid }, headers);
                     }
                     catch (RpcException ex)
                     {
                         UploadError?.Invoke(ex);
                     }
-                    client.FinishReceivingFile(new FinishReceivingMessage() { ContentId = contentid}, headers);
+                    
                 }
             }
             return true;
