@@ -34,20 +34,26 @@ namespace CloudDrop.Views.Autorization
             var country = currentRegion.DisplayName;  
 
             SignUpRequest user = new SignUpRequest() { Email = Email.Text, Name = Name.Text, Password = Password.Password };
-            UserInfoMessage message = new UserInfoMessage() { Country = country };
+            UserInfoMessage message = new UserInfoMessage() { Country = country, FirstName = "", LastName = "", City = "" };
 
             using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
             var client = new AuthService.AuthServiceClient(channel);
-            var client2 = new UsersService.UsersServiceClient(channel);
 
             try
             {
                 TokenResponse token = await client.SignUpAsync(user);
                 localSettings.Values["JwtToken"] = token.Token;
-                MainWindow.NavigateToPage("SplashScreen");
+
+                using var channel2 = GrpcChannel.ForAddress($"{Constants.URL}");
+                var client2 = new UsersService.UsersServiceClient(channel2);
+
                 var headers = new Metadata();
-                headers.Add("authorization", $"Bearer {token}");
+                headers.Add("authorization", $"Bearer {token.Token}");
+
                 await client2.UpdateProfileInfoAsync(message, headers);
+
+                MainWindow.NavigateToPage("SplashScreen");
+
             }
             catch (RpcException rpcException)
             {
