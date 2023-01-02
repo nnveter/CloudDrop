@@ -12,7 +12,7 @@
     mc:Ignorable="d"
     Height="450"
     Width="400"
-    IsResizable="False" IsMinimizable="False" IsMaximizable="False" Title="1">
+    IsResizable="False" IsMinimizable="False" IsMaximizable="False">
 
     <Grid>
 

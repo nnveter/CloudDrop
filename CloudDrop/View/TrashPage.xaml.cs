@@ -33,7 +33,9 @@ namespace CloudDrop.View
         public static List<Border> _selectioneBorder = new List<Border>();
         public static List<string> AllNameFiles = new List<string>();
         public static CollectionViewSource Files1;
+
         private bool _tap = false;
+        private bool _tapRight = false;
 
         private string header = "Корзина"; //TODO переместить в файл локализации
         public TrashPage()
@@ -101,6 +103,20 @@ namespace CloudDrop.View
         {
             ClearSelection();
             _tap = false;
+        }
+        private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if (!_tapRight)
+            {
+                var flyout = CommandBarFlyout2;
+                var options = new FlyoutShowOptions()
+                {
+                    Position = e.GetPosition((FrameworkElement)sender),
+                    ShowMode = FlyoutShowMode.Standard
+                };
+                flyout?.ShowAt((FrameworkElement)sender, options);
+            }
+            _tapRight = false;
         }
 
         private void Border_Tapped(object sender, TappedRoutedEventArgs e)
@@ -200,6 +216,7 @@ namespace CloudDrop.View
             FlyoutShowOptions myOption = new FlyoutShowOptions();
             myOption.ShowMode = false ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
             CommandBarFlyout1.ShowAt((DependencyObject)sender, myOption);
+            _tapRight = true;
 
         }
 
@@ -277,6 +294,11 @@ namespace CloudDrop.View
             ClearSelection();
             LoadFilestoGridView();
             MainWindow.SetStorageUsed();
+        }
+
+        private void RefreshAppBarButton2_Click(object sender, RoutedEventArgs e)
+        {
+            LoadFilestoGridView();
         }
 
         private async void DeleteAppBarButton_Click(object sender, RoutedEventArgs e)

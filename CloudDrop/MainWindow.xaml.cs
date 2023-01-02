@@ -24,6 +24,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI;
 using WinRT;
+using WinUIEx;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
 
@@ -32,7 +33,7 @@ using static System.Net.WebRequestMethods;
 
 namespace CloudDrop
 {
-    public sealed partial class MainWindow : Window
+    public sealed partial class MainWindow : WindowEx
     {
         WindowsSystemDispatcherQueueHelper m_wsdqHelper; // See separate sample below for implementation
         Microsoft.UI.Composition.SystemBackdrops.MicaController m_micaController;
@@ -46,6 +47,9 @@ namespace CloudDrop
         public static Button TrashButton1;
         public static Button AccountButton1;
         public static ColumnDefinition LeftColum1;
+
+        public static Button UploadButton1;
+        public static Button CreateButton1;
 
         public static TextBlock UserName1;
         public static TextBlock TariffName1;
@@ -76,6 +80,9 @@ namespace CloudDrop
             AccountButton1 = AccoutButton;
             LeftColum1 = LeftColum;
 
+            UploadButton1 = UploadButton;
+            CreateButton1 = CreateButton;
+
             UserName1 = UserName;
             TariffName1 = TariffName;
             NumberSystem1 = NumberSystem;
@@ -86,9 +93,10 @@ namespace CloudDrop
             UploadBorder1 = UploadBorder;
             FileItems1 = FileItems;
 
+            TrySetMicaBackdrop();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
-            TrySetMicaBackdrop();
+            
             NavigateToPage("SplashScreen");
         }
 
@@ -299,10 +307,17 @@ namespace CloudDrop
             // Use a switch statement to navigate to the appropriate page
             switch (tagPage)
             {
+                case "Account":
+                case "Trash":
+                    UploadButton1.IsEnabled = false;
+                    CreateButton1.IsEnabled = false;
+                    goto case "default2";
+
                 case "SelectTariff":
                     LeftColum1.Width = new GridLength(0);
                     ContentFrame1.Navigate(pageTypes[tagPage], null, new SuppressNavigationTransitionInfo());
                     break;
+
                 case "SplashScreen":
                 case "Registration":
                 case "Login":
@@ -310,12 +325,22 @@ namespace CloudDrop
                     ContentFrame1.Navigate(pageTypes[tagPage], null, new SuppressNavigationTransitionInfo());
                     OpenPage = tagPage;
                     SetStorageUsed();
-                    break;   
+                    break;
+
+                case "default2":
+                    LeftColum1.Width = new GridLength(240);
+                    ContentFrame1.Navigate(pageTypes[tagPage], null, new DrillInNavigationTransitionInfo());
+                    OpenPage = tagPage;
+                    SetActiveButton(tagPage);
+                    SetStorageUsed();
+                    break;
 
                 default:
                     LeftColum1.Width = new GridLength(240);
                     ContentFrame1.Navigate(pageTypes[tagPage], null, new DrillInNavigationTransitionInfo());
                     OpenPage = tagPage;
+                    UploadButton1.IsEnabled = true;
+                    CreateButton1.IsEnabled = true;
                     SetActiveButton(tagPage);
                     SetStorageUsed();
                     break;

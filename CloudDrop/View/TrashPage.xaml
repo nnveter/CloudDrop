@@ -21,6 +21,11 @@
                 <AppBarButton x:Name="DeleteAppBarButton" x:Uid="DeleteAppBarButtonTrash" Icon="Delete" Click="DeleteAppBarButton_Click"  />
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
+        <CommandBarFlyout Placement="Right" x:Name="CommandBarFlyout2" >
+            <CommandBarFlyout.SecondaryCommands>
+                <AppBarButton x:Name="RefreshAppBarButton2" x:Uid="RefreshAppBarButton" Icon="Refresh"  Click="RefreshAppBarButton2_Click" />
+            </CommandBarFlyout.SecondaryCommands>
+        </CommandBarFlyout>
     </Page.Resources>
 
 
@@ -42,7 +47,7 @@
                     </CommandBar>
                 </StackPanel>
             </Grid>
-            <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="1">
+            <Grid Margin="0,10,0,0" Tapped="Grid_Tapped" Grid.Row="1" RightTapped="Grid_RightTapped">
                 <GridView x:Name="GridV" Margin="21,0,21,0"  SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{Binding Source={StaticResource Files}}">
                     <GridView.ItemTemplate>
                         <DataTemplate>

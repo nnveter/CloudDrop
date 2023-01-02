@@ -28,9 +28,9 @@
         </GridView>
         <StackPanel Orientation="Vertical">
             <Grid Height="70" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="25,0,70,0">
-                    <TextBlock x:Name="FirsName" Text="{x:Bind ViewModel.name}" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="LastName" Text="{x:Bind ViewModel.lastName}" Margin="5,0,0,0" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="25,0,70,0">
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" x:Name="FirsName" Text="{x:Bind ViewModel.name}" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" x:Name="LastName" Text="{x:Bind ViewModel.lastName}" Margin="5,0,0,0" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </StackPanel>
                 <Button x:Name="ButtonLogOut" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" ToolTipService.ToolTip="Log out" Click="ButtonLogOut_Click">
                     <ImageIcon Source="ms-appx:///ImageAssets/LogOut.png" Height="15" Width="15"/>
@@ -41,7 +41,7 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical" Margin="10,5,22,5" Padding="0">
                             <TextBlock x:Uid="TextBlockEmail" Text="Email" Foreground="DarkGray"/>
-                            <TextBlock Text="{x:Bind ViewModel.email}" Foreground="White"/>
+                            <TextBlock Text="{x:Bind ViewModel.email}" Style="{StaticResource BodyTextBlockStyle}" Foreground="White"/>
                             <TextBlock x:Uid="TextBlockPassword" Text="Password" Foreground="DarkGray" Margin="0,7,0,0"/>
                             <TextBlock Text="**********" Foreground="White"/>
                         </StackPanel>
@@ -49,7 +49,7 @@
                             <TextBlock x:Uid="TextBlockCountry" Text="Country" Foreground="DarkGray"/>
                             <TextBlock Text="{x:Bind ViewModel.country}" Foreground="White"/>
                             <TextBlock x:Uid="TextBlockCity" Text="City" Foreground="DarkGray" Margin="0,7,0,0"/>
-                            <TextBlock Text="{x:Bind ViewModel.city}" Foreground="White"/>
+                            <TextBlock Text="{x:Bind ViewModel.city}" TextWrapping="NoWrap" Style="{StaticResource BodyTextBlockStyle}" MaxWidth="120" Foreground="White"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
