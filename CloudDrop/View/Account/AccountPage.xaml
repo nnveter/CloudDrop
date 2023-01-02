@@ -29,8 +29,8 @@
         <StackPanel Orientation="Vertical">
             <Grid Height="70" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" VerticalAlignment="Top">
                 <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="25,0,70,0">
-                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" x:Name="FirsName" Text="{x:Bind ViewModel.name}" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" x:Name="LastName" Text="{x:Bind ViewModel.lastName}" Margin="5,0,0,0" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords" x:Name="FirsName" Text="{x:Bind ViewModel.name}" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords" x:Name="LastName" Text="{x:Bind ViewModel.lastName}" Margin="5,0,0,0" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </StackPanel>
                 <Button x:Name="ButtonLogOut" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" ToolTipService.ToolTip="Log out" Click="ButtonLogOut_Click">
                     <ImageIcon Source="ms-appx:///ImageAssets/LogOut.png" Height="15" Width="15"/>

@@ -88,12 +88,12 @@ namespace CloudDrop.View
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CancelButton(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Applybutton_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
             try
