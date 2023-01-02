@@ -72,6 +72,9 @@
                 </GridView>
             </Grid>
         </Grid>
+        <Grid  VerticalAlignment="Bottom" >
+            <ProgressBar x:Name="ProgressBar" Visibility="Collapsed" IsIndeterminate="True" ShowPaused="False" ShowError="False" />
+        </Grid>
         <TextBlock x:Name="txt" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
     </Grid>
 </Page>

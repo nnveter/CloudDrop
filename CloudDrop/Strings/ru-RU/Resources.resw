@@ -129,6 +129,9 @@
   <data name="AddAppBarButton.Label" xml:space="preserve">
     <value>Создать папку</value>
   </data>
+  <data name="AllElementDeleted" xml:space="preserve">
+    <value>Выбранные файлы будут удалены безвозвратно</value>
+  </data>
   <data name="Applybutton.Content" xml:space="preserve">
     <value>Применить</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="CancelButton.Content" xml:space="preserve">
     <value>Отмена</value>
+  </data>
+  <data name="ClearTrushcan" xml:space="preserve">
+    <value>Очистить корзину</value>
   </data>
   <data name="CreateFolderDialogs.CloseButtonText" xml:space="preserve">
     <value>Отмена</value>
@@ -156,6 +162,9 @@
   <data name="DateText.Text" xml:space="preserve">
     <value>Дата создания:</value>
   </data>
+  <data name="DeleteAllItems" xml:space="preserve">
+    <value>Все данные будут удалены безвозвратно, вы уверены, что хотите очистить корзину?</value>
+  </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
     <value>Удалить</value>
   </data>
@@ -165,8 +174,20 @@
   <data name="DeleteButtonTrash.Label" xml:space="preserve">
     <value>Очистить корзину</value>
   </data>
+  <data name="DeleteFile" xml:space="preserve">
+    <value>Удалить файл</value>
+  </data>
+  <data name="DeleteItem" xml:space="preserve">
+    <value>Удалить элемент</value>
+  </data>
+  <data name="DeleteItems" xml:space="preserve">
+    <value>Удалить выбранные элементы</value>
+  </data>
   <data name="DownloadAppBarButton.Label" xml:space="preserve">
     <value>Скачать</value>
+  </data>
+  <data name="ElementDeleted" xml:space="preserve">
+    <value>Этот файл будет удален безвозвратно</value>
   </data>
   <data name="FeaturesAppBarButton.Label" xml:space="preserve">
     <value>Свойства</value>
@@ -231,6 +252,9 @@
   <data name="RefreshAppBarButton.Label" xml:space="preserve">
     <value>Обновить</value>
   </data>
+  <data name="SelectElements" xml:space="preserve">
+    <value>Выбранные элементы:</value>
+  </data>
   <data name="SelectTariffActiveCodeButton.Content" xml:space="preserve">
     <value>Ввести код</value>
   </data>
@@ -284,6 +308,9 @@
   </data>
   <data name="TextBoxName.PlaceholderText" xml:space="preserve">
     <value>Имя</value>
+  </data>
+  <data name="Trushcan" xml:space="preserve">
+    <value>Корзина</value>
   </data>
   <data name="TypeText.Text" xml:space="preserve">
     <value>Тип:</value>

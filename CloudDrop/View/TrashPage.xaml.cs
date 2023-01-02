@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using CloudDrop.Helpers;
 using CloudDrop.Models;
 using CloudDrop.View.Dialogs;
 using Grpc.Core;
@@ -37,12 +38,14 @@ namespace CloudDrop.View
         private bool _tap = false;
         private bool _tapRight = false;
 
-        private string header = "Корзина"; //TODO переместить в файл локализации
+        private string header = "Trushcan".GetLocalized();
+        public static ProgressBar ProgressBar1;
         public TrashPage()
         {
             this.InitializeComponent();
 
             Files1 = Files;
+            ProgressBar1 = ProgressBar;
 
             AllNameFiles = new List<string>();
             LoadFilestoGridView();
@@ -53,6 +56,8 @@ namespace CloudDrop.View
             AllNameFiles = new List<string>();
             _selectioneIndex = new List<int>();
             _selectioneBorder = new List<Border>();
+
+            ProgressBar1.Visibility = Visibility.Visible;
 
             var projects = new List<FileAr>();
             var newProject = new FileAr();
@@ -71,8 +76,17 @@ namespace CloudDrop.View
                 {
                     response = await client.GetDeletedContentsAsync(request, headers);
                 }
-                catch (RpcException)
+                catch (RpcException ex)
                 {
+                    ContentDialog ErrorDialog = new ContentDialog
+                    {
+                        Title = "Error",
+                        Content = ex.Status.Detail,
+                        CloseButtonText = "Ok"
+                    };
+                    ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+                    ProgressBar1.Visibility = Visibility.Collapsed;
+                    await ErrorDialog.ShowAsync();
                     return;
                 }
                 var myContentList = response.ContentMessages.Select(x => new Content
@@ -97,6 +111,7 @@ namespace CloudDrop.View
 
                 Files1.Source = projects;
             }
+            ProgressBar1.Visibility = Visibility.Collapsed;
         }
 
         private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
@@ -149,13 +164,13 @@ namespace CloudDrop.View
 
                 if (_selectioneIndex.Count > 1)
                 {
-                    DeleteButton.Label = "Удалить выбранные элементы";
-                    Header.Text = $"Элементов выбранно: {_selectioneIndex.Count}";
+                    DeleteButton.Label = "DeleteItems".GetLocalized();
+                    Header.Text = "SelectElements".GetLocalized() + _selectioneIndex.Count;
                     RecoverButton.IsEnabled = true;
                 }
                 else
                 {
-                    DeleteButton.Label = "Удалить элемент";
+                    DeleteButton.Label = "DeleteItem".GetLocalized();
                     Header.Text = file.name;
                     RecoverButton.IsEnabled = true;
                 }
@@ -173,7 +188,7 @@ namespace CloudDrop.View
                 border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                 if (_selectioneBorder.Count == 0 || _selectioneIndex.Count == 0)
                 {
-                    DeleteButton.Label = "Очистить корзину";
+                    DeleteButton.Label = "ClearTrushcan".GetLocalized();
                     Header.Text = header;
                     RecoverButton.IsEnabled = false;
                     return;
@@ -181,13 +196,13 @@ namespace CloudDrop.View
 
                 if (_selectioneIndex.Count > 1)
                 {
-                    DeleteButton.Label = "Удалить выбранные элементы";
-                    Header.Text = $"Элементов выбранно: {_selectioneIndex.Count}";
+                    DeleteButton.Label = "DeleteItems".GetLocalized();
+                    Header.Text = "SelectElements".GetLocalized() + _selectioneIndex.Count;
                     RecoverButton.IsEnabled = true;
                 }
                 else if (_selectioneIndex.Count == 1)
                 {
-                    DeleteButton.Label = "Удалить элемент";
+                    DeleteButton.Label = "DeleteItem".GetLocalized();
                     Content content = _selectioneBorder[0].DataContext as Content;
                     Header.Text = content.name;
                     RecoverButton.IsEnabled = true;
@@ -204,7 +219,7 @@ namespace CloudDrop.View
                     item.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                     Header.Text = header;
                 }
-                DeleteButton.Label = "Очистить корзину";
+                DeleteButton.Label = "ClearTrushcan".GetLocalized();
                 _selectioneBorder.Clear();
                 _selectioneIndex.Clear();
                 RecoverButton.IsEnabled = false;
@@ -257,7 +272,7 @@ namespace CloudDrop.View
             {
                 ClearTrashDialog dialog = new ClearTrashDialog();
                 dialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
-                dialog.Text.Text = "Все данные будут удалены безвозвратно, вы уверены, что хотите очистить корзину";
+                dialog.Text.Text = "DeleteAllItems".GetLocalized();
                 var result = await dialog.ShowAsync();
                 if (dialog.Result)
                 {
@@ -310,8 +325,8 @@ namespace CloudDrop.View
             ClearTrashDialog dialog = new ClearTrashDialog();
             dialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
 
-            dialog.Text.Text = "This file will be permanently deleted";
-            dialog.Title = "Delete file";
+            dialog.Text.Text = "ElementDeleted".GetLocalized();
+            dialog.Title = "DeleteFile".GetLocalized();
             var result = await dialog.ShowAsync();
             if (dialog.Result)
             {
@@ -344,8 +359,8 @@ namespace CloudDrop.View
             dialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
             if (_selectioneBorder.Count > 1)
             {
-                dialog.Text.Text = "The selected files will be permanently deleted";
-                dialog.Title = "Delete file";
+                dialog.Text.Text = "AllElementDeleted".GetLocalized();
+                dialog.Title = "DeleteFile".GetLocalized();
                 var result = await dialog.ShowAsync();
                 if (dialog.Result)
                 {
@@ -358,8 +373,8 @@ namespace CloudDrop.View
             }
             else if (_selectioneBorder.Count == 1)
             {
-                dialog.Text.Text = "This file will be permanently deleted";
-                dialog.Title = "Delete file";
+                dialog.Text.Text = "ElementDeleted".GetLocalized();
+                dialog.Title = "DeleteFile".GetLocalized();
                 var result = await dialog.ShowAsync();
                 if (dialog.Result)
                 {

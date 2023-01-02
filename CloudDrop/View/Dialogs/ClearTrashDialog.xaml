@@ -19,6 +19,6 @@
     CornerRadius="8">
 
     <Grid>
-        <TextBlock x:Name="Text1"/>
+        <TextBlock x:Name="Text1" TextWrapping="Wrap"/>
     </Grid>
 </ContentDialog>

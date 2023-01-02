@@ -40,6 +40,7 @@ namespace CloudDrop.View
         public static List<string> AllNameFiles = new List<string>();
         public ObservableCollection<Folder> BreadcrumbBarItem;
         public static CollectionViewSource Files1;
+
         private bool _tap = false;
         private bool _tapRight = false;
 
@@ -47,12 +48,14 @@ namespace CloudDrop.View
         public static int DownloadIndex = 0;
 
         GridLength ConstUpRow = new GridLength(83);
+        public static ProgressBar ProgressBar1;
         public FilesPage()
         {
             this.InitializeComponent();
 
             Files1 = Files;
             BreadcrumbBarItem = MainWindow.BreadcrumbBarItem;
+            ProgressBar1 = ProgressBar;
 
             if (MainWindow.BreadcrumbBarItem.Count > 1)
             {
@@ -67,6 +70,8 @@ namespace CloudDrop.View
             AllNameFiles = new List<string>();
             _selectioneIndex = new List<int>();
             _selectioneBorder = new List<Border>();
+
+            ProgressBar1.Visibility = Visibility.Visible;
 
             var projects = new List<FileAr>();
             var newProject = new FileAr();
@@ -88,8 +93,17 @@ namespace CloudDrop.View
                 {
                     response = await client.GetChildrenContentsAsync(request, headers);
                 }
-                catch (RpcException)
+                catch (RpcException ex)
                 {
+                    ContentDialog ErrorDialog = new ContentDialog
+                    {
+                        Title = "Error",
+                        Content = ex.Status.Detail,
+                        CloseButtonText = "Ok"
+                    };
+                    ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+                    ProgressBar1.Visibility = Visibility.Collapsed;
+                    await ErrorDialog.ShowAsync();
                     return;
                 }
                 var myContentList = response.Children.Select(x => new Content
@@ -116,6 +130,7 @@ namespace CloudDrop.View
 
                 Files1.Source = projects;
             }
+            ProgressBar1.Visibility = Visibility.Collapsed;
         }
 
         private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
