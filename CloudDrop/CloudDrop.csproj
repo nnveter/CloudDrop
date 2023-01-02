@@ -14,6 +14,48 @@
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+    <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+    <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+    <Content Remove="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Remove="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Remove="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <Content Remove="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\Square44x44Logo.scale-100.png" />
+    <None Remove="Assets\Square44x44Logo.scale-125.png" />
+    <None Remove="Assets\Square44x44Logo.scale-150.png" />
+    <None Remove="Assets\Square44x44Logo.scale-400.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-16.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-24.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-256.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-32.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-48.png" />
+    <None Remove="IconTypeAssets\exe.png" />
+    <None Remove="IconTypeAssets\Folder.png" />
+    <None Remove="IconTypeAssets\JPG.png" />
+    <None Remove="IconTypeAssets\png.png" />
+    <None Remove="IconTypeAssets\txt.png" />
+    <None Remove="IconTypeAssets\Unknown.png" />
+    <None Remove="IconTypeAssets\zip.png" />
+    <None Remove="ImageAssets\Archive.png" />
+    <None Remove="ImageAssets\Close.png" />
+    <None Remove="ImageAssets\File.png" />
+    <None Remove="ImageAssets\Image.png" />
+    <None Remove="ImageAssets\Last.png" />
+    <None Remove="ImageAssets\login.png" />
+    <None Remove="ImageAssets\LogOut.png" />
+    <None Remove="ImageAssets\orig.png" />
+    <None Remove="ImageAssets\Registration.png" />
+    <None Remove="ImageAssets\Shared.png" />
+    <None Remove="ImageAssets\Sun.png" />
+    <None Remove="ImageAssets\Trash.png" />
+    <None Remove="ImageAssets\UploadImage.png" />
+    <None Remove="ImageAssets\User.png" />
+    <None Remove="SplashScreen\SplashGif.gif" />
     <None Remove="SplashScreen\SplashScreenPage.xaml" />
     <None Remove="View\Account\AccountPage.xaml" />
     <None Remove="View\BlankWindow1.xaml" />
@@ -29,8 +71,70 @@
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="IconTypeAssets\exe.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IconTypeAssets\Folder.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IconTypeAssets\JPG.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IconTypeAssets\png.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IconTypeAssets\txt.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IconTypeAssets\Unknown.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IconTypeAssets\zip.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\Archive.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\Close.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\File.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\Image.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\Last.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\login.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\LogOut.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\orig.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\Registration.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\Shared.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\Sun.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\UploadImage.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageAssets\User.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SplashScreen\SplashGif.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -55,72 +159,6 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="IconTypeAssets\exe.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="IconTypeAssets\Folder.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="IconTypeAssets\JPG.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="IconTypeAssets\png.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="IconTypeAssets\txt.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="IconTypeAssets\Unknown.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="IconTypeAssets\zip.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\Archive.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\Close.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\File.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\Image.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\Last.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\login.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\LogOut.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\orig.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\Registration.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\Shared.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\Sun.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\Trash.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\UploadImage.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ImageAssets\User.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SplashScreen\SplashGif.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Page Update="View\BlankWindow1.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,6 +188,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ImageAssets\Trash.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <!-- 

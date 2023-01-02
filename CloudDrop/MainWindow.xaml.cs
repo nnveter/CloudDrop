@@ -96,6 +96,7 @@ namespace CloudDrop
             TrySetMicaBackdrop();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
+            TaskBarIcon = Icon.FromFile("Assets\\Icon.ico");
             
             NavigateToPage("SplashScreen");
         }
