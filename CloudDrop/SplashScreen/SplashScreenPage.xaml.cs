@@ -93,16 +93,37 @@ namespace CloudDrop.SplashScreen
             {
                 { "authorization", $"Bearer {JwtToken}" }
             };
-
-            using (var channel = GrpcChannel.ForAddress(Constants.URL))
+            try
             {
-                var client = new UsersService.UsersServiceClient(channel);
-                try
+                using (var channel = GrpcChannel.ForAddress(Constants.URL))
                 {
+                    var client = new UsersService.UsersServiceClient(channel);
+                    
                     user = await client.GetProfileAsync(new UsersEmptyMessage(), headers);
                     return true;
+                    
+                    
                 }
-                catch
+            } 
+            catch (RpcException ex)
+            {
+                if (ex.StatusCode == StatusCode.Unavailable)
+                {
+                    try
+                    {
+                        ContentDialog ErrorDialog = new ContentDialog
+                        {
+                            Title = "Connection error",
+                            //Content = ex.Status.Detail,
+                            CloseButtonText = "Ok"
+                        };
+                        ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+                        await ErrorDialog.ShowAsync();
+                    }
+                    catch { }
+                    return false;
+                }
+                else 
                 {
                     return false;
                 }
