@@ -22,8 +22,12 @@ public class Downloader
 
     public Downloader()
     {
-        var channel = GrpcChannel.ForAddress(Constants.URL);
-        client = new FileTransferService.FileTransferServiceClient(channel);
+        try
+        {
+            var channel = GrpcChannel.ForAddress(Constants.URL);
+            client = new FileTransferService.FileTransferServiceClient(channel);
+        }
+        catch { }
     }
 
     public async Task<bool> Download(int contentId, string token, string path, string fileName)
