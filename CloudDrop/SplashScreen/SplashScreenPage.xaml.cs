@@ -114,7 +114,7 @@ namespace CloudDrop.SplashScreen
                         ContentDialog ErrorDialog = new ContentDialog
                         {
                             Title = "Connection error",
-                            //Content = ex.Status.Detail,
+                            Content = ex.Status.Detail,
                             CloseButtonText = "Ok"
                         };
                         ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
