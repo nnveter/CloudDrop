@@ -47,7 +47,7 @@ namespace CloudDrop.Views.Autorization
                     infoBar.IsOpen = true;
                 }
             }
-            catch (RpcException ex)
+            catch
             {
                 ProgressBar.Visibility = Visibility.Collapsed;
                 ContentDialog ErrorDialog = new ContentDialog {

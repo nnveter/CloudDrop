@@ -39,24 +39,7 @@ namespace CloudDrop.SplashScreen
 
         public async static Task<bool> MainVoid()
         {
-            try {
-                txt1.Text = "ConnectToServer".GetLocalized();
-                var channel = GrpcChannel.ForAddress(Constants.URL);
-                var client = new AuthService.AuthServiceClient(channel);
-
-                await client.PingAsync(new PingMessage());
-
-            }
-            catch
-            {
-                txt1.Text = "ErrorConnectBackend".GetLocalized();
-                ContentDialog ErrorDialog = new ContentDialog {
-                    Title = "Error".GetLocalized(),
-                    Content = "ErrorConnectBackend".GetLocalized(),
-                    CloseButtonText = "Ok"
-                };
-                ErrorDialog.XamlRoot = txt1.XamlRoot;
-                await ErrorDialog.ShowAsync();
+            if (!await CheckConnectServer()) {
                 return false;
             }
 
@@ -81,6 +64,28 @@ namespace CloudDrop.SplashScreen
             {
                 txt1.Text = string.Empty;
                 MainWindow.NavigateToPage("Login");
+                return false;
+            }
+        }
+
+        public static async Task<bool> CheckConnectServer() {
+            try {
+                txt1.Text = "ConnectToServer".GetLocalized();
+                var channel = GrpcChannel.ForAddress(Constants.URL);
+                var client = new AuthService.AuthServiceClient(channel);
+
+                await client.PingAsync(new PingMessage());
+                return true;
+            }
+            catch {
+                txt1.Text = "ErrorConnectBackend".GetLocalized();
+                ContentDialog ErrorDialog = new ContentDialog {
+                    Title = "Error".GetLocalized(),
+                    Content = "ErrorConnectBackend".GetLocalized(),
+                    CloseButtonText = "Ok"
+                };
+                ErrorDialog.XamlRoot = txt1.XamlRoot;
+                await ErrorDialog.ShowAsync();
                 return false;
             }
         }

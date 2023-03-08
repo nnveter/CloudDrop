@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Pickers.Provider;
 using Windows.UI;
 using WinRT;
 using WinUIEx;
@@ -149,7 +150,6 @@ namespace CloudDrop
             {
                 PageLoadFilestoGridView(OpenPage);
             }
-            
         }
 
         public static async Task<FolderCreateStatus> CreateFolder(XamlRoot xamlRoot, string Token) 
@@ -208,6 +208,18 @@ namespace CloudDrop
                     }
                 }
             }
+        }
+
+        public async Task<StorageFile> SaveFileDialog(string type, string name) {
+            var filePicker = new FileSavePicker();
+
+            var hwnd = this.As<IWindowNative>().WindowHandle;
+
+            var initializeWithWindow = filePicker.As<IInitializeWithWindow>();
+            initializeWithWindow.Initialize(hwnd);
+            filePicker.FileTypeChoices.Add("", new List<string>() { $".{type}" });
+            filePicker.SuggestedFileName = name;
+            return await filePicker.PickSaveFileAsync();
         }
 
         public async void AddDownloadQueue(StorageFile file) 

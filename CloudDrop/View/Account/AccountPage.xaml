@@ -11,6 +11,11 @@
     mc:Ignorable="d"
     Background="Transparent">
 
+    <Page.Resources>
+        <CollectionViewSource x:Name="infos" IsSourceGrouped="True" 
+                              ItemsPath="Info" />
+    </Page.Resources>
+
     <Grid>
         <GridView x:Name="GridV" Margin="20,90,20,0" CornerRadius="10" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Left" ItemClick="GridV_ItemClick_1">
             <Border Background="#2EC8CEFF" CornerRadius="10"  MaxWidth="450">
@@ -47,9 +52,9 @@
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="22,5,10,5" Padding="0">
                             <TextBlock x:Uid="TextBlockCountry" Text="Country" Foreground="DarkGray"/>
-                            <TextBlock Text="{x:Bind ViewModel.country}" Foreground="White"/>
+                            <TextBlock x:Name="CountryText" Text="{x:Bind ViewModel.country}" Foreground="White"/>
                             <TextBlock x:Uid="TextBlockCity" Text="City" Foreground="DarkGray" Margin="0,7,0,0"/>
-                            <TextBlock Text="{x:Bind ViewModel.city}" TextWrapping="NoWrap" Style="{StaticResource BodyTextBlockStyle}" MaxWidth="120" Foreground="White"/>
+                            <TextBlock x:Name="CityText" Text="{x:Bind ViewModel.city}" TextWrapping="NoWrap" Style="{StaticResource BodyTextBlockStyle}" MaxWidth="120" Foreground="White"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>

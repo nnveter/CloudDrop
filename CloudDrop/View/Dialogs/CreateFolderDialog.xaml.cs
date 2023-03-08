@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using CloudDrop.Helpers;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -36,14 +37,12 @@ namespace CloudDrop.View.Dialogs
                 }
                 else
                 {
-                    FolderName = "The name of this folder is already in use";
                     FolderStatus = FolderCreateStatus.NameAlredyExists;
                     return;
                 }
             }
             if (string.IsNullOrWhiteSpace(FolderName) || string.IsNullOrEmpty(get))
             {
-                FolderName = "The folder name cannot be empty";
                 FolderStatus = FolderCreateStatus.NullName;
                 return;
             }
@@ -66,12 +65,20 @@ namespace CloudDrop.View.Dialogs
             TextBox textBox = sender as TextBox;
             if (string.IsNullOrEmpty(textBox.Text) || string.IsNullOrWhiteSpace(textBox.Text))
             {
-                ErrorTextBlock.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+                if (textBox.Text.Length == 0) 
+                {
+                    ErrorTextBlock.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+                    IsPrimaryButtonEnabled = false;
+                    return;
+                }
+                ErrorTextBlock.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                ErrorTextBlock.Text = "EmptyName".GetLocalized();
                 IsPrimaryButtonEnabled = false;
                 return;
             }
             if (CheckOnExist(textBox.Text))
             {
+                ErrorTextBlock.Text ="ThisNameUse".GetLocalized();
                 ErrorTextBlock.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
                 IsPrimaryButtonEnabled = false;
                 return;

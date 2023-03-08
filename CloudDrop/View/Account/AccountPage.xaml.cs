@@ -47,8 +47,7 @@ namespace CloudDrop.View.Account
             dialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
             await dialog.ShowAsync();
             User user = dialog.user;
-            if (user != SplashScreenPage.user && user != null)
-            {
+            if (user != SplashScreenPage.user && user != null) {
                 SplashScreenPage.user = user;
                 ViewModel = user;
 
@@ -71,6 +70,11 @@ namespace CloudDrop.View.Account
                 headers.Add("authorization", $"Bearer {token}");
 
                 await client.UpdateProfileInfoAsync(message, headers);
+
+                SplashScreenPage.user = ViewModel = dialog.user;
+                CityText.Text = dialog.user.city;
+                CountryText.Text = dialog.user.country;
+
             }
         }
 
