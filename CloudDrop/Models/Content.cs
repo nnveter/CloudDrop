@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using CloudDrop.Helpers;
+using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -78,7 +79,7 @@ public class Content
             {
                 ContentDialog ErrorDialog = new ContentDialog
                 {
-                    Title = "Error",
+                    Title = "Error".GetLocalized(),
                     Content = ex.Status.Detail,
                     CloseButtonText = "Ok"
                 };
@@ -114,7 +115,7 @@ public class Content
         {
             ContentDialog ErrorDialog = new ContentDialog
             {
-                Title = "Error",
+                Title = "Error".GetLocalized(),
                 Content = ex.Status.Detail,
                 CloseButtonText = "Ok"
             };

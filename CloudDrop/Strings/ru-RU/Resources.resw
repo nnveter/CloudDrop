@@ -141,8 +141,14 @@
   <data name="CancelButton.Content" xml:space="preserve">
     <value>Отмена</value>
   </data>
+  <data name="CheckAuthorization" xml:space="preserve">
+    <value>Проверка авторизации</value>
+  </data>
   <data name="ClearTrushcan" xml:space="preserve">
     <value>Очистить корзину</value>
+  </data>
+  <data name="ConnectToServer" xml:space="preserve">
+    <value>Подключение к серверу</value>
   </data>
   <data name="CreateFolderDialogs.CloseButtonText" xml:space="preserve">
     <value>Отмена</value>
@@ -161,6 +167,9 @@
   </data>
   <data name="DateText.Text" xml:space="preserve">
     <value>Дата создания:</value>
+  </data>
+  <data name="Deauthorization" xml:space="preserve">
+    <value>Вы были деавторизированны</value>
   </data>
   <data name="DeleteAllItems" xml:space="preserve">
     <value>Все данные будут удалены безвозвратно, вы уверены, что хотите очистить корзину?</value>
@@ -183,14 +192,26 @@
   <data name="DeleteItems" xml:space="preserve">
     <value>Удалить выбранные элементы</value>
   </data>
+  <data name="Done" xml:space="preserve">
+    <value>Завершено</value>
+  </data>
   <data name="DownloadAppBarButton.Label" xml:space="preserve">
     <value>Скачать</value>
   </data>
   <data name="ElementDeleted" xml:space="preserve">
     <value>Этот файл будет удален безвозвратно</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="ErrorConnectBackend" xml:space="preserve">
+    <value>Не удается подключиться к серверу</value>
+  </data>
   <data name="FeaturesAppBarButton.Label" xml:space="preserve">
     <value>Свойства</value>
+  </data>
+  <data name="GetUserInfo" xml:space="preserve">
+    <value>Получение информации о пользователе</value>
   </data>
   <data name="HeaderTrash.Text" xml:space="preserve">
     <value>Корзина</value>
@@ -227,6 +248,9 @@
   </data>
   <data name="NavigationTextUpload.Text" xml:space="preserve">
     <value>Загрузить</value>
+  </data>
+  <data name="OpenToken" xml:space="preserve">
+    <value>Извлечение токена</value>
   </data>
   <data name="OpenUserData.CloseButtonText" xml:space="preserve">
     <value>Отмена</value>

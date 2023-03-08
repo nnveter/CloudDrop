@@ -3,11 +3,13 @@
 
 
 
+using CloudDrop.Helpers;
 using CloudDrop.SplashScreen;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Globalization;
 using Windows.Storage;
 
@@ -33,32 +35,42 @@ namespace CloudDrop.Views.Autorization
             RegionInfo currentRegion = new RegionInfo(currentCulture.Name);
             var country = currentRegion.DisplayName;
 
-            UserInfoMessage message = new UserInfoMessage() { Country = country, FirstName = "", LastName = "", City = "" };
+            UserInfoMessage message = new UserInfoMessage() { Country = country, FirstName = "", LastName = "", City = "" }; //TODO: после того как починят бэкенд поменять Country и City местами
             SignUpRequest user = new SignUpRequest() { Email = Email.Text, Name = Name.Text, Password = Password.Password };
 
-            using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
-            var client = new AuthService.AuthServiceClient(channel);
+            try {
+                using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
+                var client = new AuthService.AuthServiceClient(channel);
 
-            try
-            {
-                TokenResponse token = await client.SignUpAsync(user);
-                localSettings.Values["JwtToken"] = token.Token;
+                try {
+                    TokenResponse token = await client.SignUpAsync(user);
+                    localSettings.Values["JwtToken"] = token.Token;
 
-                using var channel2 = GrpcChannel.ForAddress($"{Constants.URL}");
-                var client2 = new UsersService.UsersServiceClient(channel2);
+                    using var channel2 = GrpcChannel.ForAddress($"{Constants.URL}");
+                    var client2 = new UsersService.UsersServiceClient(channel2);
 
-                var headers = new Metadata();
-                headers.Add("authorization", $"Bearer {token.Token}");
+                    var headers = new Metadata();
+                    headers.Add("authorization", $"Bearer {token.Token}");
 
-                await client2.UpdateProfileInfoAsync(message, headers);
+                    client2.UpdateProfileInfo(message, headers);
 
-                MainWindow.NavigateToPage("SplashScreen");
+                    MainWindow.NavigateToPage("SplashScreen");
 
+                }
+                catch (RpcException rpcException) {
+                    infoBar.Message = rpcException.Status.Detail;
+                    infoBar.IsOpen = true;
+                }
             }
-            catch (RpcException rpcException)
+            catch (RpcException ex) 
             {
-                infoBar.Message = rpcException.Status.Detail;
-                infoBar.IsOpen = true;
+                ContentDialog ErrorDialog = new ContentDialog {
+                    Title = "Error".GetLocalized(),
+                    Content = "ErrorConnectBackend".GetLocalized(),
+                    CloseButtonText = "Ok"
+                };
+                ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+                await ErrorDialog.ShowAsync();
             }
         }
 

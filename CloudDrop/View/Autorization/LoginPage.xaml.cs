@@ -2,10 +2,12 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 
+using CloudDrop.Helpers;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -27,19 +29,30 @@ namespace CloudDrop.Views.Autorization
         private async void myButton_Click(object sender, RoutedEventArgs e)
         {
             SignInRequest request = new SignInRequest() { Email = Email.Text, Password = Password.Password };
-            using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
-            var client = new AuthService.AuthServiceClient(channel);
 
-            try
-            {
-                var reply = await client.SignInAsync(request);
-                localSettings.Values["JwtToken"] = reply.Token;
-                MainWindow.NavigateToPage("SplashScreen");
+            try {
+                using var channel = GrpcChannel.ForAddress($"{Constants.URL}");
+                var client = new AuthService.AuthServiceClient(channel);
+
+                try {
+                    var reply = await client.SignInAsync(request);
+                    localSettings.Values["JwtToken"] = reply.Token;
+                    MainWindow.NavigateToPage("SplashScreen");
+                }
+                catch (RpcException rpcException) {
+                    infoBar.Message = rpcException.Status.Detail;
+                    infoBar.IsOpen = true;
+                }
             }
-            catch (RpcException rpcException)
+            catch (RpcException ex)
             {
-                infoBar.Message = rpcException.Status.Detail;
-                infoBar.IsOpen = true;
+                ContentDialog ErrorDialog = new ContentDialog {
+                    Title = "Error".GetLocalized(),
+                    Content = "ErrorConnectBackend".GetLocalized(),
+                    CloseButtonText = "Ok"
+                };
+                ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+                await ErrorDialog.ShowAsync();
             }
         }
 

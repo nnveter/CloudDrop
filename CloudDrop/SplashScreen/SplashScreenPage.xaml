@@ -10,9 +10,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="#1c2126">
-
-    <Grid Margin="170,170,170,170">
-        <Image HorizontalAlignment="Center" VerticalAlignment="Center"  Source="ms-appx:///SplashScreen/SplashGif.gif"/>
-        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right" x:Name="txt"/>
+    <Grid>
+        <Grid x:Name="GR" Margin="170,170,170,170">
+            <Image HorizontalAlignment="Center" VerticalAlignment="Center"  Source="ms-appx:///SplashScreen/SplashGif.gif"/>
+        </Grid>
+        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right" x:Name="txt" Margin="0,0,10,10"/>
     </Grid>
 </Page>

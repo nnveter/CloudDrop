@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+
+using CloudDrop.Helpers;
 using CloudDrop.Models;
 using CloudDrop.View;
 using Grpc.Core;
@@ -9,6 +11,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -36,21 +39,47 @@ namespace CloudDrop.SplashScreen
 
         public async static Task<bool> MainVoid()
         {
+            try {
+                txt1.Text = "ConnectToServer".GetLocalized();
+                var channel = GrpcChannel.ForAddress(Constants.URL);
+                var client = new AuthService.AuthServiceClient(channel);
+
+                await client.PingAsync(new PingMessage());
+
+            }
+            catch
+            {
+                txt1.Text = "ErrorConnectBackend".GetLocalized();
+                ContentDialog ErrorDialog = new ContentDialog {
+                    Title = "Error".GetLocalized(),
+                    Content = "ErrorConnectBackend".GetLocalized(),
+                    CloseButtonText = "Ok"
+                };
+                ErrorDialog.XamlRoot = txt1.XamlRoot;
+                await ErrorDialog.ShowAsync();
+                return false;
+            }
+
+            txt1.Text = "OpenToken".GetLocalized();
             ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             String Token = localSettings.Values["JwtToken"] as string;
 
+            txt1.Text = "CheckAuthorization".GetLocalized();
             if (await IsCheckedAuthorization(Token))
             {
+                txt1.Text = "GetUserInfo".GetLocalized();
                 MainWindow.BreadcrumbBarItem = new ObservableCollection<Folder> { new Folder { Name = "Home", Id = await GetUserHomeFolderId(Token) }, };
                 MainWindow.SetStorageUsed();
                 plans = await GetPlans(3);
                 subscription = await GetUserPlan(Token);
                 MainWindow.UserName1.Text = user.name + " " + user.lastName;
+                txt1.Text = "Done".GetLocalized();
                 MainWindow.NavigateToPage("LastFiles");
                 return true;
             }
             else
             {
+                txt1.Text = string.Empty;
                 MainWindow.NavigateToPage("Login");
                 return false;
             }
@@ -89,6 +118,8 @@ namespace CloudDrop.SplashScreen
 
         public async static Task<bool> IsCheckedAuthorization(String JwtToken)
         {
+            if (JwtToken == null || String.IsNullOrEmpty(JwtToken)) 
+                return false;
             var headers = new Metadata
             {
                 { "authorization", $"Bearer {JwtToken}" }
@@ -107,26 +138,21 @@ namespace CloudDrop.SplashScreen
             } 
             catch (RpcException ex)
             {
-                if (ex.StatusCode == StatusCode.Unavailable)
-                {
-                    try
-                    {
-                        ContentDialog ErrorDialog = new ContentDialog
-                        {
-                            Title = "Connection error",
-                            Content = ex.Status.Detail,
-                            CloseButtonText = "Ok"
-                        };
-                        ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
-                        await ErrorDialog.ShowAsync();
-                    }
-                    catch { }
+                if (ex.StatusCode == StatusCode.NotFound) {
+                    ContentDialog ErrorDialog = new ContentDialog {
+                        Title = "Deauthorization".GetLocalized(),
+                        Content = ex.Status.Detail,
+                        CloseButtonText = "Ok"
+                    };
+                    ErrorDialog.XamlRoot = MainWindow.ContentFrame1.XamlRoot;
+                    await ErrorDialog.ShowAsync();
+
+                    ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                    localSettings.Values["JwtToken"] = null;
+
                     return false;
                 }
-                else 
-                {
-                    return false;
-                }
+                return false;
             }
         }
     }
