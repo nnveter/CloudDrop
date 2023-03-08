@@ -28,6 +28,7 @@ namespace CloudDrop.Views.Autorization
 
         private async void myButton_Click(object sender, RoutedEventArgs e)
         {
+            ProgressBar.Visibility = Visibility.Visible;
             SignInRequest request = new SignInRequest() { Email = Email.Text, Password = Password.Password };
 
             try {
@@ -37,15 +38,18 @@ namespace CloudDrop.Views.Autorization
                 try {
                     var reply = await client.SignInAsync(request);
                     localSettings.Values["JwtToken"] = reply.Token;
+                    ProgressBar.Visibility = Visibility.Collapsed;
                     MainWindow.NavigateToPage("SplashScreen");
                 }
                 catch (RpcException rpcException) {
+                    ProgressBar.Visibility = Visibility.Collapsed;
                     infoBar.Message = rpcException.Status.Detail;
                     infoBar.IsOpen = true;
                 }
             }
             catch (RpcException ex)
             {
+                ProgressBar.Visibility = Visibility.Collapsed;
                 ContentDialog ErrorDialog = new ContentDialog {
                     Title = "Error".GetLocalized(),
                     Content = "ErrorConnectBackend".GetLocalized(),
@@ -58,6 +62,7 @@ namespace CloudDrop.Views.Autorization
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
+            ProgressBar.Visibility = Visibility.Collapsed;
             MainWindow.NavigateToPage("Registration");
         }
 

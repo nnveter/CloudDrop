@@ -31,11 +31,12 @@ namespace CloudDrop.Views.Autorization
 
         private async void myButton_Click(object sender, RoutedEventArgs e)
         {
+            ProgressBar.Visibility = Visibility.Visible;
             CultureInfo currentCulture = CultureInfo.CurrentCulture;        
             RegionInfo currentRegion = new RegionInfo(currentCulture.Name);
             var country = currentRegion.DisplayName;
 
-            UserInfoMessage message = new UserInfoMessage() { Country = country, FirstName = "", LastName = "", City = "" }; //TODO: после того как починят бэкенд поменять Country и City местами
+            UserInfoMessage message = new UserInfoMessage() { Country = country, FirstName = "", LastName = "", City = "" };
             SignUpRequest user = new SignUpRequest() { Email = Email.Text, Name = Name.Text, Password = Password.Password };
 
             try {
@@ -54,16 +55,19 @@ namespace CloudDrop.Views.Autorization
 
                     client2.UpdateProfileInfo(message, headers);
 
+                    ProgressBar.Visibility = Visibility.Collapsed;
                     MainWindow.NavigateToPage("SplashScreen");
 
                 }
                 catch (RpcException rpcException) {
+                    ProgressBar.Visibility = Visibility.Collapsed;
                     infoBar.Message = rpcException.Status.Detail;
                     infoBar.IsOpen = true;
                 }
             }
             catch (RpcException ex) 
             {
+                ProgressBar.Visibility = Visibility.Collapsed;
                 ContentDialog ErrorDialog = new ContentDialog {
                     Title = "Error".GetLocalized(),
                     Content = "ErrorConnectBackend".GetLocalized(),
