@@ -150,6 +150,9 @@
   <data name="ClearTrushcan" xml:space="preserve">
     <value>Empty the trash</value>
   </data>
+  <data name="ClearTrushcanDialog.Title" xml:space="preserve">
+    <value>Clear Trushcan</value>
+  </data>
   <data name="ConnectToServer" xml:space="preserve">
     <value>Connecting to the server</value>
   </data>
@@ -244,7 +247,7 @@
     <value>Files</value>
   </data>
   <data name="NavigationTextFreeSpace.Text" xml:space="preserve">
-    <value>free space:</value>
+    <value>Free space:</value>
   </data>
   <data name="NavigationTextLast.Text" xml:space="preserve">
     <value>Last</value>

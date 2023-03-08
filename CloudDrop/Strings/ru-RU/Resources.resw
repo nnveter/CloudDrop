@@ -147,6 +147,9 @@
   <data name="ClearTrushcan" xml:space="preserve">
     <value>Очистить корзину</value>
   </data>
+  <data name="ClearTrushcanDialog.Title" xml:space="preserve">
+    <value>Очистить корзину</value>
+  </data>
   <data name="ConnectToServer" xml:space="preserve">
     <value>Подключение к серверу</value>
   </data>

@@ -228,6 +228,7 @@ namespace CloudDrop.View
             AppBarButton button = (AppBarButton)sender;
             Content content = (Content)button.DataContext;
             await DownloadContent(content, token);
+            //TODO: сделать диалог выбора места скачивания
         }
 
         private async void DeleteAppBarButton_Click(object sender, RoutedEventArgs e)
