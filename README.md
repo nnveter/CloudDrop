@@ -15,9 +15,16 @@ Cloud file storage service. (This repo is frontend, winui3 windows app)
 1. Follow the installation and startup steps([clouddrop-backend-grpc](https://github.com/fllcker/clouddrop-backend-grpc))
 
 # How to launch
-1. Follow the instructions for installing dependencies ([Installing Dependencies](https://learn.microsoft.com/ru-ru/windows/apps/windows-app-sdk/set-up-your-development-environment?tabs=cs-vs-community%2Ccpp-vs-community%2Cvs-2022-17-1-a%2Cvs-2022-17-1-b))
+the first way:
+1. Follow the instructions for installing dependencies ([Installing Dependencies](https://learn.microsoft.com/ru-ru/windows/apps/windows-app-sdk/set-up-    your-development-environment?tabs=cs-vs-community%2Ccpp-vs-community%2Cvs-2022-17-1-a%2Cvs-2022-17-1-b))
 2. Open the project in Visual Studio 22
 3. Launch
+
+the second way:
+1. Download the package release and unpack
+2. Run Cloudrop_2.0.0.0_x64.cert
+3. Click “Install the certificate” → Local Computer → Put all certificates in the following storage → Trusted Root Certification Authorities → Next
+4. Run Cloudrop_2.0.0.0_x64.msi
 
 # Preview
 ![image](https://user-images.githubusercontent.com/34833258/210187614-420c6e64-2ebb-4206-8425-293cbc1102a7.png)
