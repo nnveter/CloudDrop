@@ -16,6 +16,8 @@ public class Content
 
     public ContentType contentType { get; set; }
     public string path { get; set; }
+
+    public string savePath { get; set; } = null;
     public long? size { get; set; }
 
     public string type { get; set; }

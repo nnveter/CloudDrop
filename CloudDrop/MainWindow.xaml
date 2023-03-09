@@ -140,5 +140,6 @@
                 </Grid>
             </Border>
         </Grid>
+        <TextBlock x:Name="txt1" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
     </Grid>
 </Window:WindowEx>

@@ -203,8 +203,12 @@ namespace CloudDrop.View
                     contents.Add(content);
                 }
             }
-            await DownloadContent(null, token, contents);
-            //TODO: сделать диалог выбора места скачивания
+            ////TODO:Не работает очередь скачивания
+            MainWindow main = new MainWindow();
+            StorageFolder filesPath = await main.SaveFileDialog();
+            main.Close();
+            ////
+            await DownloadContent(null, token, contents, path: filesPath.Path);
         }
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -225,8 +229,12 @@ namespace CloudDrop.View
             var token = localSettings.Values["JwtToken"] as string;
             AppBarButton button = (AppBarButton)sender;
             Content content = (Content)button.DataContext;
-            await DownloadContent(content, token);
-            //TODO: сделать диалог выбора места скачивания
+            ////TODO:Не работает очередь скачивания
+            MainWindow main = new MainWindow();
+            StorageFolder filesPath = await main.SaveFileDialog();
+            main.Close();
+            ////
+            await DownloadContent(content, token, path: filesPath.Path);
         }
 
         private async void DeleteAppBarButton_Click(object sender, RoutedEventArgs e)
@@ -283,11 +291,11 @@ namespace CloudDrop.View
             return await content.Detete(Token);
         }
 
-        private Task<bool> DownloadContent(Content content, string Token, List<Content> multiDownloadsContent = null)
+        private Task<bool> DownloadContent(Content content, string Token, List<Content> multiDownloadsContent = null, string path = null)
         {
             if (multiDownloadsContent == null)
             {
-                AddDownloadQueue(content);
+                AddDownloadQueue(content, path);
                 return Task.FromResult(true);
             }
             else
@@ -297,15 +305,17 @@ namespace CloudDrop.View
                     if (DownloadQueue.IndexOf(file) == -1)
                     {
                         MainWindow.FileItems1.Add(new ViewFileItem() { Name = file.name, Value = 0 });
-                        AddDownloadQueue(file);
+                        AddDownloadQueue(file, path);
                     }
                 }
                 return Task.FromResult(true);
             }
         }
 
-        public async void AddDownloadQueue(Content content)
+        public async void AddDownloadQueue(Content content, string filesPath = null)
         {
+            content.savePath = filesPath;
+
             if (DownloadQueue.Count == 0)
             {
                 Downloader downloader = new Downloader();
@@ -323,7 +333,14 @@ namespace CloudDrop.View
 
                 while (DownloadIndex < DownloadQueue.Count)
                 {
-                    var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", DownloadQueue[DownloadIndex].name);
+                    string path = null;
+
+                    if (DownloadQueue[DownloadIndex].savePath == null) {
+                        path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", DownloadQueue[DownloadIndex].name);
+                    }
+                    else {
+                        path = System.IO.Path.Combine(DownloadQueue[DownloadIndex].savePath, DownloadQueue[DownloadIndex].name);
+                    }
                     await downloader.Download(DownloadQueue[DownloadIndex].id, Token, path, DownloadQueue[DownloadIndex].name);
                     DownloadIndex++;
                 }

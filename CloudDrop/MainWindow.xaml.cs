@@ -210,16 +210,14 @@ namespace CloudDrop
             }
         }
 
-        public async Task<StorageFile> SaveFileDialog(string type, string name) {
-            var filePicker = new FileSavePicker();
+        public async Task<StorageFolder> SaveFileDialog() {
+            var filePicker = new FolderPicker();
 
             var hwnd = this.As<IWindowNative>().WindowHandle;
 
             var initializeWithWindow = filePicker.As<IInitializeWithWindow>();
             initializeWithWindow.Initialize(hwnd);
-            filePicker.FileTypeChoices.Add("", new List<string>() { $".{type}" });
-            filePicker.SuggestedFileName = name;
-            return await filePicker.PickSaveFileAsync();
+            return await filePicker.PickSingleFolderAsync();
         }
 
         public async void AddDownloadQueue(StorageFile file) 
