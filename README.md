@@ -16,7 +16,7 @@ Cloud file storage service. (This repo is frontend, winui3 windows app)
 
 # How to launch
 the first way:
-1. Follow the instructions for installing dependencies ([Installing Dependencies](https://learn.microsoft.com/ru-ru/windows/apps/windows-app-sdk/set-up-    your-development-environment?tabs=cs-vs-community%2Ccpp-vs-community%2Cvs-2022-17-1-a%2Cvs-2022-17-1-b))
+1. Follow the instructions for installing dependencies ([Installing Dependencies](https://learn.microsoft.com/ru-ru/windows/apps/windows-app-sdk/set-up-   your-development-environment?tabs=cs-vs-community%2Ccpp-vs-community%2Cvs-2022-17-1-a%2Cvs-2022-17-1-b))
 2. Open the project in Visual Studio 22
 3. Launch
 
